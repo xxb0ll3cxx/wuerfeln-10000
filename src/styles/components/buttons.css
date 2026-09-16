@@ -1,0 +1,59 @@
+.ui-button {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  padding: 0;
+
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+
+  font: inherit;
+
+  cursor: pointer;
+
+  user-select: none;
+
+  touch-action: manipulation;
+}
+
+.ui-button:disabled {
+  cursor: default;
+}
+
+
+/*
+ * =========================================
+ * PRIMARY
+ * =========================================
+ */
+
+.ui-button--primary {
+  width: 320px;
+  height: 100px;
+
+  background-image:
+    url('../../assets/ui/buttons/Button.png');
+}
+
+
+.ui-button--primary:hover:not(:disabled) {
+  transform:
+    scale(1.02);
+}
+
+
+.ui-button--primary:active:not(:disabled) {
+  transform:
+    scale(0.98);
+}
+
+
+.ui-button--primary:disabled {
+  opacity: 0.45;
+}

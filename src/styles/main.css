@@ -1,0 +1,3423 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+
+  background:
+    var(--background);
+
+  color:
+    var(--text);
+
+
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.screen {
+  min-height: 100vh;
+  padding: 32px;
+}
+
+.screen--centered {
+  display: grid;
+  place-items: center;
+}
+
+.menu-card {
+  width: min(420px, 100%);
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  padding: 40px;
+
+  background:
+    var(--surface);
+
+  border-radius:
+    var(--border-radius);
+
+  text-align: center;
+}
+
+.game-title {
+  margin:
+    0 0 20px;
+
+  font-size:
+    clamp(2.5rem, 8vw, 5rem);
+}
+
+.game-button {
+  min-height: 58px;
+
+  padding:
+    12px 24px;
+
+  border:
+    0;
+
+  border-radius:
+    8px;
+
+  background:
+    var(--surface-light);
+
+  color:
+    var(--text);
+
+  font-weight:
+    700;
+
+  cursor:
+    pointer;
+}
+
+.game-button:hover:not(:disabled) {
+  transform:
+    translateY(-1px);
+}
+
+.game-button:disabled {
+  opacity:
+    0.4;
+
+  cursor:
+    not-allowed;
+}
+
+.game-button--primary {
+  background:
+    var(--primary);
+
+  color:
+    #171717;
+}
+
+
+
+.game-button--secondary {
+  background:
+    var(--surface-light);
+}
+
+.game-screen {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  gap:
+    24px;
+}
+
+.game-header {
+  width:
+    min(900px, 100%);
+
+  display:
+    grid;
+
+  grid-template-columns:
+    120px 1fr 120px;
+
+  align-items:
+    center;
+
+  text-align:
+    center;
+}
+
+.game-header h1 {
+  margin: 0;
+}
+
+#phaser-game {
+  width:
+    760px;
+}
+
+#phaser-game canvas {
+  display:
+    block;
+}
+
+.game-actions {
+  display:
+    flex;
+
+  justify-content:
+    center;
+
+  gap:
+    16px;
+}
+
+.game-actions .game-button {
+  min-width:
+    220px;
+}
+
+.scoring-debug {
+  width: min(760px, 100%);
+
+  padding: 20px;
+
+  background: var(--surface);
+
+  border-radius:
+    var(--border-radius);
+}
+
+.scoring-debug h2 {
+  margin-top: 0;
+}
+
+.scoring-options ul {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.scoring-options li + li {
+  margin-top: 8px;
+}
+
+.selection-interpretations {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.scoring-interpretation--hot {
+  outline:
+    3px solid
+    var(--primary);
+}
+
+.turn-overview {
+  width: min(760px, 100%);
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.turn-overview > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  padding: 14px;
+
+  background: var(--surface);
+
+  border-radius: var(--border-radius);
+
+  text-align: center;
+}
+
+.turn-overview span {
+  color: var(--text-muted);
+}
+
+.turn-overview strong {
+  font-size: 1.4rem;
+}
+
+.scoring-interpretation {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  width: 100%;
+
+  padding: 12px 14px;
+
+  border: 2px solid transparent;
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: var(--text);
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.scoring-interpretation:hover {
+  border-color: var(--primary);
+}
+.player-setup form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.player-setup__players {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.player-setup__row label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  text-align: left;
+}
+
+.player-setup__row input {
+  width: 100%;
+
+  padding: 12px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: var(--surface-light);
+  color: var(--text);
+}
+
+.player-setup__error {
+  min-height: 1.2em;
+  margin: 0;
+}
+
+.player-list {
+  width: min(760px, 100%);
+}
+
+.player-list__cards {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(150px, 1fr)
+    );
+
+  gap: 12px;
+}
+
+.player-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  padding: 34px;
+
+
+  border: 3px solid transparent;
+  border-radius: var(--border-radius);
+
+  background: var(--surface);
+
+}
+
+.player-card--active {
+  border-color: var(--primary);
+}
+
+.victory-card {
+  width: min(520px, 100%);
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  padding: 40px;
+
+  background: var(--surface);
+
+  border-radius: var(--border-radius);
+
+  text-align: center;
+}
+
+.victory-card__eyebrow {
+  margin: 0;
+
+  color: var(--text-muted);
+
+  font-weight: 700;
+}
+
+.victory-card h1 {
+  margin: 0;
+
+  font-size:
+    clamp(2.4rem, 8vw, 4.5rem);
+}
+
+.victory-card__score {
+  margin: 0;
+
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.victory-card__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  margin-top: 12px;
+}
+
+.scoreboard-screen {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.scoreboard-control-grid {
+  width: min(1100px, 100%);
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 12px;
+}
+
+.scoreboard-action-tile {
+  min-width: 0;
+  min-height: 220px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  padding: 18px;
+
+  background:
+    var(--surface);
+
+  border-radius:
+    var(--border-radius);
+}
+
+.scoreboard-action-tile h2 {
+  margin: 0;
+
+  font-size: 1.1rem;
+
+  text-align: center;
+}
+
+.scoreboard-action-tile .game-button {
+  width: 100%;
+
+  min-width: 0;
+}
+
+.scoreboard-action-tile small {
+  color:
+    var(--text-muted);
+
+  line-height: 1.35;
+
+  text-align: center;
+}
+
+.scoreboard-action-tile__spacer {
+  flex: 0.3;
+}
+
+.scoreboard-score-input {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  flex: 1;
+}
+
+.scoreboard-score-input span {
+  color:
+    var(--text-muted);
+
+  font-size: 0.9rem;
+
+  text-align: center;
+}
+
+.scoreboard-score-input input {
+  width: 70%;
+
+  padding: 14px 10px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background:
+    transparent;
+
+  color:
+    var(--text);
+
+  font-size: 1.8rem;
+  font-weight: 700;
+
+  transform: translate(35px);
+  text-align: center;
+}
+
+.game-button--danger {
+  border:
+    2px solid currentColor;
+}
+
+.scoreboard-message {
+  width: min(1100px, 100%);
+  min-height: 1.5em;
+
+  margin: 0;
+
+  color:
+    var(--text-muted);
+
+  text-align: center;
+}
+
+.scoreboard-message--error {
+  font-weight: 700;
+}
+
+.scoreboard-player-list {
+  width: min(1100px, 100%);
+}
+
+/*
+ * Tablet:
+ * zwei Kacheln pro Zeile.
+ */
+@media (max-width: 850px) {
+  .scoreboard-control-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+/*
+ * Sehr schmale Displays:
+ * eine Kachel pro Zeile.
+ */
+@media (max-width: 520px) {
+  .scoreboard-control-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.probability-widget {
+  position: relative;
+  z-index: 1000;
+}
+
+.probability-trigger {
+  position: fixed;
+
+  right: 20px;
+  bottom: 20px;
+
+  min-height: 52px;
+
+  padding: 12px 18px;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: var(--primary);
+
+  color: #171717;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  z-index: 1001;
+}
+
+.probability-panel {
+  position: fixed;
+
+  right: 20px;
+  bottom: 84px;
+
+  width:
+    min(
+      380px,
+      calc(100vw - 32px)
+    );
+
+  max-height:
+    calc(100vh - 110px);
+
+  overflow-y: auto;
+
+  padding: 20px;
+
+  background:
+    var(--surface);
+
+  border:
+    3px solid
+    var(--surface-light);
+
+  border-radius:
+    var(--border-radius);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transform:
+    translateX(
+      calc(100% + 40px)
+    );
+
+  transition:
+    transform 160ms ease,
+    opacity 160ms ease;
+
+  z-index: 1000;
+}
+
+.probability-panel--open {
+  opacity: 1;
+
+  pointer-events: auto;
+
+  transform:
+    translateX(0);
+}
+
+.probability-panel__header {
+  display: flex;
+
+  align-items:
+    flex-start;
+
+  justify-content:
+    space-between;
+
+  gap: 12px;
+
+  text-align: center;
+
+  transform: translate(100px);
+
+  margin-bottom: 20px;
+}
+
+.probability-panel__header h2 {
+  margin:
+    2px 0 0;
+
+  text-align: center;
+}
+
+.probability-panel__eyebrow {
+  color:
+    var(--text-muted);
+
+  font-size: 0.8rem;
+
+  font-weight: 700;
+}
+
+.probability-panel__close {
+  width: 40px;
+  height: 40px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background:
+    var(--surface-light);
+
+  color:
+    var(--text);
+
+  font-size: 1.6rem;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.probability-panel__form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.probability-panel__form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.probability-panel__form label > span {
+  color:
+    var(--text-muted);
+
+  font-size: 0.9rem;
+
+  font-weight: 700;
+}
+
+.probability-panel select {
+  width: 100%;
+
+  padding: 11px 12px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background:
+    var(--surface-light);
+
+  color:
+    var(--text);
+
+  font: inherit;
+}
+
+.probability-result {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  margin-top: 20px;
+
+  padding: 18px;
+
+  background:
+    var(--surface-light);
+
+  border-radius: 10px;
+
+  text-align: center;
+}
+
+.probability-result > span {
+  color:
+    var(--text-muted);
+
+  font-size: 0.9rem;
+}
+
+.probability-result strong {
+  font-size: 2rem;
+}
+
+.probability-result p {
+  margin: 0;
+
+  color:
+    var(--text-muted);
+
+  line-height: 1.4;
+}
+
+@media (max-width: 520px) {
+  .probability-trigger {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .probability-panel {
+    right: 12px;
+    bottom: 76px;
+
+    width:
+      calc(100vw - 24px);
+  }
+}
+
+.player-setup__row {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(160px, 0.7fr)
+    auto;
+
+  gap: 10px;
+
+  align-items: end;
+}
+
+.player-setup__row select {
+  width: 100%;
+
+  padding: 12px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background:
+    var(--surface-light);
+
+  color:
+    var(--text);
+}
+@media (max-width: 650px) {
+  .player-setup__row {
+    grid-template-columns:
+      1fr;
+  }
+}
+
+.player-card__character {
+  color:
+    var(--primary);
+
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+
+/*
+ * =========================================================
+ * MAIN MENU - ASSET UI
+ * =========================================================
+ *
+ * ACHTUNG:
+ *
+ * Asset-basierte Hauptmenü-Darstellung.
+ */
+
+
+/*
+ * =========================================================
+ * SCREEN
+ * =========================================================
+ */
+
+.main-menu-screen {
+  position:
+    relative;
+
+  overflow:
+    hidden;
+
+  padding:
+    0;
+
+  /*
+   * Wird in viewport.css abhängig von
+   * Landscape / Portrait gesetzt.
+   */
+  background-image:
+    var(
+      --main-menu-background-image,
+      none
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  /*
+   * Die Background-Assets sollten idealerweise
+   * exakt 1600×900 bzw. 900×1600 besitzen.
+   */
+  background-size:
+    100% 100%;
+}
+
+
+/*
+ * =========================================================
+ * ACCESSIBLE TITLE
+ * =========================================================
+ *
+ * Das sichtbare Logo ist ein PNG.
+ *
+ * Für Screenreader bleibt der echte H1 trotzdem
+ * im Dokument.
+ */
+
+.main-menu__accessible-title {
+  position:
+    relative;
+
+  width:
+    1px;
+
+  height:
+    1px;
+
+  padding:
+    0;
+
+  margin:
+    -1px;
+
+  overflow:
+    hidden;
+
+  clip:
+    rect(
+      0,
+      0,
+      0,
+      0
+    );
+
+  white-space:
+    nowrap;
+
+  border:
+    0;
+}
+
+
+/*
+ * =========================================================
+ * LOGO
+ * =========================================================
+ */
+
+.main-menu__logo {
+  position:
+    relative;
+
+  background-image:
+    url(
+      '../assets/ui/icons/Logo.png'
+    );
+
+  background-repeat:
+    no-repeat;
+
+
+  background-size:
+    contain;
+
+
+  /*
+   * Das Logo ist reine Dekoration
+   * und darf niemals Eingaben blockieren.
+   */
+  pointer-events:
+    none;
+
+  user-select:
+    none;
+
+  z-index:
+    10;
+}
+
+
+/*
+ * =========================================================
+ * START POSITION WRAPPER
+ * =========================================================
+ *
+ * Position und Animation sind absichtlich getrennt.
+ *
+ * Der Wrapper übernimmt:
+ * - Position
+ *
+ * Der Button übernimmt:
+ * - Hover
+ * - Pressed
+ * - Input
+ */
+
+.main-menu__start-slot {
+  position:
+    absolute;
+
+  pointer-events:
+    none;
+
+  z-index:
+    20;
+}
+
+
+/*
+ * =========================================================
+ * START BUTTON
+ * =========================================================
+ */
+
+.main-menu__start-button {
+  display:
+    block;
+
+  width:
+    100%;
+
+  height:
+    100%;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+
+  border:
+    0;
+
+  outline:
+    0;
+
+  border-radius:
+    0;
+
+
+  background-color:
+    transparent;
+
+
+  background-image:
+    url(
+      '../assets/ui/buttons/holzbutton_start.png'
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    contain;
+
+
+  cursor:
+    pointer;
+
+  pointer-events:
+    auto;
+
+
+  /*
+   * Verhindert Browser-Textmarkierung
+   * und unerwünschte Touch-Gesten.
+   */
+  user-select:
+    none;
+
+  touch-action:
+    manipulation;
+
+
+  /*
+   * Kleine CSS-Bewegungen können zusätzlich
+   * zum gezeichneten Asset verwendet werden.
+   */
+  transform:
+    scale(1);
+
+  transform-origin:
+    center;
+
+  transition:
+    transform 80ms ease;
+}
+
+
+/*
+ * =========================================================
+ * HOVER
+ * =========================================================
+ */
+
+.main-menu__start-button:hover {
+  transform:
+    scale(1.025);
+}
+
+
+/*
+ * =========================================================
+ * PRESSED
+ * =========================================================
+ */
+
+.main-menu__start-button:active {
+  transform:
+    scale(0.975);
+}
+
+
+/*
+ * =========================================================
+ * KEYBOARD FOCUS
+ * =========================================================
+ */
+
+.main-menu__start-button:focus-visible {
+  outline:
+    5px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.9
+    );
+
+  outline-offset:
+    8px;
+}
+
+
+/*
+ * =========================================================
+ * MODE SELECT - ASSET UI
+ * =========================================================
+ *
+ * Asset-basierte Modusauswahl.
+ */
+
+
+/*
+ * =========================================================
+ * SCREEN
+ * =========================================================
+ */
+
+.mode-select-screen {
+  position:
+    relative;
+
+  padding:
+    0;
+
+  overflow:
+    hidden;
+
+
+  background-image:
+    var(
+      --mode-select-background-image,
+      none
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    100% 100%;
+}
+
+
+/*
+ * =========================================================
+ * ACCESSIBLE TITLE
+ * =========================================================
+ */
+
+.mode-select__accessible-title {
+  position:
+    absolute;
+
+  width:
+    1px;
+
+  height:
+    1px;
+
+  margin:
+    -1px;
+
+  padding:
+    0;
+
+  overflow:
+    hidden;
+
+  clip:
+    rect(
+      0,
+      0,
+      0,
+      0
+    );
+
+  white-space:
+    nowrap;
+
+  border:
+    0;
+}
+
+
+/*
+ * =========================================================
+ * BUTTON SLOT
+ * =========================================================
+ *
+ * Wichtig:
+ *
+ * Slot = Position
+ * Button = Asset + Eingabe
+ */
+
+.mode-select__button-slot {
+  position:
+    absolute;
+
+  pointer-events:
+    none;
+
+  z-index:
+    20;
+}
+
+
+/*
+ * =========================================================
+ * GENERIC MODE BUTTON
+ * =========================================================
+ */
+
+.mode-select__button {
+  display:
+    block;
+
+  width:
+    100%;
+
+  height:
+    100%;
+
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+
+  border:
+    0;
+
+  outline:
+    0;
+
+  border-radius:
+    0;
+
+
+  background-color:
+    transparent;
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    contain;
+
+
+  pointer-events:
+    auto;
+
+
+  cursor:
+    pointer;
+
+  user-select:
+    none;
+
+  touch-action:
+    manipulation;
+
+
+  transform:
+    scale(1);
+
+  transform-origin:
+    center;
+
+
+  transition:
+    transform
+    80ms
+    ease;
+}
+
+
+/*
+ * =========================================================
+ * VIRTUAL BUTTON
+ * =========================================================
+ */
+
+.mode-select__button--virtual {
+  background-image:
+    url(
+      '../assets/ui/buttons/Button_Virtual.png'
+    );
+}
+
+
+.mode-select__button--virtual:hover {
+  transform:
+    scale(
+      1.025
+    );
+}
+
+
+.mode-select__button--virtual:active {
+  transform:
+    scale(
+      0.975
+    );
+}
+
+
+/*
+ * =========================================================
+ * SCOREBOARD BUTTON
+ * =========================================================
+ */
+
+.mode-select__button--scoreboard {
+  background-image:
+    url(
+      '../assets/ui/buttons/Button_Scoreboard.png'
+    );
+}
+
+
+.mode-select__button--scoreboard:hover {
+  transform:
+    scale(
+      1.025
+    );
+}
+
+
+.mode-select__button--scoreboard:active {
+  transform:
+    scale(
+      0.975
+    );
+}
+
+
+/*
+ * =========================================================
+ * BACK BUTTON
+ * =========================================================
+ */
+
+.mode-select__button--back {
+  background-image:
+    url(
+      '../assets/ui/buttons/Button_Zurück.webp'
+    );
+}
+
+
+.mode-select__button--back:hover {
+  transform:
+    scale(
+      1.025
+    );
+}
+
+
+.mode-select__button--back:active {
+  transform:
+    scale(
+      0.975
+    );
+}
+
+
+/*
+ * =========================================================
+ * KEYBOARD FOCUS
+ * =========================================================
+ */
+
+.mode-select__button:focus-visible {
+  outline:
+    5px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.9
+    );
+
+  outline-offset:
+    8px;
+}
+
+/*
+ * =========================================================
+ * PLAYER SETUP - ASSET UI
+ * =========================================================
+ */
+
+
+/*
+ * =========================================================
+ * SCREEN
+ * =========================================================
+ */
+
+.player-setup-screen {
+  position:
+    relative;
+
+  padding:
+    0;
+
+  overflow:
+    hidden;
+
+
+  background-image:
+    var(
+      --player-setup-background-image,
+      none
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    100% 100%;
+}
+
+
+/*
+ * =========================================================
+ * ACCESSIBILITY TITLE
+ * =========================================================
+ */
+
+.player-setup__accessible-title {
+  position:
+    absolute;
+
+  width:
+    1px;
+
+  height:
+    1px;
+
+  margin:
+    -1px;
+
+  padding:
+    0;
+
+  overflow:
+    hidden;
+
+  clip:
+    rect(
+      0,
+      0,
+      0,
+      0
+    );
+
+  white-space:
+    nowrap;
+
+  border:
+    0;
+}
+
+
+/*
+ * =========================================================
+ * TITLE ASSET
+ * =========================================================
+ */
+
+.player-setup__title {
+  position:
+    absolute;
+
+
+  background-image:
+    url(
+      '../assets/ui/icons/CharacterSelectLogo.png'
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    contain;
+
+
+  pointer-events:
+    none;
+
+  user-select:
+    none;
+
+
+  z-index:
+    10;
+}
+
+
+/*
+ * =========================================================
+ * MODE
+ * =========================================================
+ */
+
+.player-setup__mode {
+  position:
+    absolute;
+
+
+  font-size:
+    22px;
+
+  font-weight:
+    700;
+
+
+  text-align:
+    center;
+
+
+  z-index:
+    20;
+}
+
+
+/*
+ * =========================================================
+ * MAIN PANEL
+ * =========================================================
+ */
+
+.player-setup__panel {
+  position:
+    absolute;
+
+
+
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    100% 100%;
+
+
+  z-index:
+    10;
+}
+
+
+/*
+ * =========================================================
+ * FORM
+ * =========================================================
+ */
+
+.player-setup__form {
+  width:
+    100%;
+
+  height:
+    100%;
+
+
+  display:
+    grid;
+
+
+  grid-template-rows:
+    minmax(
+      0,
+      1fr
+    )
+    34px
+    auto;
+
+
+  gap:
+    12px;
+}
+
+
+/*
+ * =========================================================
+ * PLAYERS
+ * =========================================================
+ */
+
+.player-setup-screen
+.player-setup__players {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+
+  gap:
+    12px;
+
+
+  min-height:
+    0;
+
+
+  overflow-x:
+    hidden;
+
+  overflow-y:
+    auto;
+
+
+  /*
+   * Platz für scrollbar und Rahmen.
+   */
+  padding:
+    4px 8px 4px 4px;
+}
+
+
+/*
+ * =========================================================
+ * PLAYER ROW
+ * =========================================================
+ */
+
+.player-setup__asset-row {
+  flex:
+    0 0 auto;
+
+
+  display:
+    grid;
+
+
+  align-items:
+    center;
+
+
+  background-image:
+    url(
+      '../assets/characters/character_bg.png'
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    100% 100%;
+}
+
+
+/*
+ * =========================================================
+ * FIELD
+ * =========================================================
+ */
+
+.player-setup__field {
+  min-width:
+    0;
+
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+
+  gap:
+    6px;
+}
+
+
+.player-setup__field-label {
+  font-weight:
+    700;
+}
+
+
+/*
+ * =========================================================
+ * NAME FIELD ASSET
+ * =========================================================
+ */
+
+.player-setup__input-frame {
+  width:
+    100%;
+
+
+
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    100% 100%;
+}
+
+
+.player-setup__input-frame
+input {
+  width:
+    50%;
+
+  height:
+    100%;
+
+
+  margin:
+    0;
+
+  padding:
+    10px 16px;
+
+
+  border:
+    0;
+
+  outline:
+    0;
+
+  border-radius:
+    0;
+
+
+  background:
+    transparent;
+
+
+  color:
+    var(--text);
+
+
+  font:
+    inherit;
+
+  
+}
+
+
+/*
+ * =========================================================
+ * CHARACTER SELECT ASSET
+ * =========================================================
+ */
+
+.player-setup__select-frame {
+  width:
+    40%;
+
+
+
+  background-repeat:
+    no-repeat;
+
+
+  background-size:
+    50% 50%;
+
+}
+
+
+.player-setup__select-frame
+select {
+  width:
+    50%;
+
+  height:
+    100%;
+
+
+  margin:
+    0;
+
+  padding:
+    10px 16px;
+
+
+  border:
+    0;
+
+  outline:
+    0;
+
+  border-radius:
+    0;
+
+
+  /*
+   * Hintergrund des Select selbst transparent,
+   * Frame kommt vom Asset.
+   */
+  background:
+    transparent;
+
+
+  color:
+    var(--text);
+
+
+  font:
+    inherit;
+
+
+  cursor:
+    pointer;
+}
+
+
+/*
+ * Dropdown-Optionen brauchen wieder einen
+ * normalen Hintergrund.
+ */
+.player-setup__select-frame
+option {
+  background:
+    var(--surface);
+
+  color:
+    var(--text);
+}
+
+
+/*
+ * =========================================================
+ * PORTRAIT
+ * =========================================================
+ */
+
+.player-setup__portrait-frame {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+
+  min-width:
+    0;
+
+  min-height:
+    0;
+
+
+  overflow:
+    hidden;
+
+
+  pointer-events:
+    none;
+}
+
+
+.player-setup__portrait {
+  display:
+    block;
+
+
+  max-width:
+    100%;
+
+  max-height:
+    100%;
+
+
+  object-fit:
+    contain;
+
+  object-position:
+    center;
+
+
+  pointer-events:
+    none;
+
+  user-select:
+    none;
+
+  -webkit-user-drag:
+    none;
+}
+
+
+/*
+ * =========================================================
+ * REMOVE BUTTON
+ * =========================================================
+ */
+
+.player-setup__remove-slot {
+  width:
+    100%;
+
+  height:
+    100%;
+}
+
+
+.player-setup__remove-button {
+  display:
+    block;
+
+
+  width:
+    100%;
+
+  height:
+    100%;
+
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+
+  border:
+    0;
+
+  outline:
+    0;
+
+
+  background-color:
+    transparent;
+
+
+  background-image:
+    url(
+      '../assets/ui/buttons/Button_Entfernen.png'
+    );
+  transform:
+    translate(
+      100px, -30px
+    );
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    contain;
+
+
+  cursor:
+    pointer;
+
+
+  transition:
+    transform
+    80ms
+    ease;
+}
+
+
+.player-setup__remove-button:hover:not(
+  :disabled
+) {
+  transform:
+    translate(
+      100px, -30px
+    );
+}
+
+
+.player-setup__remove-button:active:not(
+  :disabled
+) {
+  transform:
+    translate(
+      100px, -30px
+    );
+}
+
+
+.player-setup__remove-button:disabled {
+  cursor:
+    default;
+}
+
+
+/*
+ * =========================================================
+ * ERROR
+ * =========================================================
+ */
+
+.player-setup-screen
+.player-setup__error {
+  min-height:
+    34px;
+
+
+  margin:
+    0;
+
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+
+  font-weight:
+    700;
+
+  text-align:
+    center;
+}
+
+
+/*
+ * =========================================================
+ * ACTIONS
+ * =========================================================
+ */
+
+.player-setup-screen
+.player-setup__actions {
+  display:
+    flex;
+
+    flex-direction: row;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+
+  gap:
+    18px;
+}
+
+
+.player-setup__action-slot {
+  pointer-events:
+    none;
+}
+
+
+.player-setup__asset-button {
+  display:
+    block;
+
+
+  width:
+    100%;
+
+  height:
+    100%;
+
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+
+  border:
+    0;
+
+  outline:
+    0;
+
+
+  background-color:
+    transparent;
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    contain;
+
+
+  pointer-events:
+    auto;
+
+
+  cursor:
+    pointer;
+
+
+  user-select:
+    none;
+
+  touch-action:
+    manipulation;
+
+
+  transform:
+    scale(
+      1
+    );
+
+
+  transition:
+    transform
+    80ms
+    ease;
+}
+
+
+/*
+ * ADD
+ */
+
+.player-setup__asset-button--add {
+  background-image:
+    url(
+      '../assets/ui/buttons/Button_SpielerHinzufügen.png'
+    );
+}
+
+
+.player-setup__asset-button--add:hover {
+  transform:
+    scale(
+      1.025
+    );
+}
+
+
+.player-setup__asset-button--add:active {
+  transform:
+    scale(
+      0.975
+    );
+}
+
+
+/*
+ * START
+ */
+
+.player-setup__asset-button--start {
+  background-image:
+    url(
+      '../assets/ui/buttons/Button_Spielstarten.png'
+    );
+}
+
+
+.player-setup__asset-button--start:hover {
+  transform:
+    scale(
+      1.025
+    );
+}
+
+
+.player-setup__asset-button--start:active {
+  transform:
+    scale(
+      0.975
+    );
+}
+
+
+/*
+ * BACK
+ */
+
+.player-setup__asset-button--back {
+  background-image:
+    url(
+      '../assets/ui/buttons/Button_Zurück.png'
+    );
+    
+    transform:
+    translate(
+      -20px
+    );
+}
+
+
+.player-setup__asset-button--back:hover {
+  transform:
+    scale(
+      1.025
+    )
+    translate(-20px);
+}
+
+
+.player-setup__asset-button--back:active {
+  transform:
+    scale(
+      0.975
+    )
+    translate(-20px);
+}
+
+
+/*
+ * =========================================================
+ * KEYBOARD FOCUS
+ * =========================================================
+ */
+
+.player-setup__asset-button:focus-visible,
+.player-setup__remove-button:focus-visible,
+.player-setup__input-frame input:focus-visible,
+.player-setup__select-frame select:focus-visible {
+  outline:
+    4px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.9
+    );
+
+  outline-offset:
+    4px;
+}
+
+/*
+ * =========================================================
+ * VIRTUAL GAME - ASSET SKIN
+ * =========================================================
+ */
+
+
+/*
+ * SCREEN BACKGROUND
+ */
+
+.game-screen {
+  background-image:
+    var(
+      --virtual-background-image,
+      none
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    100% 100%;
+}
+
+
+/*
+ * =========================================================
+ * TURN OVERVIEW
+ * =========================================================
+ */
+
+.game-screen
+.turn-overview > div {
+  background:
+    transparent;
+
+  background-image:
+    url(
+      '../assets/ui/buttons/Button_generic.png'
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    100% 140%;
+
+  border:
+    0;
+
+  border-radius:
+    0;
+}
+
+
+/*
+ * =========================================================
+ * DICE FRAME
+ * =========================================================
+ */
+
+.game-screen
+.dice-panel {
+  background:
+    transparent;
+
+  background-image:
+    url(
+      '../assets/ui/panels/slotRollen.png'
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    100% 100%;
+    
+
+  /*
+   * Alten CSS-Rahmen entfernen,
+   * wenn dein PNG bereits einen Rahmen enthält.
+   */
+  border:
+    0;
+}
+
+
+/*
+ * =========================================================
+ * SCORING PANEL
+ * =========================================================
+ */
+
+.game-screen
+.scoring-debug {
+  background:
+    transparent;
+
+  background-image:
+    url(
+      '../assets/ui/virtual/PLACEHOLDER_SCORING_PANEL.png'
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    100% 100%;
+
+  border-radius:
+    0;
+}
+
+
+/*
+ * =========================================================
+ * PLAYER CARDS
+ * =========================================================
+ */
+
+.game-screen
+.player-card {
+  background:
+    transparent;
+
+  background-image:
+    url(
+      '../assets/characters/character_card.webp'
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    100% 100%;
+
+  border:
+    0;
+}
+
+
+/*
+ * Aktiver Spieler.
+ *
+ * Die bisherige Markierung bleibt erstmal zusätzlich
+ * erhalten.
+ */
+
+.game-screen
+.player-card--active {
+  outline:
+    3px solid
+    var(--primary);
+}
+
+
+/*
+ * =========================================================
+ * SPIN / WÄHLEN
+ * =========================================================
+ *
+ * Derselbe Button wird weiterhin von JS zwischen
+ * SPIN und WÄHLEN umgeschaltet.
+ */
+
+.game-screen
+[data-action="roll"] {
+  border:
+    0;
+
+  background:
+    transparent;
+
+  background-image:
+    url(
+      '../assets/ui/buttons/Button_Spin.png'
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    contain;
+
+  color:
+    transparent;
+
+  cursor:
+    pointer;
+}
+
+
+.game-screen
+[data-action="roll"]:disabled {
+  opacity:
+    1;
+}
+
+
+/*
+ * =========================================================
+ * CLOCK
+ * =========================================================
+ */
+
+.game-screen
+[data-action="bank"] {
+  border:
+    0;
+
+  background:
+    transparent;
+
+  background-image:
+    url(
+      '../assets/ui/buttons/Button_clock.png'
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    contain;
+
+  color:
+    transparent;
+
+  cursor:
+    pointer;
+
+}
+
+
+/*
+ * =========================================================
+ * BACK
+ * =========================================================
+ */
+
+.game-screen
+[data-action="back"] {
+  border:
+    0;
+
+  background:
+    transparent;
+
+  background-image:
+    url(
+      '../assets/ui/buttons/Button_Zurück.png'
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    contain;
+
+  color:
+    transparent;
+}
+
+
+
+/*
+ * =========================================================
+ * SCREEN BACKGROUND
+ * =========================================================
+ */
+
+.scoreboard-screen {
+  background-image:
+    var(
+      --scoreboard-background-image,
+      none
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    100% 100%;
+}
+
+
+/*
+ * =========================================================
+ * ACTION TILES
+ * =========================================================
+ */
+
+.scoreboard-screen
+.scoreboard-action-tile {
+  background:
+    transparent;
+
+  background-image:
+    url(
+      '../assets/ui/icons/tile.webp'
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    100% 100%;
+
+  border:
+    0;
+
+  border-radius:
+    0;
+}
+
+
+/*
+ * =========================================================
+ * SCORE INPUT
+ * =========================================================
+ */
+
+.scoreboard-screen
+.scoreboard-score-input {
+  position:
+    relative;
+}
+
+
+
+/*
+ * =========================================================
+ * PLAYER CARDS
+ * =========================================================
+ */
+
+.scoreboard-screen
+.player-card {
+  background:
+    transparent;
+
+  background-image:
+    url(
+      '../assets/characters/character_card.webp'
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    100% 100%;
+
+  border:
+    0;
+
+  border-radius:
+    0;
+}
+
+
+/*
+ * ACTIVE PLAYER
+ */
+
+.scoreboard-screen
+.player-card--active {
+  background-image:
+    url(
+      '../assets/characters/character_card.webp'
+    );
+
+  border:
+    0;
+
+  outline:
+    0;
+}
+
+
+/*
+ * =========================================================
+ * BACK BUTTON
+ * =========================================================
+ */
+
+.scoreboard-screen
+.game-header
+.game-button {
+  background:
+    transparent !important;
+
+  background-image:
+    url(
+      '../assets/ui/buttons/Button_Zurück.png'
+    ) !important;
+
+  background-repeat:
+    no-repeat !important;
+
+  background-position:
+    center !important;
+
+  background-size:
+    contain !important;
+
+  border:
+    0 !important;
+
+  transform:
+    none !important;
+}
+
+
+/*
+ * =========================================================
+ * SCOREBOARD - INDIVIDUELLE BUTTON ASSETS
+ * =========================================================
+ *
+ * Jeder Button bekommt seine eigenen Assets.
+ *
+ * Tile 1 → Button 1
+ * Tile 2 → Button 2
+ * Tile 3 → Button 3
+ * Tile 4 → Button 4
+ */
+
+
+/*
+ * =========================================================
+ * BUTTON 1
+ * =========================================================
+ */
+
+.scoreboard-screen
+.scoreboard-action-tile:nth-child(1) {
+  --scoreboard-button-image:
+    url('../assets/ui/buttons/Button_clock.png');
+    
+}
+
+
+/*
+ * =========================================================
+ * BUTTON 2
+ * =========================================================
+ */
+
+.scoreboard-screen
+.scoreboard-action-tile:nth-child(2) {
+  --scoreboard-button-image:
+    url('../assets/ui/buttons/Button_Loose.png');
+}
+
+
+/*
+ * =========================================================
+ * BUTTON 3
+ * =========================================================
+ */
+
+.scoreboard-screen
+.scoreboard-action-tile:nth-child(3) {
+  --scoreboard-button-image:
+    url('../assets/ui/buttons/Button_Airball.png');
+}
+
+
+/*
+ * =========================================================
+ * BUTTON 4
+ * =========================================================
+ */
+
+.scoreboard-screen
+.scoreboard-action-tile:nth-child(4) {
+  --scoreboard-button-image:
+    url('../assets/ui/buttons/Button_6x1.png');
+}
+
+
+/*
+ * =========================================================
+ * GEMEINSAME BUTTON-DARSTELLUNG
+ * =========================================================
+ */
+
+.scoreboard-screen
+.scoreboard-action-tile
+.game-button {
+  width: 100%;
+
+  min-width: 0;
+
+  border: 0 !important;
+  border-radius: 0 !important;
+
+  background:
+    transparent !important;
+
+  background-image:
+    var(--scoreboard-button-image) !important;
+
+  background-repeat:
+    no-repeat !important;
+
+  background-position:
+    center !important;
+
+  background-size:
+    contain !important;
+
+  /*
+   * HTML-Buttontext unsichtbar.
+   * Text kann intern im Button bestehen bleiben.
+   */
+  color:
+    transparent !important;
+
+  font-size:
+    0 !important;
+
+  box-shadow:
+    none !important;
+
+  transform:
+    none !important;
+
+  opacity:
+    1;
+
+  cursor:
+    pointer;
+}
+
+
+/*
+ * Disabled bleibt visuell identisch zum Normalzustand.
+ */
+.scoreboard-screen
+.scoreboard-action-tile
+.game-button:disabled {
+  cursor:
+    default;
+}
+
+
+/*
+ * =========================================================
+ * ALTE HTML-TEXTE DER KACHELN AUSBLENDEN
+ * =========================================================
+ */
+
+.scoreboard-screen
+.scoreboard-action-tile
+h2 {
+  display:
+    none;
+}
+
+
+
+/*
+ * =========================================================
+ * PROBABILITY CALCULATOR - ASSET SKIN
+ * =========================================================
+ */
+
+
+/*
+ * =========================================================
+ * BUTTON UNTEN RECHTS
+ * =========================================================
+ */
+
+.probability-trigger {
+  width: 180px;
+  height: 80px;
+  min-height: 0;
+
+  padding: 0;
+
+  border: 0 !important;
+  border-radius: 0 !important;
+
+  background-color:
+    transparent !important;
+
+  background-image:
+    url(
+      '../assets/ui/buttons/Button_Wkeit.png'
+    ) !important;
+
+  background-repeat:
+    no-repeat !important;
+
+  background-position:
+    center !important;
+
+  background-size:
+    contain !important;
+
+  /*
+   * HTML-Schrift ausblenden,
+   * falls der Text bereits im PNG steckt.
+   */
+  color:
+    transparent !important;
+
+  font-size:
+    0 !important;
+
+  box-shadow:
+    none !important;
+
+  transform:
+    none !important;
+
+  opacity:
+    1;
+}
+
+
+
+/*
+ * =========================================================
+ * RECHNER / PANEL
+ * =========================================================
+ */
+
+.probability-panel {
+  /*
+   * Bestehende Positionierung bleibt erhalten:
+   * fixed / right / bottom / open-animation
+   * werden NICHT verändert.
+   */
+
+
+  text-align: center;
+
+  border:
+    0 !important;
+
+  border-radius:
+    0 !important;
+
+  background-color:
+    transparent !important;
+
+  background-image:
+    url(
+      '../assets/ui/panels/Rechner.png'
+    ) !important;
+
+  background-repeat:
+    no-repeat !important;
+
+  background-position:
+    center !important;
+
+  background-size:
+    100% 100% !important;
+
+  box-shadow:
+    none !important;
+}
+
+
+/*
+ * =========================================================
+ * DROPDOWNS
+ * =========================================================
+ */
+
+.probability-panel select {
+  width:
+    50%;
+  
+  transform: translate(100px);
+  text-align: center;
+
+  box-shadow:
+    none !important;
+
+  background:
+    transparent !important;
+
+  background-color:
+    rgba(73, 73, 73, 0.301) !important;
+
+  color:
+    var(--text);
+
+  font:
+    inherit;
+
+  /*
+   * Entfernt die Browser-Standardgestaltung.
+   *
+   * Falls du den Standard-Pfeil behalten möchtest,
+   * diese drei Zeilen entfernen.
+   */
+  appearance:
+    none;
+
+  -webkit-appearance:
+    none;
+
+  -moz-appearance:
+    none;
+}
+
+
+/*
+ * Dropdown-Einträge
+ */
+
+.probability-panel select option {
+  background-color:
+    rgb(0, 0, 0);
+
+  color:
+    var(--text);
+}
+
+
+/*
+ * =========================================================
+ * BERECHNEN BUTTON
+ * =========================================================
+ */
+
+.probability-panel__form
+.game-button {
+  width:
+    100%;
+
+  height:
+    80px;
+
+  min-height:
+    0;
+
+  padding:
+    0;
+
+  border:
+    0 !important;
+
+  border-radius:
+    0 !important;
+
+  background-color:
+    transparent !important;
+
+  background-image:
+    url(
+      '../assets/ui/buttons/Button_Calc.png'
+    ) !important;
+
+  background-repeat:
+    no-repeat !important;
+
+  background-position:
+    center !important;
+
+  background-size:
+    contain !important;
+
+  /*
+   * "Berechnen" aus HTML ausblenden,
+   * wenn die Schrift bereits im Asset steckt.
+   */
+  color:
+    transparent !important;
+
+  font-size:
+    0 !important;
+
+  box-shadow:
+    none !important;
+
+  transform:
+    none !important;
+
+  opacity:
+    1;
+  text-align: center;
+}
+
+
+
+/*
+ * =========================================================
+ * OPTIONAL:
+ * ERGEBNIS-BEREICH TRANSPARENT
+ * =========================================================
+ *
+ * Damit auch der bisherige graue Ergebnis-Hintergrund
+ * verschwindet.
+ */
+
+.probability-result {
+  background:
+    transparent !important;
+
+  border:
+    0;
+
+  box-shadow:
+    none;
+}
+
+#game-stage[data-orientation="landscape"]
+.scoreboard-screen
+.scoreboard-score-input input {
+  transform: translate(35px, 20px);
+}
+
+.scoreboard-screen
+.scoreboard-action-tile:nth-child(1)
+small {
+  transform: translate(0px, -23px);
+}
+
+/*
+ * =========================================================
+ * VICTORY SCREEN - ASSET SKIN
+ * =========================================================
+ */
+
+
+/*
+ * =========================================================
+ * SCREEN
+ * =========================================================
+ */
+
+.victory-card {
+  position:
+    relative;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    18px;
+
+
+  /*
+   * Alter CSS-Hintergrund weg.
+   */
+  background:
+    transparent;
+
+  background-image:
+      var(--victory-panel-image);
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    100% 100%;
+
+
+  border:
+    0;
+
+  border-radius:
+    0;
+
+
+  text-align:
+    center;
+}
+
+
+/*
+ * =========================================================
+ * GEWINNER-TEXT
+ * =========================================================
+ */
+
+.victory-card__eyebrow {
+  width:
+    100%;
+
+  margin:
+    0;
+
+  text-align:
+    center;
+
+  background:
+    transparent;
+}
+
+
+/*
+ * Spielername / große Überschrift
+ */
+
+.victory-card h1 {
+  width:
+    100%;
+
+  margin:
+    0;
+
+  text-align:
+    center;
+
+  background:
+    transparent;
+}
+
+
+/*
+ * =========================================================
+ * PUNKTZAHL
+ * =========================================================
+ */
+
+.victory-card__score {
+  width:
+    100%;
+
+  margin:
+    0;
+
+  text-align:
+    center;
+
+  background:
+    transparent;
+}
+
+
+/*
+ * =========================================================
+ * BUTTON-BEREICH
+ * =========================================================
+ */
+
+.victory-card__actions {
+  width:
+    100%;
+
+  display:
+    flex;
+
+  flex-direction:
+    row;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    24px;
+
+  margin:
+    20px 0 0;
+}
+
+
+/*
+ * Gemeinsame Button-Basis
+ */
+
+.victory-card__actions
+.game-button {
+  width:
+    260px;
+
+  height:
+    100px;
+
+  min-height:
+    0;
+
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+
+  border:
+    0 !important;
+
+  border-radius:
+    0 !important;
+
+
+  background-color:
+    transparent !important;
+
+  background-repeat:
+    no-repeat !important;
+
+  background-position:
+    center !important;
+
+  background-size:
+    contain !important;
+
+
+  box-shadow:
+    none !important;
+
+
+  /*
+   * HTML-Text verstecken,
+   * falls die Beschriftung im Asset steckt.
+   */
+  color:
+    transparent !important;
+
+  font-size:
+    0 !important;
+
+
+  transform:
+    none;
+
+  cursor:
+    pointer;
+}
+
+
+/*
+ * =========================================================
+ * BUTTON 1 - ERNEUT SPIELEN
+ * =========================================================
+ */
+
+.victory-card__actions
+.game-button:nth-child(1) {
+  background-image:
+    url(
+      '../assets/ui/buttons/Button_Replay.png'
+    ) !important;
+}
+
+
+.victory-card__actions
+.game-button:nth-child(1):hover {
+  transform:
+    scale(1.025);
+}
+
+
+.victory-card__actions
+.game-button:nth-child(1):active {
+  transform:
+    scale(0.975);
+}
+
+
+/*
+ * =========================================================
+ * BUTTON 2 - HAUPTMENÜ
+ * =========================================================
+ */
+
+.victory-card__actions
+.game-button:nth-child(2) {
+  background-image:
+    url(
+      '../assets/ui/buttons/Button_Menue.png'
+    ) !important;
+}
+
+
+.victory-card__actions
+.game-button:nth-child(2):hover {
+  transform:
+    scale(1.025);
+}
+
+
+.victory-card__actions
+.game-button:nth-child(2):active {
+  transform:
+    scale(0.975);
+}
+
+/*
+ * =========================================================
+ * VICTORY BACKGROUND
+ * =========================================================
+ */
+
+.victory-screen {
+  padding:
+    0;
+
+  overflow:
+    hidden;
+
+
+  background:
+    transparent;
+
+  background-image:
+    var(
+      --victory-background-image,
+      none
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    100% 100%;
+}
