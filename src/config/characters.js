@@ -452,27 +452,27 @@ const djPengPearIdle06 =
 
 const bumsBirneIdle1 =
   new URL(
-    '../assets/characters/Bumsi/Idle/bumsi_idle1.png',
+    '../assets/characters/Bumsi/Idle/Bumsi_idle1.png',
     import.meta.url,
   ).href;
 const bumsBirneIdle2 =
 new URL(
-  '../assets/characters/Bumsi/Idle/bumsi_idle2.png',
+  '../assets/characters/Bumsi/Idle/Bumsi_idle2.png',
   import.meta.url,
 ).href;
 const bumsBirneIdle3 =
 new URL(
-  '../assets/characters/Bumsi/Idle/bumsi_idle3.png',
+  '../assets/characters/Bumsi/Idle/Bumsi_idle3.png',
   import.meta.url,
 ).href;
 const bumsBirneIdle4 =
 new URL(
-  '../assets/characters/Bumsi/Idle/bumsi_idle4.png',
+  '../assets/characters/Bumsi/Idle/Bumsi_idle4.png',
   import.meta.url,
 ).href;
 const bumsBirneIdle5 =
 new URL(
-  '../assets/characters/Bumsi/Idle/bumsi_idle5.png',
+  '../assets/characters/Bumsi/Idle/Bumsi_idle5.png',
   import.meta.url,
 ).href;
 
