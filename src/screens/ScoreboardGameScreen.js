@@ -283,10 +283,6 @@ export class ScoreboardGameScreen {
           class="player-list scoreboard-player-list"
         >
 
-          <h2>
-            Spieler
-          </h2>
-
           <div
             class="player-list__cards"
             data-player-cards

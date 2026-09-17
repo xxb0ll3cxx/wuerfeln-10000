@@ -343,7 +343,7 @@ export class VirtualGameScreen {
         >
 
           <h2>
-            Spieler
+          .
           </h2>
 
 
