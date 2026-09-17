@@ -1287,7 +1287,7 @@ input {
 .mode-select__button--virtual {
   background-image:
     url(
-      '../assets/ui/buttons/Button_Virtual.png'
+      '../assets/ui/buttons/Button_Virtual.webp'
     );
 }
 
@@ -1317,7 +1317,7 @@ input {
 .mode-select__button--scoreboard {
   background-image:
     url(
-      '../assets/ui/buttons/Button_Scoreboard.png'
+      '../assets/ui/buttons/Button_Scoreboard.webp'
     );
 }
 
@@ -1955,7 +1955,7 @@ option {
 
   background-image:
     url(
-      '../assets/ui/buttons/Button_Entfernen.png'
+      '../assets/ui/buttons/Button_Entfernen.webp'
     );
   transform:
     translate(
@@ -2147,7 +2147,7 @@ option {
 .player-setup__asset-button--add {
   background-image:
     url(
-      '../assets/ui/buttons/Button_SpielerHinzufügen.png'
+      '../assets/ui/buttons/Button_SpielerHinzufügen.webp'
     );
 }
 
@@ -2175,7 +2175,7 @@ option {
 .player-setup__asset-button--start {
   background-image:
     url(
-      '../assets/ui/buttons/Button_Spielstarten.png'
+      '../assets/ui/buttons/Button_Spielstarten.webp'
     );
 }
 
@@ -2203,7 +2203,7 @@ option {
 .player-setup__asset-button--back {
   background-image:
     url(
-      '../assets/ui/buttons/Button_Zurück.png'
+      '../assets/ui/buttons/Button_Zurück.webp'
     );
     
     transform:
@@ -2296,7 +2296,7 @@ option {
 
   background-image:
     url(
-      '../assets/ui/buttons/Button_generic.png'
+      '../assets/ui/buttons/Button_generic.webp'
     );
 
   background-repeat:
@@ -2445,7 +2445,7 @@ option {
 
   background-image:
     url(
-      '../assets/ui/buttons/Button_Spin.png'
+      '../assets/ui/buttons/Button_Spin.webp'
     );
 
   background-repeat:
@@ -2488,7 +2488,7 @@ option {
 
   background-image:
     url(
-      '../assets/ui/buttons/Button_clock.png'
+      '../assets/ui/buttons/Button_clock.webp'
     );
 
   background-repeat:
@@ -2525,7 +2525,7 @@ option {
 
   background-image:
     url(
-      '../assets/ui/buttons/Button_Zurück.png'
+      '../assets/ui/buttons/Button_Zurück.webp'
     );
 
   background-repeat:
@@ -2680,7 +2680,7 @@ option {
 
   background-image:
     url(
-      '../assets/ui/buttons/Button_Zurück.png'
+      '../assets/ui/buttons/Button_Zurück.webp'
     ) !important;
 
   background-repeat:
@@ -2723,7 +2723,7 @@ option {
 .scoreboard-screen
 .scoreboard-action-tile:nth-child(1) {
   --scoreboard-button-image:
-    url('../assets/ui/buttons/Button_clock.png');
+    url('../assets/ui/buttons/Button_clock.webp');
     
 }
 
@@ -2737,7 +2737,7 @@ option {
 .scoreboard-screen
 .scoreboard-action-tile:nth-child(2) {
   --scoreboard-button-image:
-    url('../assets/ui/buttons/Button_Loose.png');
+    url('../assets/ui/buttons/Button_Loose.webp');
 }
 
 
@@ -2750,7 +2750,7 @@ option {
 .scoreboard-screen
 .scoreboard-action-tile:nth-child(3) {
   --scoreboard-button-image:
-    url('../assets/ui/buttons/Button_Airball.png');
+    url('../assets/ui/buttons/Button_Airball.webp');
 }
 
 
@@ -2763,7 +2763,7 @@ option {
 .scoreboard-screen
 .scoreboard-action-tile:nth-child(4) {
   --scoreboard-button-image:
-    url('../assets/ui/buttons/Button_6x1.png');
+    url('../assets/ui/buttons/Button_6x1.webp');
 }
 
 
@@ -2876,7 +2876,7 @@ h2 {
 
   background-image:
     url(
-      '../assets/ui/buttons/Button_Wkeit.png'
+      '../assets/ui/buttons/Button_Wkeit.webp'
     ) !important;
 
   background-repeat:
@@ -3043,7 +3043,7 @@ h2 {
 
   background-image:
     url(
-      '../assets/ui/buttons/Button_Calc.png'
+      '../assets/ui/buttons/Button_Calc.webp'
     ) !important;
 
   background-repeat:
@@ -3342,7 +3342,7 @@ small {
 .game-button:nth-child(1) {
   background-image:
     url(
-      '../assets/ui/buttons/Button_Replay.png'
+      '../assets/ui/buttons/Button_Replay.webp'
     ) !important;
 }
 
@@ -3371,7 +3371,7 @@ small {
 .game-button:nth-child(2) {
   background-image:
     url(
-      '../assets/ui/buttons/Button_Menue.png'
+      '../assets/ui/buttons/Button_Menue.webp'
     ) !important;
 }
 
