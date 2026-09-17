@@ -1223,7 +1223,7 @@ select {
 
   --main-menu-background-image:
     url(
-      '../assets/ui/backgrounds/Background_Landscape.png'
+      '../assets/ui/backgrounds/Background_Landscape.webp'
     );
 }
 
@@ -1305,7 +1305,7 @@ select {
 .main-menu-screen {
   --main-menu-background-image:
     url(
-      '../assets/ui/backgrounds/Background_Portrait1.png'
+      '../assets/ui/backgrounds/Background_Portrait1.webp'
     );
 }
 
