@@ -2505,7 +2505,7 @@ select {
 .victory-screen {
   --victory-background-image:
     url(
-      '../assets/ui/backgrounds/background_ingame_landscape.png'
+      '../assets/ui/backgrounds/background_ingame_landscape.webp'
     );
 
   --victory-panel-image:
@@ -2541,7 +2541,7 @@ select {
 .victory-screen {
   --victory-background-image:
     url(
-      '../assets/ui/backgrounds/background_ingame_portrait.png'
+      '../assets/ui/backgrounds/background_ingame_portrait.webp'
     );
 
   --victory-panel-image:
