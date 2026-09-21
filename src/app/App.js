@@ -422,6 +422,9 @@ start() {
           
           coinService:
             this.coinService,
+
+          accountStore:
+            this.accountStore,
         }),
     );
   }

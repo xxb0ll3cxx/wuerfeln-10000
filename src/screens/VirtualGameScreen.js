@@ -39,12 +39,16 @@ export class VirtualGameScreen {
     probabilityCalculator,
     audioService,
     coinService,
+    accountStore,
   }) {
     this.navigate =
       navigate;
 
     this.coinService =
       coinService;
+
+    this.accountStore =
+      accountStore;
     
     this.audioService =
       audioService;
@@ -121,6 +125,12 @@ export class VirtualGameScreen {
      */
 
     this.currentPlayerElement =
+      null;
+
+    this.coinElement =
+      null;
+
+    this.unsubscribeAccount =
       null;
 
     this.turnScoreElement =
@@ -225,7 +235,19 @@ export class VirtualGameScreen {
             data-current-player
           ></h1>
 
-          <div></div>
+          <div
+            class="game-header__coins"
+            aria-label="Aktueller Coinstand"
+          >
+            <span
+              class="game-header__coin-icon"
+              aria-hidden="true"
+            ></span>
+
+            <strong data-virtual-coins>
+              0
+            </strong>
+          </div>
 
         </header>
 
@@ -380,6 +402,46 @@ export class VirtualGameScreen {
       rootElement.querySelector(
         '[data-current-player]',
       );
+
+      this.coinElement =
+        rootElement.querySelector(
+          '[data-virtual-coins]',
+        );
+
+      const syncCoinBalance =
+        (state) => {
+          if (
+            !this.coinElement
+          ) {
+            return;
+          }
+
+          const coins =
+            state.isAuthenticated
+              ? Number(state.coins ?? 0)
+              : 0;
+
+          this.coinElement.textContent =
+            coins.toLocaleString(
+              'de-DE',
+            );
+        };
+
+      /*
+      * Coinstand beim Öffnen des Screens setzen.
+      */
+      syncCoinBalance(
+        this.accountStore.getState(),
+      );
+
+      /*
+      * Coinstand aktualisieren, sobald sich
+      * der AccountStore verändert.
+      */
+      this.unsubscribeAccount =
+        this.accountStore.subscribe(
+          syncCoinBalance,
+        );
 
     this.turnScoreElement =
       rootElement.querySelector(
@@ -2191,6 +2253,14 @@ export class VirtualGameScreen {
    */
 
   destroy() {
+    this.unsubscribeAccount?.();
+
+    this.unsubscribeAccount =
+      null;
+
+    this.coinElement =
+      null;
+
     this.rollButton
       ?.removeEventListener(
         'click',

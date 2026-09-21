@@ -74,14 +74,11 @@ export class ShopScreen {
     rootElement.innerHTML = `
       <main class="screen shop-screen">
         <header class="shop-screen__header">
-          <h1>Shop</h1>
+          <h1></h1>
 
           <p>
             Coins:
             <strong>
-              ${Number(coins ?? 0).toLocaleString('de-DE')}
-            </strong>
-            <strong data-shop-coins>
               ${Number(coins ?? 0).toLocaleString('de-DE')}
             </strong>
           </p>
@@ -254,6 +251,8 @@ export class ShopScreen {
           document.createElement(
             'p',
           );
+        price.className =
+          'shop-screen__price';
 
         price.textContent =
           `${Number(product.price).toLocaleString('de-DE')} Coins`;
@@ -263,6 +262,8 @@ export class ShopScreen {
           document.createElement(
             'button',
           );
+        button.className =
+          'shop-screen__buy';
 
         button.type =
           'button';
@@ -272,7 +273,10 @@ export class ShopScreen {
           ownedIds.has(
             product.id,
           );
-
+        button.className =
+          isOwned
+            ? 'shop-screen__buy shop-screen__buy--owned'
+            : 'shop-screen__buy';
 
         button.disabled =
           isOwned ||

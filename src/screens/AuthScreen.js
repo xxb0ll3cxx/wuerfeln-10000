@@ -59,75 +59,103 @@ export class AuthScreen {
 
 
     rootElement.innerHTML = `
-      <main
+  <main class="screen auth-screen">
+
+    <h1 class="auth-screen__headline">
+      
+    </h1>
+
+    <form
+      class="auth-screen__form"
+      data-auth-form
+    >
+
+      <label
         class="
-          screen
-          auth-screen
+          auth-screen__field
+          auth-screen__field--email
         "
       >
-        <h1>
-          Account
-        </h1>
+        <span class="auth-screen__label">
+          E-Mail
+        </span>
 
-        <form
-          class="auth-screen__form"
-          data-auth-form
+        <input
+          class="auth-screen__input"
+          type="email"
+          autocomplete="email"
+          data-auth-email
+          required
         >
-          <label>
-            E-Mail
-
-            <input
-              type="email"
-              autocomplete="email"
-              data-auth-email
-              required
-            >
-          </label>
+      </label>
 
 
-          <label>
-            Passwort
+      <label
+        class="
+          auth-screen__field
+          auth-screen__field--password
+        "
+      >
+        <span class="auth-screen__label">
+          Passwort
+        </span>
 
-            <input
-              type="password"
-              autocomplete="current-password"
-              data-auth-password
-              required
-            >
-          </label>
-
-
-          <p
-            class="auth-screen__message"
-            data-auth-message
-          ></p>
-
-
-          <button
-            type="button"
-            data-action="login"
-          >
-            Einloggen
-          </button>
+        <input
+          class="auth-screen__input"
+          type="password"
+          autocomplete="current-password"
+          data-auth-password
+          required
+        >
+      </label>
 
 
-          <button
-            type="button"
-            data-action="register"
-          >
-            Account erstellen
-          </button>
+      <p
+        class="auth-screen__message"
+        data-auth-message
+        role="status"
+        aria-live="polite"
+      ></p>
 
 
-          <button
-            type="button"
-            data-action="back"
-          >
-            Zurück
-          </button>
-        </form>
-      </main>
-    `;
+      <button
+        class="
+          auth-screen__button
+          auth-screen__button--login
+        "
+        type="button"
+        data-action="login"
+      >
+        
+      </button>
+
+
+      <button
+        class="
+          auth-screen__button
+          auth-screen__button--register
+        "
+        type="button"
+        data-action="register"
+      >
+      </button>
+
+
+      <button
+        class="
+          auth-screen__button
+          auth-screen__button--back
+        "
+        type="button"
+        data-action="back"
+      >
+        
+      </button>
+
+    </form>
+
+  </main>
+`;
 
 
     this.form =

@@ -165,7 +165,7 @@ export class ModeSelectScreen {
             data-action="shop"
             aria-label="Shop öffnen"
           >
-            SHOP
+          
           </button>
         </div>
 
@@ -185,7 +185,7 @@ export class ModeSelectScreen {
             data-action="cosmetics"
             aria-label="Kosmetik auswählen"
           >
-            KOSMETIK
+            
           </button>
         </div>
 
@@ -199,7 +199,7 @@ export class ModeSelectScreen {
             Nicht eingeloggt
           </span>
 
-          <span>
+          <span class="mode-select__coins">
             Coins:
             <strong
               data-account-coins
@@ -212,7 +212,7 @@ export class ModeSelectScreen {
             type="button"
             data-action="account"
           >
-            LOGIN
+            
           </button>
         </div>
 
@@ -475,7 +475,9 @@ export class ModeSelectScreen {
 
           this.accountButton
             .textContent =
-            'LOGIN';
+            '';
+          this.accountButton.dataset.authenticated =
+            'false';
 
           return;
         }
@@ -498,7 +500,9 @@ export class ModeSelectScreen {
 
         this.accountButton
           .textContent =
-          'LOGOUT';
+          '';
+        this.accountButton.dataset.authenticated =
+          'true';
       };
 
 

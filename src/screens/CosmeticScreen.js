@@ -69,7 +69,7 @@ export class CosmeticsScreen {
           class="cosmetics-screen__header"
         >
           <h1>
-            Kosmetik
+            
           </h1>
 
           <p>
@@ -103,7 +103,7 @@ export class CosmeticsScreen {
           type="button"
           data-action="back"
         >
-          Zurück
+          
         </button>
       </main>
     `;
@@ -327,7 +327,7 @@ export class CosmeticsScreen {
 
 
       ownership.textContent =
-        'Im Besitz';
+        '';
 
 
       /*
@@ -343,6 +343,10 @@ export class CosmeticsScreen {
       button.type =
         'button';
 
+      button.className =
+        isEquipped
+          ? 'cosmetics-screen__equip cosmetics-screen__equip--equipped'
+          : 'cosmetics-screen__equip';
 
       button.disabled =
         isEquipped ||
@@ -351,8 +355,8 @@ export class CosmeticsScreen {
 
       button.textContent =
         isEquipped
-          ? 'Ausgerüstet'
-          : 'Ausrüsten';
+          ? ''
+          : '';
 
 
       if (
