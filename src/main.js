@@ -2,7 +2,9 @@ import './styles/variables.css';
 import './styles/main.css';
 import './styles/viewport.css';
 import './styles/components/buttons.css';
-
+import {
+  AccountService,
+} from './services/AccountService.js';
 import {
   App,
 } from './app/App.js';
@@ -14,8 +16,39 @@ import {
 import {
   AudioService,
 } from './services/AudioService.js';
+import {
+  AuthService,
+} from './services/AuthService.js';
 
+import {
+  AccountStore,
+} from './state/AccountStore.js';
 
+import {
+  AccountController,
+} from './controllers/AccountController.js';
+
+/*
+ * =========================================================
+ * ACCOUNT SYSTEM
+ * =========================================================
+ */
+
+const authService =
+  new AuthService();
+
+const accountService =
+  new AccountService();
+
+const accountStore =
+  new AccountStore();
+
+const accountController =
+  new AccountController({
+    authService,
+    accountService,
+    accountStore,
+  });
 /*
  * =========================================================
  * AUDIO SERVICE
@@ -176,7 +209,8 @@ const app =
   new App(
     gameStage,
     audioService,
+    accountController,
+    accountStore,
   );
-
 
 app.start();

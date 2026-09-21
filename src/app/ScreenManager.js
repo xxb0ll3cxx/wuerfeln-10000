@@ -20,6 +20,14 @@ const SCREEN_MUSIC =
     [SCREENS.MODE_SELECT]:
       'menuMusic',
 
+      [SCREENS.AUTH]:
+      'menuMusic',
+
+    [SCREENS.SHOP]:
+      'menuMusic',
+
+    [SCREENS.COSMETICS]:
+      'menuMusic',
     [SCREENS.PLAYER_SETUP]:
       'menuMusic',
 

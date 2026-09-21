@@ -18,9 +18,17 @@ import {
   ProbabilityPanel,
 } from '../ui/ProbabilityPanel.js';
 
+    import {
+      getCharacterById,
+    } from '../config/characters.js';
+
 import {
-  getCharacterById,
-} from '../config/characters.js';
+  resolveCharacterAppearance,
+} from '../config/resolveCharacterAppearance.js';
+
+import {
+  calculateCoinReward,
+} from '../core/coins/calculateCoinReward.js';
 
 
 export class VirtualGameScreen {
@@ -30,9 +38,13 @@ export class VirtualGameScreen {
     gameSessionController,
     probabilityCalculator,
     audioService,
+    coinService,
   }) {
     this.navigate =
       navigate;
+
+    this.coinService =
+      coinService;
     
     this.audioService =
       audioService;
@@ -963,13 +975,6 @@ export class VirtualGameScreen {
       this.audioService
         .playSfx(
           'diceRoll',
-          {
-            restart:
-              true,
-
-            loop:
-              true,
-          },
         );
         try {
           await this.gameScene
@@ -1321,7 +1326,36 @@ export class VirtualGameScreen {
           instantWinScore:
             result.appliedScore,
         });
+      const earnedCoins =
+        calculateCoinReward(
+          result.appliedScore,
+        );
 
+      console.info(
+        '[Coin-Test] Sofortsieg',
+        {
+          instantWinScore:
+            result.appliedScore,
+
+          earnedCoins,
+        },
+      );
+      if (
+        earnedCoins > 0
+      ) {
+        this.coinService.enqueueReward({
+          matchId:
+            this.gameSessionController
+              .getState()
+              .matchId,
+
+          eventType:
+            'instant_win',
+
+          bankedScore:
+            result.appliedScore,
+        });
+      }
 
       this.navigate(
         SCREENS.VICTORY,
@@ -1481,6 +1515,37 @@ export class VirtualGameScreen {
     const result =
       this.gameSessionController
         .bankCurrentTurn();
+
+    const earnedCoins =
+      calculateCoinReward(
+        result.bankedScore,
+      );
+
+    console.info(
+      '[Coin-Test] Reguläre Sicherung',
+      {
+        bankedScore:
+          result.bankedScore,
+
+        earnedCoins,
+      },
+    );
+    if (
+      earnedCoins > 0
+    ) {
+      this.coinService.enqueueReward({
+        matchId:
+          this.gameSessionController
+            .getState()
+            .matchId,
+
+        eventType:
+          'bank',
+
+        bankedScore:
+          result.bankedScore,
+      });
+    }
 
 
     await this.audioService
@@ -1799,8 +1864,9 @@ export class VirtualGameScreen {
 
 
     const currentCharacter =
-      getCharacterById(
+      resolveCharacterAppearance(
         currentPlayer.characterId,
+        currentPlayer.skinId,
       );
 
 
@@ -1866,10 +1932,11 @@ export class VirtualGameScreen {
         player,
         index,
       ) => {
-        const character =
-          getCharacterById(
-            player.characterId,
-          );
+      const character =
+        resolveCharacterAppearance(
+          player.characterId,
+          player.skinId,
+        );
 
 
         const card =

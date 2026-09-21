@@ -107,9 +107,16 @@ export class ActiveCharacterView {
      * der Idle-Timer zurückgesetzt.
      */
     if (
-      this.currentCharacter
-        ?.id ===
-      character.id
+      this.currentCharacter?.id ===
+        character.id &&
+
+      (
+        this.currentCharacter?.skinId ??
+        null
+      ) === (
+        character.skinId ??
+        null
+      )
     ) {
       return;
     }

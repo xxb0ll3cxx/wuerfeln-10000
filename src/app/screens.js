@@ -6,6 +6,15 @@ export const SCREENS =
     MODE_SELECT:
       'mode-select',
 
+    AUTH:
+      'auth',
+
+    SHOP:
+      'shop',
+
+    COSMETICS:
+      'cosmetics',
+
     PLAYER_SETUP:
       'player-setup',
 

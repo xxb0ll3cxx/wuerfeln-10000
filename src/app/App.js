@@ -62,11 +62,29 @@ import {
   GameSessionController,
 } from '../controllers/GameSessionController.js';
 
+import {
+  AuthScreen,
+} from '../screens/AuthScreen.js';
+
+import {
+  ShopScreen,
+} from '../screens/ShopScreen.js';
+
+import {
+  CosmeticsScreen,
+} from '../screens/CosmeticScreen.js';
+
+import {
+  CoinService,
+} from '../services/CoinService.js';
 
 export class App {
   constructor(
     rootElement,
     audioService,
+    accountController,
+    accountStore,
+    coinService,
   ) {
     if (!rootElement) {
       throw new Error(
@@ -91,7 +109,30 @@ export class App {
     this.audioService =
       audioService;
 
+    /*
+     * =====================================================
+     * Accounts
+     * =====================================================
+     */
+    this.accountController =
+      accountController;
 
+    this.accountStore =
+      accountStore;
+
+    if (
+      !accountController ||
+      !accountStore
+    ) {
+      throw new Error(
+        'Account-System fehlt.',
+      );
+    }
+
+    this.coinService =
+      new CoinService(
+        this.accountStore,
+      );
     /*
      * =====================================================
      * GAME SYSTEMS
@@ -168,11 +209,15 @@ export class App {
    * =======================================================
    */
 
-  start() {
-    this.navigate(
-      SCREENS.MAIN_MENU,
-    );
-  }
+start() {
+  void this.accountController
+    .initialize();
+
+
+  this.navigate(
+    SCREENS.MAIN_MENU,
+  );
+}
 
 
   /*
@@ -205,6 +250,15 @@ export class App {
 
           audioService:
             this.audioService,
+          
+          accountStore:
+            this.accountStore,
+
+          accountController:
+            this.accountController,
+
+          coinService:
+            this.coinService,
         }),
     );
 
@@ -235,6 +289,64 @@ export class App {
         new ModeSelectScreen({
           navigate:
             this.navigate,
+
+          accountStore:
+            this.accountStore,
+
+          accountController:
+            this.accountController,
+        }),
+    );
+    /*
+    * AUTH
+    */
+
+    this.screenManager.register(
+      SCREENS.AUTH,
+
+      () =>
+        new AuthScreen({
+          navigate:
+            this.navigate,
+
+          accountController:
+            this.accountController,
+        }),
+    );
+
+
+    /*
+    * SHOP
+    */
+
+    this.screenManager.register(
+      SCREENS.SHOP,
+
+      () =>
+        new ShopScreen({
+          navigate:
+            this.navigate,
+
+          accountStore:
+            this.accountStore,
+        }),
+    );
+
+
+    /*
+    * COSMETICS
+    */
+
+    this.screenManager.register(
+      SCREENS.COSMETICS,
+
+      () =>
+        new CosmeticsScreen({
+          navigate:
+            this.navigate,
+
+          accountStore:
+            this.accountStore,
         }),
     );
 
@@ -256,6 +368,9 @@ export class App {
 
           gameSessionController:
             this.gameSessionController,
+
+          accountStore:
+            this.accountStore,
         }),
     );
 
@@ -304,6 +419,9 @@ export class App {
 
           audioService:
             this.audioService,
+          
+          coinService:
+            this.coinService,
         }),
     );
   }

@@ -7,12 +7,12 @@ import {
 } from '../ui/ProbabilityPanel.js';
 
 import {
-  getCharacterById,
-} from '../config/characters.js';
-
-import {
   ActiveCharacterView,
 } from '../ui/characters/ActiveCharacterView.js';
+
+import {
+  resolveCharacterAppearance,
+} from '../config/resolveCharacterAppearance.js';
 
 export class ScoreboardGameScreen {
   constructor({
@@ -904,8 +904,9 @@ async #handleInstantWin() {
          * "player is not defined" entstehen.
          */
         const character =
-          getCharacterById(
+          resolveCharacterAppearance(
             player.characterId,
+            player.skinId,
           );
 
 
@@ -1049,8 +1050,9 @@ async #handleInstantWin() {
 
     const currentCharacter =
       currentPlayer
-        ? getCharacterById(
+        ? resolveCharacterAppearance(
             currentPlayer.characterId,
+            currentPlayer.skinId,
           )
         : null;
 

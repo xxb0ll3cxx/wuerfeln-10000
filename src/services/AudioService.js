@@ -39,7 +39,33 @@ export class AudioService {
      */
     this.sfxPlayers =
       new Map();
+    /*
+    * Soundeffekte frühzeitig laden,
+    * statt erst beim ersten Klick/Wurf.
+    */
+    for (
+      const [
+        soundKey,
+        config,
+      ] of Object.entries(
+        AUDIO_CONFIG.sfx,
+      )
+    ) {
+      const audio =
+        new Audio(
+          config.src,
+        );
 
+      audio.preload =
+        'auto';
+
+      audio.load();
+
+      this.sfxPlayers.set(
+        soundKey,
+        audio,
+      );
+    }
 
     /*
      * Browser erlauben Audio normalerweise erst nach
@@ -153,7 +179,15 @@ export class AudioService {
         audio,
       );
     }
-
+    /*
+    * Einen noch nicht abspielbereiten Sound
+    * nicht für eine verspätete Wiedergabe einreihen.
+    */
+    if (
+      audio.readyState < 2
+    ) {
+      return null;
+    }
 
     audio.loop =
       loop;
@@ -319,14 +353,6 @@ async playMusic(
 
   try {
     await audio.play();
-
-
-    /*
-     * Manuellen Crossfade-Loop starten.
-     */
-    this.#startMusicLoopWatcher(
-      musicKey,
-    );
 
   } catch (error) {
     console.debug(
@@ -606,14 +632,9 @@ async #crossfadeMusicLoop(
     'auto';
 
 
-  /*
-   * WICHTIG:
-   *
-   * Browser-Loop AUS.
-   * Wir übernehmen den Loop selbst.
-   */
+
   audio.loop =
-    false;
+    true;
 
 
   audio.volume =

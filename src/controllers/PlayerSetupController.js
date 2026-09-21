@@ -6,6 +6,9 @@ import {
   hasCharacter,
 } from '../config/characters.js';
 
+import {
+  getCharacterSkinById,
+} from '../config/characterSkins.js';
 
 export class PlayerSetupController {
   createPlayers(
@@ -50,6 +53,30 @@ export class PlayerSetupController {
         }
 
 
+        const skinId =
+          input.skinId ??
+          null;
+
+
+        if (skinId !== null) {
+          const skin =
+            getCharacterSkinById(
+              skinId,
+            );
+
+
+          if (
+            !skin ||
+            skin.characterId !==
+              input.characterId
+          ) {
+            throw new Error(
+              `Spieler ${index + 1} hat einen ungültigen Skin ausgewählt.`,
+            );
+          }
+        }
+
+
         return createPlayer({
           id:
             `player-${index + 1}`,
@@ -59,6 +86,8 @@ export class PlayerSetupController {
 
           characterId:
             input.characterId,
+
+          skinId,
         });
       },
     );

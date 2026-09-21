@@ -117,7 +117,7 @@ export const AUDIO_CONFIG =
           victory,
 
         volume:
-          1,
+          0.8,
       },
     },
 

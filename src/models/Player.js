@@ -2,6 +2,7 @@ export function createPlayer({
   id,
   name,
   characterId = null,
+  skinId = null,
 }) {
   if (
     typeof id !== 'string' ||
@@ -34,6 +35,17 @@ export function createPlayer({
       'characterId muss null oder eine gültige Zeichenkette sein.',
     );
   }
+  if (
+    skinId !== null &&
+    (
+      typeof skinId !== 'string' ||
+      skinId.trim() === ''
+    )
+  ) {
+    throw new Error(
+      'skinId muss null oder eine gültige Zeichenkette sein.',
+    );
+  }
 
   return {
     id:
@@ -46,6 +58,11 @@ export function createPlayer({
       characterId === null
         ? null
         : characterId.trim(),
+
+    skinId:
+      skinId === null
+        ? null
+        : skinId.trim(),
 
     totalScore:
       0,

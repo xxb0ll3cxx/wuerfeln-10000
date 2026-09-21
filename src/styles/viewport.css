@@ -2668,3 +2668,537 @@ select {
   overflow:
     hidden;
 }
+
+/*
+ * =========================================================
+ * MODE SELECT - SHOP / COSMETICS / ACCOUNT
+ * =========================================================
+ */
+
+
+/*
+ * Neue Buttons sichtbar und anklickbar machen
+ */
+
+#game-stage
+.mode-select-screen
+.mode-select__button-slot--shop,
+
+#game-stage
+.mode-select-screen
+.mode-select__button-slot--cosmetics {
+  position: absolute;
+
+  width: 220px;
+  height: 76px;
+
+  z-index: 30;
+
+  pointer-events: auto;
+}
+
+
+/*
+ * Vorläufige Button-Gestaltung
+ * Später durch deine eigenen Assets ersetzen.
+ */
+
+#game-stage
+.mode-select-screen
+.mode-select__button--shop,
+
+#game-stage
+.mode-select-screen
+.mode-select__button--cosmetics {
+  display: flex;
+
+  width: 100%;
+  height: 100%;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #603a20;
+
+  border: 3px solid #dba85a;
+  border-radius: 14px;
+
+  color: #fff4d6;
+
+  font-size: 23px;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+
+/*
+ * Account-Anzeige
+ */
+
+#game-stage
+.mode-select-screen
+.mode-select__account {
+  position: absolute;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: stretch;
+
+  gap: 8px;
+
+  width: 270px;
+
+  padding: 12px;
+
+  box-sizing: border-box;
+
+  background: rgba(35, 20, 10, 0.9);
+
+  border: 2px solid #dba85a;
+  border-radius: 12px;
+
+  color: #fff4d6;
+
+  font-size: 17px;
+
+  overflow-wrap: anywhere;
+
+  z-index: 40;
+}
+
+
+/*
+ * Account-Button
+ */
+
+#game-stage
+.mode-select-screen
+.mode-select__account
+button {
+  min-height: 42px;
+
+  padding: 8px 14px;
+
+  background: #603a20;
+
+  border: 2px solid #dba85a;
+  border-radius: 8px;
+
+  color: #ffffff;
+
+  font: inherit;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+/*
+ * LANDSCAPE - 1600 × 900
+ */
+
+#game-stage[data-orientation="landscape"]
+.mode-select-screen
+.mode-select__button-slot--shop {
+  left: 630px;
+  top: 625px;
+}
+
+
+#game-stage[data-orientation="landscape"]
+.mode-select-screen
+.mode-select__button-slot--cosmetics {
+  left: 880px;
+  top: 625px;
+}
+
+
+#game-stage[data-orientation="landscape"]
+.mode-select-screen
+.mode-select__account {
+  top: 30px;
+  right: 35px;
+}
+
+
+/*
+ * PORTRAIT - 900 × 1600
+ */
+
+#game-stage[data-orientation="portrait"]
+.mode-select-screen
+.mode-select__button-slot--shop {
+  left: 530px;
+  top: 1070px;
+
+  width: 280px;
+  height: 80px;
+}
+
+
+#game-stage[data-orientation="portrait"]
+.mode-select-screen
+.mode-select__button-slot--cosmetics {
+  left: 530px;
+  top: 1170px;
+
+  width: 280px;
+  height: 80px;
+}
+
+
+#game-stage[data-orientation="portrait"]
+.mode-select-screen
+.mode-select__account {
+  top: 220px;
+  right: 35px;
+
+  width: 280px;
+}
+
+/*
+ * =========================================================
+ * SHOP SCREEN
+ * =========================================================
+ */
+
+#game-stage .shop-screen {
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 24px;
+
+  padding: 55px 45px;
+
+  color: #fff4d6;
+
+  background:
+    linear-gradient(
+      rgba(35, 20, 10, 0.9),
+      rgba(35, 20, 10, 0.95)
+    );
+}
+
+
+#game-stage .shop-screen__header {
+  text-align: center;
+}
+
+
+#game-stage .shop-screen__header h1 {
+  margin: 0 0 12px;
+
+  font-size: 48px;
+}
+
+
+#game-stage .shop-screen__header p {
+  margin: 0;
+
+  font-size: 26px;
+}
+
+
+#game-stage .shop-screen__catalog {
+  box-sizing: border-box;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+
+  gap: 24px;
+
+  width: 100%;
+  max-width: 1150px;
+
+  flex: 1;
+  min-height: 0;
+
+  overflow-y: auto;
+
+  padding: 20px;
+}
+
+
+#game-stage .shop-screen__product {
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 14px;
+
+  width: 260px;
+
+  padding: 20px;
+
+  border: 3px solid #dba85a;
+  border-radius: 16px;
+
+  background: #603a20;
+
+  text-align: center;
+}
+
+
+#game-stage .shop-screen__portrait {
+  width: 160px;
+  height: 160px;
+
+  object-fit: contain;
+}
+
+
+#game-stage .shop-screen__product h2 {
+  margin: 0;
+
+  font-size: 25px;
+}
+
+
+#game-stage .shop-screen__product p {
+  margin: 0;
+
+  font-size: 22px;
+}
+
+
+#game-stage .shop-screen__product button,
+#game-stage .shop-screen__back {
+  min-height: 48px;
+
+  padding: 10px 22px;
+
+  border: 2px solid #dba85a;
+  border-radius: 10px;
+
+  background: #8b5831;
+
+  color: #fff4d6;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+#game-stage .shop-screen__product button:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+
+#game-stage[data-orientation="portrait"]
+.shop-screen {
+  padding: 65px 35px;
+}
+
+
+#game-stage[data-orientation="portrait"]
+.shop-screen__product {
+  width: 310px;
+}
+/*
+ * =========================================================
+ * COSMETICS SCREEN
+ * =========================================================
+ */
+
+#game-stage
+.cosmetics-screen {
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 22px;
+
+  padding: 50px 40px;
+
+  color: #fff4d6;
+
+  background:
+    linear-gradient(
+      rgba(35, 20, 10, 0.9),
+      rgba(35, 20, 10, 0.95)
+    );
+}
+
+
+/*
+ * HEADER
+ */
+
+#game-stage
+.cosmetics-screen__header {
+  text-align: center;
+}
+
+
+#game-stage
+.cosmetics-screen__header h1 {
+  margin: 0 0 12px;
+
+  font-size: 48px;
+}
+
+
+#game-stage
+.cosmetics-screen__header p {
+  margin: 0;
+
+  font-size: 24px;
+}
+
+
+/*
+ * INVENTORY
+ */
+
+#game-stage
+.cosmetics-screen__inventory {
+  box-sizing: border-box;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  justify-content: center;
+  align-content: flex-start;
+
+  gap: 24px;
+
+  width: 100%;
+  max-width: 1150px;
+
+  flex: 1;
+  min-height: 0;
+
+  padding: 20px;
+
+  overflow-y: auto;
+}
+
+
+/*
+ * SKIN-KARTE
+ */
+
+#game-stage
+.cosmetics-screen__item {
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 14px;
+
+  width: 260px;
+
+  padding: 20px;
+
+  border: 3px solid #dba85a;
+  border-radius: 16px;
+
+  background: #603a20;
+
+  text-align: center;
+}
+
+
+#game-stage
+.cosmetics-screen__portrait {
+  width: 160px;
+  height: 160px;
+
+  object-fit: contain;
+}
+
+
+#game-stage
+.cosmetics-screen__item h2 {
+  margin: 0;
+
+  font-size: 25px;
+}
+
+
+#game-stage
+.cosmetics-screen__item p {
+  margin: 0;
+
+  font-size: 20px;
+}
+
+
+/*
+ * BUTTONS
+ */
+
+#game-stage
+.cosmetics-screen__item button,
+#game-stage
+.cosmetics-screen__back {
+  min-height: 48px;
+
+  padding: 10px 22px;
+
+  border: 2px solid #dba85a;
+  border-radius: 10px;
+
+  background: #8b5831;
+
+  color: #fff4d6;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+#game-stage
+.cosmetics-screen__item button:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+
+/*
+ * STATUSMELDUNG
+ */
+
+#game-stage
+.cosmetics-screen__message {
+  min-height: 28px;
+
+  margin: 0;
+
+  text-align: center;
+  font-size: 19px;
+}
+
+
+/*
+ * PORTRAIT - 900 × 1600
+ */
+
+#game-stage[data-orientation="portrait"]
+.cosmetics-screen {
+  padding: 65px 35px;
+}
+
+
+#game-stage[data-orientation="portrait"]
+.cosmetics-screen__item {
+  width: 310px;
+}

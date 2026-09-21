@@ -68,6 +68,8 @@ export class GameSessionController {
         ...state,
 
         mode,
+        matchId:
+          crypto.randomUUID(),
 
         players:
           matchPlayers,

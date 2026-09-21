@@ -6,12 +6,20 @@ import {
   CHARACTERS,
 } from '../config/characters.js';
 
+import {
+  getCharacterSkinById,
+} from '../config/characterSkins.js';
+
+import {
+  resolveCharacterAppearance,
+} from '../config/resolveCharacterAppearance.js';
 
 export class PlayerSetupScreen {
   constructor({
     navigate,
     playerSetupController,
     gameSessionController,
+    accountStore,
   }) {
     this.navigate =
       navigate;
@@ -22,6 +30,8 @@ export class PlayerSetupScreen {
     this.gameSessionController =
       gameSessionController;
 
+    this.accountStore =
+      accountStore;
 
     this.mode =
       'virtual';
@@ -62,6 +72,100 @@ export class PlayerSetupScreen {
       null;
   }
 
+  /*
+  * =========================================================
+  * AUSGERÜSTETEN SKIN ERMITTELN
+  * =========================================================
+  */
+
+  #getEquippedSkinId(
+    characterId,
+  ) {
+    const {
+      isAuthenticated,
+      inventory,
+      equippedCosmetics,
+    } =
+      this.accountStore
+        .getState();
+
+
+    /*
+    * Ohne Account wird immer der
+    * Standardcharakter verwendet.
+    */
+
+    if (
+      !isAuthenticated
+    ) {
+      return null;
+    }
+
+
+    /*
+    * Ausrüstungsslot dieses Charakters.
+    */
+
+    const slotKey =
+      `character:${characterId}`;
+
+
+    const skinId =
+      equippedCosmetics?.[
+        slotKey
+      ] ??
+      null;
+
+
+    if (
+      !skinId
+    ) {
+      return null;
+    }
+
+
+    /*
+    * Prüfen, ob der Skin tatsächlich
+    * im geladenen Inventory enthalten ist.
+    */
+
+    const isOwned =
+      inventory.some(
+        (item) =>
+          item.cosmetic_id ===
+          skinId,
+      );
+
+
+    if (
+      !isOwned
+    ) {
+      return null;
+    }
+
+
+    /*
+    * Prüfen, ob der Skin zum
+    * ausgewählten Charakter gehört.
+    */
+
+    const skin =
+      getCharacterSkinById(
+        skinId,
+      );
+
+
+    if (
+      !skin ||
+      skin.characterId !==
+        characterId
+    ) {
+      return null;
+    }
+
+
+    return skinId;
+  }
 
   /*
    * =======================================================
@@ -312,7 +416,6 @@ export class PlayerSetupScreen {
       );
     }
 
-
     /*
      * =====================================================
      * EVENT HANDLERS
@@ -323,8 +426,7 @@ export class PlayerSetupScreen {
       this.#handleSubmit.bind(
         this,
       );
-
-
+  
     this.handleAddPlayer =
       () => {
         this.#addPlayerRow();
@@ -658,15 +760,26 @@ export class PlayerSetupScreen {
       'true';
 
 
+    const defaultAppearance =
+      resolveCharacterAppearance(
+        defaultCharacter.id,
+
+        this.#getEquippedSkinId(
+          defaultCharacter.id,
+        ),
+      );
+
+
     portrait.alt =
+      defaultAppearance?.name ??
       defaultCharacter.name;
 
 
     if (
-      defaultCharacter.portrait
+      defaultAppearance?.portrait
     ) {
       portrait.src =
-        defaultCharacter.portrait;
+        defaultAppearance.portrait;
     }
 
 
@@ -809,26 +922,44 @@ export class PlayerSetupScreen {
     }
 
 
-    const character =
-      CHARACTERS.find(
-        (entry) =>
-          entry.id ===
+    const appearance =
+      resolveCharacterAppearance(
+        select.value,
+
+        this.#getEquippedSkinId(
           select.value,
+        ),
       );
 
 
-    if (!character) {
-      portrait
-        .removeAttribute(
-          'src',
-        );
-
+    if (
+      !appearance
+    ) {
+      portrait.removeAttribute(
+        'src',
+      );
 
       portrait.alt =
         'Kein Charakter';
 
-
       return;
+    }
+
+
+    portrait.alt =
+      appearance.name;
+
+
+    if (
+      appearance.portrait
+    ) {
+      portrait.src =
+        appearance.portrait;
+    }
+    else {
+      portrait.removeAttribute(
+        'src',
+      );
     }
 
 
@@ -964,6 +1095,11 @@ export class PlayerSetupScreen {
               characterId:
                 characterSelect
                   .value,
+
+              skinId:
+                this.#getEquippedSkinId(
+                  characterSelect.value,
+                ),
             };
           },
         );

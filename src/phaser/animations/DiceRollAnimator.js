@@ -50,7 +50,7 @@ export class DiceRollAnimator {
       this.activeEvents.push(spinEvent);
 
       const stopDelay =
-        1140 + index * 100;
+        2240;
 
       const stopEvent =
         this.scene.time.delayedCall(

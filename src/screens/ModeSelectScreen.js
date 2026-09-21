@@ -6,6 +6,8 @@ import {
 export class ModeSelectScreen {
   constructor({
     navigate,
+    accountStore,
+    accountController,
   }) {
     this.navigate =
       navigate;
@@ -28,6 +30,38 @@ export class ModeSelectScreen {
       null;
 
     this.handleBack =
+      null;
+    this.accountStore =
+      accountStore;
+
+    this.accountController =
+      accountController;
+
+    this.shopButton =
+      null;
+
+    this.cosmeticsButton =
+      null;
+
+    this.accountButton =
+      null;
+
+    this.accountNameElement =
+      null;
+
+    this.coinElement =
+      null;
+
+    this.unsubscribeAccount =
+      null;
+
+    this.handleShop =
+      null;
+
+    this.handleCosmetics =
+      null;
+
+    this.handleAccount =
       null;
   }
 
@@ -115,6 +149,73 @@ export class ModeSelectScreen {
         </div>
 
 
+
+        <div
+          class="
+            mode-select__button-slot
+            mode-select__button-slot--shop
+          "
+        >
+          <button
+            type="button"
+            class="
+              mode-select__button
+              mode-select__button--shop
+            "
+            data-action="shop"
+            aria-label="Shop öffnen"
+          >
+            SHOP
+          </button>
+        </div>
+
+
+        <div
+          class="
+            mode-select__button-slot
+            mode-select__button-slot--cosmetics
+          "
+        >
+          <button
+            type="button"
+            class="
+              mode-select__button
+              mode-select__button--cosmetics
+            "
+            data-action="cosmetics"
+            aria-label="Kosmetik auswählen"
+          >
+            KOSMETIK
+          </button>
+        </div>
+
+
+        <div
+          class="mode-select__account"
+        >
+          <span
+            data-account-name
+          >
+            Nicht eingeloggt
+          </span>
+
+          <span>
+            Coins:
+            <strong
+              data-account-coins
+            >
+              0
+            </strong>
+          </span>
+
+          <button
+            type="button"
+            data-action="account"
+          >
+            LOGIN
+          </button>
+        </div>
+
         <!--
           ===================================================
           BACK
@@ -184,6 +285,34 @@ export class ModeSelectScreen {
         'Die Buttons der Modusauswahl konnten nicht initialisiert werden.',
       );
     }
+    this.shopButton =
+  rootElement.querySelector(
+    '[data-action="shop"]',
+  );
+
+
+    this.cosmeticsButton =
+      rootElement.querySelector(
+        '[data-action="cosmetics"]',
+      );
+
+
+    this.accountButton =
+      rootElement.querySelector(
+        '[data-action="account"]',
+      );
+
+
+    this.accountNameElement =
+      rootElement.querySelector(
+        '[data-account-name]',
+      );
+
+
+    this.coinElement =
+      rootElement.querySelector(
+        '[data-account-coins]',
+      );
 
 
     /*
@@ -216,6 +345,91 @@ export class ModeSelectScreen {
       };
 
 
+
+    this.handleShop =
+      () => {
+        const {
+          isAuthenticated,
+        } =
+          this.accountStore
+            .getState();
+
+
+        if (
+          !isAuthenticated
+        ) {
+          this.navigate(
+            SCREENS.AUTH,
+            {
+              returnTo:
+                SCREENS.SHOP,
+            },
+          );
+
+          return;
+        }
+
+
+        this.navigate(
+          SCREENS.SHOP,
+        );
+      };
+
+
+    this.handleCosmetics =
+      () => {
+        const {
+          isAuthenticated,
+        } =
+          this.accountStore
+            .getState();
+
+
+        if (
+          !isAuthenticated
+        ) {
+          this.navigate(
+            SCREENS.AUTH,
+            {
+              returnTo:
+                SCREENS.COSMETICS,
+            },
+          );
+
+          return;
+        }
+
+
+        this.navigate(
+          SCREENS.COSMETICS,
+        );
+      };
+
+
+    this.handleAccount =
+      async () => {
+        const {
+          isAuthenticated,
+        } =
+          this.accountStore
+            .getState();
+
+
+        if (
+          !isAuthenticated
+        ) {
+          this.navigate(
+            SCREENS.AUTH,
+          );
+
+          return;
+        }
+
+
+        await this.accountController
+          .logout();
+      };
+
     this.handleBack =
       () => {
         this.navigate(
@@ -224,11 +438,109 @@ export class ModeSelectScreen {
       };
 
 
+    const syncAccount =
+      (
+        state,
+      ) => {
+        if (
+          !this.accountNameElement ||
+          !this.coinElement ||
+          !this.accountButton
+        ) {
+          return;
+        }
+
+
+        if (
+          state.isLoading
+        ) {
+          this.accountNameElement
+            .textContent =
+            'Account wird geladen...';
+
+          return;
+        }
+
+
+        if (
+          !state.isAuthenticated
+        ) {
+          this.accountNameElement
+            .textContent =
+            'Nicht eingeloggt';
+
+          this.coinElement
+            .textContent =
+            '0';
+
+          this.accountButton
+            .textContent =
+            'LOGIN';
+
+          return;
+        }
+
+
+        this.accountNameElement
+          .textContent =
+          state.user?.email ??
+          'Account';
+
+
+        this.coinElement
+          .textContent =
+          Number(
+            state.coins ?? 0,
+          ).toLocaleString(
+            'de-DE',
+          );
+
+
+        this.accountButton
+          .textContent =
+          'LOGOUT';
+      };
+
+
+    syncAccount(
+      this.accountStore
+        .getState(),
+    );
+
+
+    this.unsubscribeAccount =
+      this.accountStore
+        .subscribe(
+          syncAccount,
+        );
+
+
     /*
      * =====================================================
      * LISTENERS
      * =====================================================
      */
+    this.shopButton
+      ?.addEventListener(
+        'click',
+        this.handleShop,
+      );
+
+
+    this.cosmeticsButton
+      ?.addEventListener(
+        'click',
+        this.handleCosmetics,
+      );
+
+
+    this.accountButton
+      ?.addEventListener(
+        'click',
+        this.handleAccount,
+      );
+
+
 
     this.virtualButton
       .addEventListener(
@@ -259,6 +571,32 @@ export class ModeSelectScreen {
    */
 
   destroy() {
+      this.shopButton
+        ?.removeEventListener(
+          'click',
+          this.handleShop,
+        );
+
+
+      this.cosmeticsButton
+        ?.removeEventListener(
+          'click',
+          this.handleCosmetics,
+        );
+
+
+      this.accountButton
+        ?.removeEventListener(
+          'click',
+          this.handleAccount,
+        );
+
+
+      this.unsubscribeAccount?.();
+
+      this.unsubscribeAccount =
+        null;
+
     this.virtualButton
       ?.removeEventListener(
         'click',
@@ -297,6 +635,30 @@ export class ModeSelectScreen {
       null;
 
     this.handleBack =
+      null;
+
+    this.shopButton =
+      null;
+
+    this.cosmeticsButton =
+      null;
+
+    this.accountButton =
+      null;
+
+    this.accountNameElement =
+      null;
+
+    this.coinElement =
+      null;
+
+    this.handleShop =
+      null;
+
+    this.handleCosmetics =
+      null;
+
+    this.handleAccount =
       null;
   }
 }
