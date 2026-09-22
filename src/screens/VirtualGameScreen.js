@@ -1323,7 +1323,7 @@ export class VirtualGameScreen {
 
 
         hotDice.textContent =
-          'HEISSE WÜRFEL';
+          'HOT DICE';
 
 
         button.append(

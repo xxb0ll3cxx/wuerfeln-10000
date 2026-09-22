@@ -301,7 +301,7 @@ export class AuthScreen {
         !result.session
       ) {
         this.#showMessage(
-          'Account erstellt. Bitte bestätige gegebenenfalls deine E-Mail.',
+          'Account erstellt. Bitte bestätige deine E-Mail.',
         );
 
         return;

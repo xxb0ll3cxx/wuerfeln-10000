@@ -57,11 +57,11 @@ export class CoinRulesPanel {
 
           <p>
             Die Höhe der Goldmünzen hängt davon ab, wie viele Punkte gesichert werden.
-            Dabei gilt: Mehr Punkt, mehr Gold.
-            Bei >1000 Punkte: (Pkt*1)/10 = Anzahl der Münzen
-            Ab 2000 Punkte: (Pkt*2)/10 = Anzahl der Münzen
-            Ab 3000 Punkte: (Pkt*3)/10 = Anzahl der Münzen usw.
-          </p>
+            Dabei gilt: Mehr Punkte, mehr Gold. 
+            </p>
+            <p> Bei >1000 Punkte: (Pkt*1)/10 = Anzahl der Münzen </p>
+            <p> Ab 2000 Punkte: (Pkt*2)/10 = Anzahl der Münzen </p>
+            <p>Ab 3000 Punkte: (Pkt*3)/10 = Anzahl der Münzen usw. </p>
 
           <h3>Wofür kann ich Goldmünzen verwenden?</h3>
 
