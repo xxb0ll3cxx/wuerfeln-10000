@@ -352,6 +352,11 @@ new URL(
 '../assets/characters/Bumsi/skins/jersey/freude/bumsi_jersey_freude5.png',
 import.meta.url,
 ).href;
+const bumsiJerseyFreude06 =
+new URL(
+'../assets/characters/Bumsi/skins/jersey/freude/bumsi_jersey_freude6.png',
+import.meta.url,
+).href;
 
 
 const djJerseyPortrait =
@@ -411,7 +416,16 @@ new URL(
 '../assets/characters/DJ_PengPear/skins/jersey/freude/dj_jersey_freude4.png',
 import.meta.url,
 ).href;
-
+const djJerseyFreude05 =
+new URL(
+'../assets/characters/DJ_PengPear/skins/jersey/freude/dj_jersey_freude5.png',
+import.meta.url,
+).href;
+const djJerseyFreude06 =
+new URL(
+'../assets/characters/DJ_PengPear/skins/jersey/freude/dj_jersey_freude6.png',
+import.meta.url,
+).href;
 
 const zeckeJerseyPortrait =
 new URL(
@@ -597,17 +611,17 @@ export const CHARACTER_SKINS =
             success:{
                 frames:
                   Object.freeze([
-                    djJerseyFreude01,
                     djJerseyFreude02,
                     djJerseyFreude03,
                     djJerseyFreude04,
-                    djJerseyFreude04,
-                    djJerseyIdle01
+                    djJerseyFreude05,
+                    djJerseyFreude06,
+                    djJerseyFreude06
                   
                   ]),
 
                 frameDurationMs:
-                  150,
+                  180,
             }
           })
       }),
@@ -665,12 +679,13 @@ export const CHARACTER_SKINS =
                     bumsiJerseyFreude02,
                     bumsiJerseyFreude03,
                     bumsiJerseyFreude04,
-                    bumsiJerseyFreude05
+                    bumsiJerseyFreude05,
+                    bumsiJerseyFreude06
                   
                   ]),
 
                 frameDurationMs:
-                  150,
+                  180,
             }
           })
       }),
