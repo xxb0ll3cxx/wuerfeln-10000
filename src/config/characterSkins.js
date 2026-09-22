@@ -139,6 +139,18 @@ new URL(
 import.meta.url,
 ).href;
 
+const damppfiJerseySuccess05 =
+new URL(
+'../assets/characters/Dampflock/skins/jersey/freude/dampfi_jersey_freude5.png',
+import.meta.url,
+).href;
+
+const damppfiJerseySuccess06 =
+new URL(
+'../assets/characters/Dampflock/skins/jersey/freude/dampfi_jersey_freude6.png',
+import.meta.url,
+).href;
+
 const damppfiJerseyPortrait =
 new URL(
 '../assets/characters/Dampflock/skins/jersey/dampfi_jersey_portrait.png',
@@ -521,13 +533,17 @@ export const CHARACTER_SKINS =
                   Object.freeze([
                     damppfiJerseySuccess01,
                     damppfiJerseySuccess02,
-                    damppfiJerseySuccess03,
                     damppfiJerseySuccess04,
+                    damppfiJerseySuccess05,
+                    damppfiJerseySuccess06,
+                    damppfiJerseySuccess05,
+                    damppfiJerseySuccess06,
+                    damppfiJerseySuccess05,
                     damppfiJerseyIdle01
                   ]),
 
                 frameDurationMs:
-                  150,
+                  180,
             }
           })
       }),
