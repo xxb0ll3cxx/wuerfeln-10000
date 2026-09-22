@@ -957,10 +957,10 @@ export const CHARACTERS =
             200,
 
           minDelayMs:
-            500,
+            200,
 
           maxDelayMs:
-            5000,
+            200,
         },
 
         success: {
