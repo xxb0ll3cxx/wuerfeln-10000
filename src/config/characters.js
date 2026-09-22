@@ -595,11 +595,6 @@ const zeckeIdle2 =
 
 export const CHARACTERS =
   Object.freeze([
-    /*
-     * =====================================================
-     * Ghost
-     * =====================================================
-     */
 
     createCharacter({
       id:

@@ -1429,30 +1429,67 @@ input {
  * BACK BUTTON
  * =========================================================
  */
-
+#game-stage[data-orientation="landscape"]
 .mode-select__button--back {
+  width: 260px;
+  height: 88px;
   background-image:
     url(
       '../assets/ui/buttons/Button_Zurück.webp'
     );
+    transform:     
+    translateY(55px)
+;
 }
 
-
+#game-stage[data-orientation="landscape"]
 .mode-select__button--back:hover {
   transform:
+    translateY(55px)
     scale(
       1.025
     );
 }
 
-
+#game-stage[data-orientation="landscape"]
 .mode-select__button--back:active {
   transform:
+    translateY(55px)
     scale(
       0.975
     );
 }
 
+
+#game-stage[data-orientation="portrait"]
+.mode-select__button--back {
+  width: 260px;
+  height: 88px;
+  background-image:
+    url(
+      '../assets/ui/buttons/Button_Zurück.webp'
+    );
+    transform:     
+    translateY(135px);
+}
+
+#game-stage[data-orientation="portrait"]
+.mode-select__button--back:hover {
+  transform:
+    translateY(135px)
+    scale(
+      1.025
+    );
+}
+
+#game-stage[data-orientation="portrait"]
+.mode-select__button--back:active {
+  transform:
+    translateY(135px)
+    scale(
+      0.975
+    );
+}
 
 /*
  * =========================================================

@@ -349,9 +349,7 @@ export class CosmeticsScreen {
           : 'cosmetics-screen__equip';
 
       button.disabled =
-        isEquipped ||
         this.isBusy;
-
 
       button.textContent =
         isEquipped
@@ -359,18 +357,20 @@ export class CosmeticsScreen {
           : '';
 
 
-      if (
-        !isEquipped
-      ) {
-        button.addEventListener(
-          'click',
-          () => {
+      button.addEventListener(
+        'click',
+        () => {
+          if (isEquipped) {
+            void this.#unequipSkin(
+              skin,
+            );
+          } else {
             void this.#equipSkin(
               skin,
             );
-          },
-        );
-      }
+          }
+        },
+      );
 
 
       card.append(
@@ -550,6 +550,127 @@ export class CosmeticsScreen {
       this.#renderInventory();
     }
   }
+
+  /*
+ * =========================================================
+ * SKIN ABLEGEN
+ * =========================================================
+ */
+
+async #unequipSkin(
+  skin,
+) {
+  if (
+    this.isBusy ||
+    this.isDestroyed
+  ) {
+    return;
+  }
+
+  const accountState =
+    this.accountStore.getState();
+
+  const accountId =
+    accountState.user?.id;
+
+  const slotKey =
+    `character:${skin.characterId}`;
+
+  /*
+   * Nur den aktuell ausgerüsteten Skin
+   * des angemeldeten Accounts ablegen.
+   */
+
+  if (
+    !accountState.isAuthenticated ||
+    !accountId ||
+    accountState.equippedCosmetics?.[slotKey] !==
+      skin.id
+  ) {
+    this.#showMessage(
+      'Dieser Skin ist nicht ausgerüstet.',
+    );
+
+    return;
+  }
+
+  this.isBusy =
+    true;
+
+  this.#showMessage(
+    'Skin wird abgelegt ...',
+  );
+
+  this.#renderInventory();
+
+  try {
+    /*
+     * Zuerst die Ausrüstung in
+     * Supabase entfernen.
+     */
+
+    await this.cosmeticsService
+      .unequipCharacterSkin(
+        skin.id,
+        slotKey,
+      );
+
+    /*
+     * Prüfen, ob noch derselbe
+     * Account angemeldet ist.
+     */
+
+    const currentState =
+      this.accountStore.getState();
+
+    if (
+      !currentState.isAuthenticated ||
+      currentState.user?.id !==
+        accountId
+    ) {
+      return;
+    }
+
+    /*
+     * Nur diesen einen Ausrüstungsslot
+     * aus dem lokalen Zustand entfernen.
+     */
+
+    const updatedEquipment = {
+      ...currentState.equippedCosmetics,
+    };
+
+    delete updatedEquipment[slotKey];
+
+    this.accountStore
+      .setEquippedCosmetics(
+        updatedEquipment,
+      );
+
+    this.#showMessage(
+      `"${skin.name}" wurde abgelegt. Der Standard-Skin ist wieder aktiv.`,
+    );
+  }
+  catch (
+    error
+  ) {
+    console.error(
+      'Skin konnte nicht abgelegt werden:',
+      error,
+    );
+
+    this.#showMessage(
+      error.message ??
+      'Der Skin konnte nicht abgelegt werden.',
+    );
+  }
+  finally {
+    this.isBusy =
+      false;
+
+    this.#renderInventory();
+  }
+}
 
 
   /*

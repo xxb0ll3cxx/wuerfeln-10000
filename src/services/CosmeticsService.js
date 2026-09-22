@@ -22,4 +22,26 @@ export class CosmeticsService {
       throw error;
     }
   }
+
+  async unequipCharacterSkin(
+  cosmeticId,
+  slotKey,
+) {
+  const {
+    error,
+  } = await supabase.rpc(
+    'unequip_character_skin',
+    {
+      p_cosmetic_id:
+        cosmeticId,
+
+      p_slot_key:
+        slotKey,
+    },
+  );
+
+  if (error) {
+    throw error;
+  }
+}
 }

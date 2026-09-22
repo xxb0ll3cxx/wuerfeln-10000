@@ -2619,6 +2619,22 @@ select {
     none;
 }
 
+#game-stage
+.cosmetics-screen,
+#game-stage
+.cosmetics-screen__inventory {
+  scrollbar-width:
+    none;
+}
+
+#game-stage
+.shop-screen,
+#game-stage
+.shop-screen__catalog {
+  scrollbar-width:
+    none;
+}
+
 
 /* ältere Edge / IE */
 #game-stage
@@ -3136,105 +3152,7 @@ button {
  * =========================================================
  */
 
-#game-stage .mode-select-screen {
-  /*
-   * Später "none" durch url(...) ersetzen.
-   * Die Bildpfade beziehen sich auf viewport.css.
-   */
 
-  --mode-shop-button-image: url('../assets/ui/buttons/Button_Shop.webp');
-  --mode-cosmetics-button-image: url('../assets/ui/buttons/Button_Inventory.webp');
-}
-
-#game-stage
-.mode-select-screen
-.mode-select__button--shop,
-
-#game-stage
-.mode-select-screen
-.mode-select__button--cosmetics {
-  box-sizing: border-box;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  height: 100%;
-
-  padding: 0;
-
-  border: 0;
-  border-radius: 0;
-
-  background-color: transparent;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% 100%;
-
-  color: #fff4d6;
-  font-size: 23px;
-  font-weight: 800;
-
-
-
-  cursor: pointer;
-}
-
-#game-stage
-.mode-select-screen
-.mode-select__button--shop {
-  transform: translate(0px,8px);
-  background-image:
-    var(--mode-shop-button-image);
-}
-
-#game-stage
-.mode-select-screen
-.mode-select__button--cosmetics {
-  transform: translate(0px,8px);
-  background-image:
-    var(--mode-cosmetics-button-image);
-}
-
-#game-stage
-.mode-select-screen
-.mode-select__button--shop:hover{
-  transform:
-    translate(0px,8px)
-    scale(1.025);
-}
-
-#game-stage
-.mode-select-screen
-.mode-select__button--cosmetics:hover {
-  transform:
-    translate(0px,8px)
-    scale(
-      1.025
-    );
-}
-
-#game-stage
-.mode-select-screen
-.mode-select__button--shop:active{
-  transform:
-    translate(0px,8px)
-    scale(
-      0.975
-    );
-}
-
-#game-stage
-.mode-select-screen
-.mode-select__button--cosmetics:active {
-  
-  transform:
-    translate(0px,8px)
-    scale(
-      0.975
-    );
-}
 
 /*
  * =========================================================
@@ -3293,11 +3211,17 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  color: #f0b639;
+    text-shadow:
+    6px 6px 6px
+    rgba(
+      0,
+      0,
+      0,
+      0.75
+    );
   gap: 15px;
-
   width: 100%;
-
   text-align: center;
 }
 
@@ -3346,14 +3270,10 @@ button {
   margin: 0;
   padding: 10px 25px;
 
-  background-color: transparent;
-  background-image:
-    var(--shop-coins-image);
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
 
-  color: #fff4d6;
   font-size: 28px;
 }
 
@@ -3363,6 +3283,290 @@ button {
 }
 
 
+/*
+ * =========================================================
+ * MODE SELECT – SHOP & KOSMETIK
+ * =========================================================
+ *
+ * LANDSCAPE:
+ * Beide Buttons unten rechts nebeneinander.
+ *
+ * PORTRAIT:
+ * Beide Buttons unten rechts untereinander.
+ *
+ * Slot = Position und Größe.
+ * Button = sichtbares Asset und vollständige Hitbox.
+ */
+
+
+/*
+ * =========================================================
+ * GRUNDEINSTELLUNGEN
+ * =========================================================
+ */
+
+#game-stage .mode-select-screen {
+  position: relative;
+
+  --mode-shop-button-image:
+    url('../assets/ui/buttons/Button_Shop.webp');
+
+  --mode-cosmetics-button-image:
+    url('../assets/ui/buttons/Button_Inventory.webp');
+
+  /* Gemeinsame Button-Größe */
+  --mode-action-width: 260px;
+  --mode-action-height: 88px;
+
+  /* Abstände */
+  --mode-action-gap: 20px;
+  --mode-action-right: 340px;
+  --mode-action-bottom: 265px;
+}
+
+
+/*
+ * =========================================================
+ * BEIDE BUTTON-SLOTS
+ * =========================================================
+ */
+
+#game-stage
+.mode-select-screen
+.mode-select__button-slot--shop,
+
+#game-stage
+.mode-select-screen
+.mode-select__button-slot--cosmetics {
+  position: absolute;
+
+  box-sizing: border-box;
+
+  width: var(--mode-action-width);
+  height: var(--mode-action-height);
+
+  margin: 0;
+  padding: 0;
+
+  z-index: 30;
+
+  pointer-events: none;
+}
+
+
+/*
+ * =========================================================
+ * BEIDE BUTTONS – VOLLSTÄNDIGE HITBOX
+ * =========================================================
+ */
+
+#game-stage
+.mode-select-screen
+button.mode-select__button--shop,
+
+#game-stage
+.mode-select-screen
+button.mode-select__button--cosmetics {
+  box-sizing: border-box;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  min-width: 0;
+  min-height: 0;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+  border-radius: 0;
+
+  background-color: transparent;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+
+  color: transparent;
+
+  cursor: pointer;
+  pointer-events: auto;
+
+  /*
+   * Keine Verschiebung:
+   * Die Hitbox liegt genau über dem Button-Bild.
+   */
+  transform: none;
+}
+
+
+/*
+ * =========================================================
+ * BUTTON-ASSETS
+ * =========================================================
+ */
+
+/* SHOP */
+
+#game-stage
+.mode-select-screen
+button.mode-select__button--shop {
+  background-image:
+    var(--mode-shop-button-image);
+}
+
+
+/* KOSMETIK */
+
+#game-stage
+.mode-select-screen
+button.mode-select__button--cosmetics {
+  background-image:
+    var(--mode-cosmetics-button-image);
+}
+
+
+/*
+ * =========================================================
+ * HOVER / AKTIV
+ * =========================================================
+ *
+ * Helligkeit statt Skalierung:
+ * Die Hitbox verändert sich dadurch nicht.
+ */
+
+#game-stage
+.mode-select-screen
+button.mode-select__button--shop:hover,
+
+#game-stage
+.mode-select-screen
+button.mode-select__button--cosmetics:hover {
+  transform: scale(1.025);
+}
+
+
+#game-stage
+.mode-select-screen
+button.mode-select__button--shop:active,
+
+#game-stage
+.mode-select-screen
+button.mode-select__button--cosmetics:active {
+  transform: scale(0.975);
+}
+
+
+/*
+ * Tastatur-Fokus
+ */
+
+#game-stage
+.mode-select-screen
+button.mode-select__button--shop:focus-visible,
+
+#game-stage
+.mode-select-screen
+button.mode-select__button--cosmetics:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+}
+
+
+/*
+ * =========================================================
+ * LANDSCAPE – 1600 × 900
+ * =========================================================
+ *
+ * Unten rechts nebeneinander:
+ *
+ * [ SHOP ]  [ KOSMETIK ]
+ */
+
+
+/* KOSMETIK – ganz rechts */
+
+#game-stage[data-orientation="landscape"]
+.mode-select-screen
+.mode-select__button-slot--cosmetics {
+  right: var(--mode-action-right);
+  bottom: var(--mode-action-bottom);
+
+  left: auto;
+  top: auto;
+}
+
+
+/* SHOP – links neben Kosmetik */
+
+#game-stage[data-orientation="landscape"]
+.mode-select-screen
+.mode-select__button-slot--shop {
+  right: calc(
+    var(--mode-action-right)
+    + var(--mode-action-width)
+    + var(--mode-action-gap)
+  );
+
+  bottom: var(--mode-action-bottom);
+
+  left: auto;
+  top: auto;
+}
+
+
+/*
+ * =========================================================
+ * PORTRAIT – 900 × 1600
+ * =========================================================
+ *
+ * Unten rechts untereinander:
+ *
+ * [   SHOP   ]
+ * [ KOSMETIK ]
+ */
+
+#game-stage[data-orientation="portrait"]
+.mode-select-screen {
+  --mode-action-width: 290px;
+  --mode-action-height: 100px;
+
+  --mode-action-gap: 20px;
+  --mode-action-right: 140px;
+  --mode-action-bottom: 245px;
+}
+
+
+/* KOSMETIK – unten rechts */
+
+#game-stage[data-orientation="portrait"]
+.mode-select-screen
+.mode-select__button-slot--cosmetics {
+  right: var(--mode-action-right);
+  bottom: var(--mode-action-bottom);
+
+  left: auto;
+  top: auto;
+}
+
+
+/* SHOP – direkt oberhalb von Kosmetik */
+
+#game-stage[data-orientation="portrait"]
+.mode-select-screen
+.mode-select__button-slot--shop {
+  right: var(--mode-action-right);
+
+  bottom: calc(
+    var(--mode-action-bottom)
+    + var(--mode-action-height)
+    + var(--mode-action-gap)
+  );
+
+  left: auto;
+  top: auto;
+}
 /*
  * =========================================================
  * SHOP – PRODUKTÜBERSICHT
@@ -3431,13 +3635,22 @@ button {
   height: 170px;
 
   object-fit: contain;
-  transform: translateY(40px);
+  transform: translateY(20px);
 }
 
 #game-stage .shop-screen__product h2 {
   margin: 0;
-
-  font-size: 25px;
+  color: #eca438;
+  text-shadow:
+    6px 6px 6px
+    rgba(
+      0,
+      0,
+      0,
+      0.75
+    );
+  transform: translateY(10px);
+  font-size: 32px;
 }
 
 
@@ -3554,7 +3767,6 @@ button.shop-screen__buy--owned {
 
   width: 250px;
   min-height: 76px;
-
   padding: 10px 20px;
 
   border: 0;
@@ -3653,8 +3865,8 @@ button.shop-screen__buy--owned {
   --cosmetics-headline-image: url('../assets/ui/buttons/Button_Inventory.webp');
   --cosmetics-card-image: url('../assets/ui/panels/ShopTile.webp');
   --cosmetics-equip-image: url('../assets/ui/buttons/Button_ausruesten.webp');;
-  --cosmetics-equipped-image: url('../assets/ui/buttons/Button_ausgeruestet.webp');;
-  --cosmetics-back-image: url('../assets/ui/buttons/Button_Zurück.webp');;
+--cosmetics-unequip-image: url('../assets/ui/buttons/Button_ablegen.webp');
+    --cosmetics-back-image: url('../assets/ui/buttons/Button_Zurück.webp');;
 
   box-sizing: border-box;
 
@@ -3689,7 +3901,7 @@ button.shop-screen__buy--owned {
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  color: transparent;
   gap: 15px;
 
   width: 100%;
@@ -3739,6 +3951,7 @@ button.shop-screen__buy--owned {
   flex-wrap: wrap;
   justify-content: center;
   align-content: flex-start;
+  
 
   gap: 25px;
 
@@ -3766,6 +3979,7 @@ button.shop-screen__buy--owned {
   display: flex;
   flex-direction: column;
   align-items: center;
+  
 
   gap: 12px;
 
@@ -3777,7 +3991,7 @@ button.shop-screen__buy--owned {
   border: 0;
   border-radius: 0;
 
-  background-color: transparent;
+  background-color:transparent;
   background-image:
     var(--cosmetics-card-image);
   background-position: center;
@@ -3798,8 +4012,17 @@ button.shop-screen__buy--owned {
 
 #game-stage .cosmetics-screen__item h2 {
   margin: 0;
-  font-size: 25px;
+  font-size: 32px;
   transform: translate(0px, 30px);
+  color: #eca438;
+  text-shadow:
+    6px 6px 6px
+    rgba(
+      0,
+      0,
+      0,
+      0.75
+    );
 }
 
 
@@ -3860,17 +4083,9 @@ button.cosmetics-screen__equip--equipped {
   background-color: transparent;
 
   background-image:
-    var(--cosmetics-equipped-image);
+    var(--cosmetics-unequip-image);
 
-  cursor: default;
-}
-
-#game-stage
-.cosmetics-screen
-.cosmetics-screen__item
-button.cosmetics-screen__equip--equipped:disabled {
-  opacity: 1;
-  cursor: default;
+  cursor: pointer;
 }
 
 
@@ -3946,6 +4161,7 @@ button.cosmetics-screen__back {
 .cosmetics-screen__header h1 {
   width: 520px;
   height: 150px;
+  
 }
 
 #game-stage[data-orientation="portrait"]
@@ -4813,5 +5029,115 @@ button[data-action="account"]:active {
 .mode-select-screen
 .mode-select__coin-display
 [data-account-coins] {
+  font-size: 30px;
+}
+/*
+ * =========================================================
+ * SHOP – COIN-ANZEIGE OBEN RECHTS
+ * =========================================================
+ */
+
+/* Bezugspunkt für die absolute Positionierung */
+
+#game-stage
+.shop-screen {
+  position: relative;
+}
+
+
+/* Icon und Zahl */
+
+#game-stage
+.shop-screen
+.shop-screen__coin-display {
+  box-sizing: border-box;
+
+  position: absolute;
+
+  top: 30px;
+  right: 35px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  min-width: 180px;
+  min-height: 70px;
+
+  padding: 0;
+
+  color: #fff4d6;
+
+  z-index: 40;
+
+  pointer-events: none;
+}
+
+
+/* Coin-Icon */
+
+#game-stage
+.shop-screen
+.shop-screen__coin-icon {
+  display: block;
+
+  flex: 0 0 70px;
+
+  width: 70px;
+  height: 70px;
+
+  background-image:
+    url('../assets/ui/icons/coins.webp');
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+
+/* Aktueller Coinstand */
+
+#game-stage
+.shop-screen
+.shop-screen__coin-display
+[data-shop-coins] {
+  color: #fff4d6;
+
+  font-size: 34px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+
+  white-space: nowrap;
+}
+
+
+/*
+ * PORTRAIT – 900 × 1600
+ */
+
+#game-stage[data-orientation="portrait"]
+.shop-screen
+.shop-screen__coin-display {
+  top: 30px;
+  right: 35px;
+
+  gap: 7px;
+}
+
+#game-stage[data-orientation="portrait"]
+.shop-screen
+.shop-screen__coin-icon {
+  flex-basis: 50px;
+
+  width: 50px;
+  height: 50px;
+}
+
+#game-stage[data-orientation="portrait"]
+.shop-screen
+.shop-screen__coin-display
+[data-shop-coins] {
   font-size: 30px;
 }

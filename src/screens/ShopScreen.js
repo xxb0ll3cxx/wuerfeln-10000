@@ -35,6 +35,8 @@ export class ShopScreen {
     this.coinElement =
       null;
 
+    this.unsubscribeAccount =
+      null;
 
     this.messageElement =
       null;
@@ -74,15 +76,22 @@ export class ShopScreen {
     rootElement.innerHTML = `
       <main class="screen shop-screen">
         <header class="shop-screen__header">
-          <h1></h1>
+            <h1></h1>
+          </header>
 
-          <p>
-            Coins:
-            <strong>
+          <div
+            class="shop-screen__coin-display"
+            aria-label="Aktueller Coinstand"
+          >
+            <span
+              class="shop-screen__coin-icon"
+              aria-hidden="true"
+            ></span>
+
+            <strong data-shop-coins>
               ${Number(coins ?? 0).toLocaleString('de-DE')}
             </strong>
-          </p>
-        </header>
+          </div>
 
         <section
           class="shop-screen__catalog"
@@ -117,6 +126,29 @@ export class ShopScreen {
     this.coinElement =
       rootElement.querySelector(
         '[data-shop-coins]',
+      );
+
+    const updateCoinDisplay = (state) => {
+      if (!this.coinElement) {
+        return;
+      }
+
+      const currentCoins =
+        state.isAuthenticated
+          ? Number(state.coins ?? 0)
+          : 0;
+
+      this.coinElement.textContent =
+        currentCoins.toLocaleString('de-DE');
+    };
+
+    updateCoinDisplay(
+      this.accountStore.getState(),
+    );
+
+    this.unsubscribeAccount =
+      this.accountStore.subscribe(
+        updateCoinDisplay,
       );
 
 
@@ -607,6 +639,11 @@ export class ShopScreen {
   destroy() {
     this.isDestroyed =
       true;
+    
+    this.unsubscribeAccount?.();
+
+    this.unsubscribeAccount =
+      null;
 
 
     this.backButton
