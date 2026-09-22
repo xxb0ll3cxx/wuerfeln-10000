@@ -18,7 +18,7 @@ import {
 } from './services/AudioService.js';
 import {
   AuthService,
-} from './services/AuthService.js';
+} from './services/authService.js';
 
 import {
   AccountStore,
