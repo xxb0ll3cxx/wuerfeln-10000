@@ -199,21 +199,24 @@ export class ModeSelectScreen {
             Nicht eingeloggt
           </span>
 
-          <span class="mode-select__coins">
-            Coins:
-            <strong
-              data-account-coins
-            >
-              0
-            </strong>
-          </span>
-
           <button
             type="button"
             data-action="account"
           >
             
           </button>
+        </div>
+
+        <div
+          class="mode-select__coin-display"
+          aria-label="Aktueller Coinstand"
+        >
+          <span
+            class="mode-select__coin-icon"
+            aria-hidden="true"
+          ></span>
+
+          <strong data-account-coins>0</strong>
         </div>
 
         <!--

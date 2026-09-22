@@ -4383,7 +4383,6 @@ button.auth-screen__button--back {
 
   --account-panel-image: url('../assets/ui/panels/acc_view.png');
   --account-name-image: none;
-  --account-coins-image: none; /* es gibt bereits ein Coin-Icon, aber ich muss das noch irgendwie einbinden */
   --account-login-image: url('../assets/ui/buttons/Button_Login.webp');
   --account-logout-image: url('../assets/ui/buttons/Button_Logout.webp');
 }
@@ -4464,50 +4463,6 @@ button.auth-screen__button--back {
   overflow-wrap: anywhere;
 }
 
-
-/*
- * =========================================================
- * COIN-ANZEIGE
- * =========================================================
- */
-
-#game-stage
-.mode-select-screen
-.mode-select__account
-.mode-select__coins {
-  box-sizing: border-box;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 8px;
-
-  width: 100%;
-  min-height: 60px;
-
-  padding: 8px 12px;
-
-  background-color: transparent;
-  background-image:
-    var(--account-coins-image);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% 100%;
-
-  color: #fff4d6;
-  font-size: 20px;
-  font-weight: 700;
-}
-
-#game-stage
-.mode-select-screen
-.mode-select__account
-[data-account-coins] {
-  font-size: 23px;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
-}
 
 
 /*
@@ -4626,7 +4581,6 @@ button[data-action="account"]:active {
   --virtual-coin-icon-image: url('../assets/ui/icons/coins.webp');
 }
 
-
 /*
  * Coin-Anzeige im rechten Header-Bereich
  */
@@ -4731,5 +4685,133 @@ button[data-action="account"]:active {
 .game-screen
 .game-header__coins
 [data-virtual-coins] {
+  font-size: 30px;
+}
+
+/*
+ * =========================================================
+ * MODE SELECT – COINS OBEN LINKS
+ * =========================================================
+ */
+
+#game-stage
+.mode-select-screen {
+  /*
+   * Hier den tatsächlichen Pfad
+   * zu deinem Coin-Icon eintragen.
+   */
+  --mode-select-coin-icon-image: url('../assets/ui/icons/coins.webp');
+}
+
+
+/*
+ * Coin-Anzeige
+ */
+
+#game-stage
+.mode-select-screen
+.mode-select__coin-display {
+  box-sizing: border-box;
+
+  position: absolute;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  min-width: 140px;
+  min-height: 48px;
+
+  padding: 4px 8px;
+
+
+  z-index: 40;
+
+  pointer-events: none;
+}
+
+
+/*
+ * Coin-Icon
+ */
+
+#game-stage
+.mode-select-screen
+.mode-select__coin-icon {
+  display: block;
+
+  flex: 0 0 70px;
+
+  width: 70px;
+  height: 70px;
+
+
+  background-image:
+    var(--mode-select-coin-icon-image);
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  border-radius: 50%;
+}
+
+
+/*
+ * Coin-Anzahl
+ */
+
+#game-stage
+.mode-select-screen
+.mode-select__coin-display
+[data-account-coins] {
+
+  font-size: 30px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+
+  white-space: nowrap;
+}
+
+
+/*
+ * LANDSCAPE – 1600 × 900
+ */
+
+#game-stage[data-orientation="landscape"]
+.mode-select-screen
+.mode-select__coin-display {
+  top: 30px;
+  left: 35px;
+}
+
+
+/*
+ * PORTRAIT – 900 × 1600
+ */
+
+#game-stage[data-orientation="portrait"]
+.mode-select-screen
+.mode-select__coin-display {
+  top: 30px;
+  left: 35px;
+
+  gap: 8px;
+}
+
+#game-stage[data-orientation="portrait"]
+.mode-select-screen
+.mode-select__coin-icon {
+  flex-basis: 70px;
+
+  width: 70px;
+  height: 70px;
+}
+
+#game-stage[data-orientation="portrait"]
+.mode-select-screen
+.mode-select__coin-display
+[data-account-coins] {
   font-size: 30px;
 }
