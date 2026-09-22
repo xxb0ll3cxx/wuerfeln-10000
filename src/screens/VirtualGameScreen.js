@@ -30,6 +30,10 @@ import {
   calculateCoinReward,
 } from '../core/coins/calculateCoinReward.js';
 
+import {
+  CoinRulesPanel,
+} from '../ui/CoinRulesPanel.js';
+
 
 export class VirtualGameScreen {
   constructor({
@@ -62,7 +66,6 @@ export class VirtualGameScreen {
     this.probabilityCalculator =
       probabilityCalculator;
 
-
     /*
      * =====================================================
      * VISUAL COMPONENTS
@@ -73,6 +76,9 @@ export class VirtualGameScreen {
       null;
 
     this.probabilityPanel =
+      null;
+
+    this.coinRulesPanel =
       null;
 
     this.game =
@@ -766,7 +772,6 @@ export class VirtualGameScreen {
       new ProbabilityPanel({
         calculator:
           this.probabilityCalculator,
-
         getSuggestedDiceCount:
           () =>
             this.gameSessionController
@@ -777,6 +782,13 @@ export class VirtualGameScreen {
 
 
     this.probabilityPanel.mount(
+      rootElement,
+    );
+
+    this.coinRulesPanel =
+      new CoinRulesPanel();
+
+    this.coinRulesPanel.mount(
       rootElement,
     );
   }
@@ -2303,6 +2315,9 @@ export class VirtualGameScreen {
     this.probabilityPanel =
       null;
 
+    this.coinRulesPanel?.destroy();
+
+    this.coinRulesPanel = null;
 
     this.activeCharacterView
       ?.destroy();

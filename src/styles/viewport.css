@@ -2618,6 +2618,14 @@ select {
   scrollbar-width:
     none;
 }
+#game-stage .coin-rules-panel__content {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+}
+
+#game-stage .coin-rules-panel__content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
 
 #game-stage
 .cosmetics-screen,
@@ -5140,4 +5148,340 @@ button[data-action="account"]:active {
 .shop-screen__coin-display
 [data-shop-coins] {
   font-size: 30px;
+}
+
+/*
+ * =========================================================
+ * COIN-REGELN – SEITLICHES FENSTER
+ * =========================================================
+ *
+ * Das Fenster öffnet sich links.
+ * Der Wahrscheinlichkeitsrechner bleibt rechts.
+ */
+
+
+/*
+ * WIDGET-EBENE
+ */
+
+#game-stage .coin-rules-widget {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 1002;
+
+  pointer-events: none;
+}
+
+
+/*
+ * ÖFFNEN-BUTTON
+ */
+
+#game-stage .coin-rules-trigger {
+  box-sizing: border-box;
+
+  position: absolute;
+
+  left: 24px;
+  bottom: 24px;
+
+  width: 190px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 8px 14px;
+
+  border: 2px solid #dba85a;
+  border-radius: 10px;
+
+  background: #603a20;
+
+  color: #fff4d6;
+
+  font-size: 21px;
+  font-weight: 800;
+
+  cursor: pointer;
+  pointer-events: auto;
+
+  z-index: 2;
+}
+
+#game-stage .coin-rules-trigger:hover {
+  filter: brightness(1.12);
+}
+
+#game-stage .coin-rules-trigger:active {
+  filter: brightness(0.9);
+}
+
+
+/*
+ * SEITENFENSTER – GESCHLOSSEN
+ */
+
+#game-stage .coin-rules-trigger {
+  box-sizing: border-box;
+
+  position: absolute;
+
+  left: 24px;
+  bottom: 24px;
+
+  width: 190px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 0;
+
+  background-color: transparent;
+
+  background-image:
+    var(--coin-rules-button-image);
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+
+  /*
+   * Der Button-Text steht bereits auf dem Asset.
+   * Er bleibt für die Bedienbarkeit im HTML erhalten.
+   */
+  color: transparent;
+
+  font-size: 21px;
+  font-weight: 800;
+
+  cursor: pointer;
+  pointer-events: auto;
+
+  z-index: 2;
+}
+
+
+#game-stage .coin-rules-panel {
+  box-sizing: border-box;
+
+  position: absolute;
+
+  left: 24px;
+  bottom: 95px;
+
+  width: 430px;
+  max-height: calc(100% - 180px);
+
+  display: flex;
+  flex-direction: column;
+
+  /*
+   * Hier kannst du den gesamten Inhalt
+   * vom Rand des Hintergrund-Assets abrücken.
+   */
+  padding:
+    var(--coin-rules-padding-top)
+    var(--coin-rules-padding-right)
+    var(--coin-rules-padding-bottom)
+    var(--coin-rules-padding-left);
+
+  /*
+   * Der Rahmen ist bereits im Hintergrundbild enthalten.
+   */
+  border: 0;
+  border-radius: 0;
+
+  background-color: transparent;
+
+  background-image:
+    var(--coin-rules-panel-image);
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+
+  color: #070707;
+
+  box-shadow: none;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transform: translateX(calc(-100% - 40px));
+
+  pointer-events: none;
+
+  transition:
+    transform 220ms ease,
+    opacity 220ms ease,
+    visibility 220ms ease;
+
+  z-index: 1;
+}
+/*
+ * SEITENFENSTER – GEÖFFNET
+ */
+
+#game-stage .coin-rules-panel--open {
+  opacity: 1;
+  visibility: visible;
+
+  transform: translateX(0);
+
+  pointer-events: auto;
+}
+
+
+/*
+ * HEADER
+ */
+
+#game-stage .coin-rules-panel__header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-bottom: 20px;
+}
+
+#game-stage .coin-rules-panel__header h2 {
+  margin: 0;
+
+  color: #161208;
+  text-shadow:
+    6px 6px 6px
+    rgba(
+      0,
+      0,
+      0,
+      0.75
+    );
+
+  font-size: 32px;
+}
+
+
+/*
+ * SCHLIESSEN-BUTTON
+ */
+
+#game-stage .coin-rules-panel__close {
+  flex: 0 0 44px;
+
+  width: 44px;
+  height: 44px;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: transparent;
+
+  font-size: 32px;
+
+  cursor: pointer;
+}
+
+
+/*
+ * REGELTEXT
+ */
+
+#game-stage .coin-rules-panel__content {
+  min-height: 0;
+
+  overflow-y: auto;
+
+  padding-right: 8px;
+
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+#game-stage .coin-rules-panel__content h3 {
+  margin: 22px 0 8px;
+
+  color: #000000;
+  text-shadow:
+    6px 6px 6px
+    rgba(
+      0,
+      0,
+      0,
+      0.75
+    );
+  font-size: 23px;
+}
+
+#game-stage .coin-rules-panel__content h3:first-child {
+  margin-top: 0;
+}
+
+#game-stage .coin-rules-panel__content p {
+  margin: 0 0 14px;
+}
+
+
+/*
+ * PORTRAIT – 900 × 1600
+ */
+
+#game-stage[data-orientation="portrait"]
+.coin-rules-trigger {
+  left: 24px;
+  bottom: 40px;
+
+  width: 210px;
+  height: 70px;
+
+  font-size: 23px;
+}
+
+#game-stage[data-orientation="portrait"]
+.coin-rules-panel {
+  left: 24px;
+  bottom: 125px;
+
+  width: 420px;
+  max-height: calc(100% - 220px);
+}
+
+/*
+ * =========================================================
+ * COIN-REGELN – ASSETS UND TEXTABSTÄNDE
+ * =========================================================
+ */
+
+#game-stage .coin-rules-widget {
+  /* Button-Asset */
+  --coin-rules-button-image:
+    url('../assets/ui/buttons/Button_coinRules.webp');
+
+  /* Hintergrund-Asset des ausgeklappten Fensters */
+  --coin-rules-panel-image:
+    url('../assets/ui/panels/coinRules.webp');
+
+  /*
+   * Innenabstände des gesamten Fensters:
+   * Oben | Rechts | Unten | Links
+   */
+  --coin-rules-padding-top: 100px;
+  --coin-rules-padding-right: 85px;
+  --coin-rules-padding-bottom: 120px;
+  --coin-rules-padding-left: 85px;
 }
