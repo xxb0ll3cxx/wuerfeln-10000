@@ -222,6 +222,31 @@ new URL(
 '../assets/characters/Ghost/skins/jersey/freude/ghost_jersey_freude4.png',
 import.meta.url,
 ).href;
+const ghostJerseySuccess05 =
+new URL(
+'../assets/characters/Ghost/skins/jersey/freude/ghost_jersey_freude5.png',
+import.meta.url,
+).href;
+const ghostJerseySuccess06 =
+new URL(
+'../assets/characters/Ghost/skins/jersey/freude/ghost_jersey_freude6.png',
+import.meta.url,
+).href;
+const ghostJerseySuccess07 =
+new URL(
+'../assets/characters/Ghost/skins/jersey/freude/ghost_jersey_freude7.png',
+import.meta.url,
+).href;
+const ghostJerseySuccess08 =
+new URL(
+'../assets/characters/Ghost/skins/jersey/freude/ghost_jersey_freude8.png',
+import.meta.url,
+).href;
+const ghostJerseySuccess09 =
+new URL(
+'../assets/characters/Ghost/skins/jersey/freude/ghost_jersey_freude9.png',
+import.meta.url,
+).href;
 
 
 const chefJerseyPortrait =
@@ -283,6 +308,11 @@ import.meta.url,
 const chefJerseySuccess05 =
 new URL(
 '../assets/characters/BoozeChef/skins/jersey/freude/chef_jersey_freude5.png',
+import.meta.url,
+).href;
+const chefJerseySuccess06 =
+new URL(
+'../assets/characters/BoozeChef/skins/jersey/freude/chef_jersey_freude6.png',
 import.meta.url,
 ).href;
 
@@ -482,6 +512,11 @@ import.meta.url,
 const zeckeJerseyFreude04 =
 new URL(
 '../assets/characters/Zecke/skins/jersey/freude/zecke_jersey_freude4.png',
+import.meta.url,
+).href;
+const zeckeJerseyFreude05 =
+new URL(
+'../assets/characters/Zecke/skins/jersey/freude/zecke_jersey_freude5.png',
 import.meta.url,
 ).href;
 const zeckeJerseyFreude06 =
@@ -742,14 +777,20 @@ export const CHARACTER_SKINS =
                   Object.freeze([
                     ghostJerseySuccess01,
                     ghostJerseySuccess02,
+                    ghostJerseySuccess02,
+                    ghostJerseySuccess02,
+                    ghostJerseySuccess02,
                     ghostJerseySuccess03,
                     ghostJerseySuccess04,
-                    ghostJerseySuccess04,
-                    ghostJerseyIdle01
+                    ghostJerseySuccess05,
+                    ghostJerseySuccess06,
+                    ghostJerseySuccess07,
+                    ghostJerseySuccess08,
+                    ghostJerseySuccess09,              
                   ]),
 
                 frameDurationMs:
-                  150,
+                  180,
             }
           }),
       }),
@@ -809,11 +850,15 @@ export const CHARACTER_SKINS =
                           chefJerseySuccess03,
                           chefJerseySuccess04,
                           chefJerseySuccess05,
-                          chefJerseyIdle01
+                          chefJerseySuccess06,
+                          chefJerseySuccess05,
+                          chefJerseySuccess06,
+                          chefJerseySuccess05,
+                          chefJerseySuccess06,
                         ]),
 
                       frameDurationMs:
-                        150,
+                        180,
                   }
                 }),
 
@@ -872,6 +917,11 @@ export const CHARACTER_SKINS =
                           zeckeJerseyFreude02,
                           zeckeJerseyFreude03,
                           zeckeJerseyFreude04,
+                          zeckeJerseyFreude05,
+                          zeckeJerseyFreude06,
+                          zeckeJerseyFreude05,
+                          zeckeJerseyFreude06,
+                          zeckeJerseyFreude05,
                           zeckeJerseyFreude06
                         ]),
 
