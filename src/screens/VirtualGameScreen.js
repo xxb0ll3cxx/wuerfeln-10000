@@ -1452,7 +1452,7 @@ export class VirtualGameScreen {
     ) {
       this.#renderMessage(
         `${result.appliedScore.toLocaleString('de-DE')} Punkte. ` +
-        'HEISSE WÜRFEL! Du musst mit allen sechs Würfeln weiterwürfeln.',
+        'HOT DICE! Du musst mit allen sechs Würfeln weiterwürfeln.',
       );
 
     } else {

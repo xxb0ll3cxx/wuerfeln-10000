@@ -931,68 +931,6 @@ export const CHARACTER_SKINS =
                 }),
 
             }),
-    niemand_rich:
-      Object.freeze({
-
-        id:
-          'niemand_rich',
-
-        characterId:
-          'test-character',
-
-        name:
-          'Niemand Rich',
-
-        portrait:
-          niemandRichPortrait,
-
-        sprite:
-          Object.freeze({
-            neutralFrame:
-              niemandRichIdle01,
-          }),
-
-        animations:
-          Object.freeze({
-
-            idle:
-              Object.freeze({
-
-                frames:
-                  Object.freeze([
-                    niemandRichIdle02,
-                    niemandRichIdle03,
-                    niemandRichIdle04,
-                    niemandRichIdle05,
-                    niemandRichIdle06,
-                  ]),
-
-                frameDurationMs:
-                  150,
-
-                minDelayMs:
-                  150,
-
-                maxDelayMs:
-                  150,
-
-              }),
-
-            success:{
-                frames:
-                  Object.freeze([
-                    niemandRichFreude01,
-                    niemandRichFreude02,
-                    niemandRichFreude03,
-                    niemandRichFreude04,
-                  ]),
-
-                frameDurationMs:
-                  150,
-            }
-          }),
-
-      }),
 
   });
 
