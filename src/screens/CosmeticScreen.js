@@ -10,6 +10,10 @@ import {
   CosmeticsService,
 } from '../services/CosmeticsService.js';
 
+import {
+  getDiceSkinById,
+} from '../config/diceSkins.js';
+
 
 export class CosmeticsScreen {
   constructor({
@@ -234,10 +238,18 @@ export class CosmeticsScreen {
       const item
       of inventory
     ) {
-      const skin =
+      const characterSkin =
         getCharacterSkinById(
           item.cosmetic_id,
         );
+
+      const diceSkin =
+        getDiceSkinById(
+          item.cosmetic_id,
+        );
+
+      const skin =
+        characterSkin ?? diceSkin;
 
 
       /*
@@ -258,7 +270,9 @@ export class CosmeticsScreen {
        */
 
       const slotKey =
-        `character:${skin.characterId}`;
+        diceSkin
+          ? 'dice'
+          : `character:${skin.characterId}`;
 
 
       const isEquipped =
@@ -314,6 +328,19 @@ export class CosmeticsScreen {
 
       title.textContent =
         skin.name;
+
+      const typeLabel =
+        document.createElement(
+          'p',
+        );
+
+      typeLabel.className =
+        'cosmetics-screen__type';
+
+      typeLabel.textContent =
+        diceSkin
+          ? 'Würfelskin'
+          : 'Charakter-Skin';
 
 
       /*
@@ -480,10 +507,18 @@ export class CosmeticsScreen {
        * Ausrüstung in Supabase speichern.
        */
 
-      await this.cosmeticsService
-        .equipCharacterSkin(
-          skin.id,
+      const isDiceSkin =
+        Boolean(
+          getDiceSkinById(skin.id),
         );
+
+      if (isDiceSkin) {
+        await this.cosmeticsService
+          .equipDiceSkin(skin.id);
+      } else {
+        await this.cosmeticsService
+          .equipCharacterSkin(skin.id);
+      }
 
 
       /*
@@ -510,9 +545,10 @@ export class CosmeticsScreen {
        * Die Datenbank hat die Ausrüstung bestätigt.
        * Jetzt den lokalen AccountStore aktualisieren.
        */
-
       const slotKey =
-        `character:${skin.characterId}`;
+        isDiceSkin
+          ? 'dice'
+          : `character:${skin.characterId}`;
 
 
       this.accountStore
@@ -573,8 +609,15 @@ async #unequipSkin(
   const accountId =
     accountState.user?.id;
 
+  const isDiceSkin =
+    Boolean(
+      getDiceSkinById(skin.id),
+    );
+
   const slotKey =
-    `character:${skin.characterId}`;
+    isDiceSkin
+      ? 'dice'
+      : `character:${skin.characterId}`;
 
   /*
    * Nur den aktuell ausgerüsteten Skin
@@ -609,11 +652,16 @@ async #unequipSkin(
      * Supabase entfernen.
      */
 
-    await this.cosmeticsService
-      .unequipCharacterSkin(
-        skin.id,
-        slotKey,
-      );
+    if (isDiceSkin) {
+      await this.cosmeticsService
+        .unequipDiceSkin(skin.id);
+    } else {
+      await this.cosmeticsService
+        .unequipCharacterSkin(
+          skin.id,
+          slotKey,
+        );
+    }
 
     /*
      * Prüfen, ob noch derselbe

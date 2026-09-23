@@ -44,4 +44,34 @@ export class CosmeticsService {
     throw error;
   }
 }
+
+async equipDiceSkin(cosmeticId) {
+  const { error } =
+    await supabase.rpc(
+      'equip_dice_skin',
+      {
+        p_cosmetic_id:
+          cosmeticId,
+      },
+    );
+
+  if (error) {
+    throw error;
+  }
+}
+
+async unequipDiceSkin(cosmeticId) {
+  const { error } =
+    await supabase.rpc(
+      'unequip_dice_skin',
+      {
+        p_cosmetic_id:
+          cosmeticId,
+      },
+    );
+
+  if (error) {
+    throw error;
+  }
+}
 }

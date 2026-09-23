@@ -5,18 +5,20 @@ import {
 import {
   CHARACTER_SKINS,
 } from '../config/characterSkins.js';
-
+import {
+  DICE_SKINS,
+} from '../config/diceSkins.js';
 
 export class ShopService {
-  async loadCharacterSkins() {
-    const skinIds =
-      Object.keys(
-        CHARACTER_SKINS,
-      );
+  async loadCosmetics() {
+    const cosmeticIds = [
+      ...Object.keys(CHARACTER_SKINS),
+      ...Object.keys(DICE_SKINS),
+    ];
 
 
     if (
-      skinIds.length === 0
+      cosmeticIds.length === 0
     ) {
       return [];
     }
@@ -39,7 +41,7 @@ export class ShopService {
         )
         .in(
           'id',
-          skinIds,
+          cosmeticIds,
         )
         .order(
           'name',
