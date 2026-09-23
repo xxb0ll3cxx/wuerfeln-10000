@@ -35,6 +35,7 @@ export function applyScoringSelection({
     detectHotDice(
       turnState.activeDiceCount,
       interpretation.removedDiceIndices,
+      interpretation.scoringOptions,
     );
 
   const nextTurnScore =

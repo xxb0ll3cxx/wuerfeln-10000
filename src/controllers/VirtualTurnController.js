@@ -341,12 +341,15 @@ export class VirtualTurnController {
               isHotDice:
                 !interpretation
                   .isInstantWin &&
-                detectHotDice(
-                  turn.activeDiceCount,
+              detectHotDice(
+                turn.activeDiceCount,
 
-                  interpretation
-                    .removedDiceIndices,
-                ),
+                interpretation
+                  .removedDiceIndices,
+
+                interpretation
+                  .scoringOptions,
+              ),
             }),
           ),
     };

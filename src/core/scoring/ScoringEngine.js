@@ -300,32 +300,30 @@ export class ScoringEngine {
         indexGroups,
       );
 
-    return combinations.map(
-      (indices) => ({
-        id:
-          `${type}-` +
-          indices.join('-'),
+    return combinations.map((indices) => ({
+      id:
+        `${type}-` +
+        indices.join('-'),
 
-        type,
-        label,
-        score,
+      type,
+      label,
+      score,
 
-        diceIndices:
-          [...indices].sort(
-            (a, b) => a - b,
-          ),
+      diceIndices:
+        [...indices].sort(
+          (a, b) => a - b,
+        ),
 
-        diceValues:
-          indices.map(
-            (index) => dice[index],
-          ),
+      diceValues:
+        indices.map(
+          (index) => dice[index],
+        ),
 
-        removeCount:
-          requiredValues.length,
+      removeCount:
+        requiredValues.length,
 
-        isInstantWin: false,
-      }),
-    );
+      isInstantWin: false,
+    }));
   }
 
   #findIndicesByValue(
