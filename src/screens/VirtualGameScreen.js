@@ -431,6 +431,11 @@ export class VirtualGameScreen {
             coins.toLocaleString(
               'de-DE',
             );
+          this.gameScene?.setDiceSkinId(
+            state.isAuthenticated
+              ? state.equippedCosmetics?.dice
+              : null,
+          );
         };
 
       /*
@@ -567,7 +572,13 @@ export class VirtualGameScreen {
     this.gameScene =
       phaser.gameScene;
 
+    const accountState = this.accountStore.getState();
 
+    this.gameScene.setDiceSkinId(
+      accountState.isAuthenticated
+        ? accountState.equippedCosmetics?.dice
+        : null,
+    );
     /*
      * GameScene existiert zwar schon als Instanz,
      * create() ist zu diesem Zeitpunkt aber eventuell

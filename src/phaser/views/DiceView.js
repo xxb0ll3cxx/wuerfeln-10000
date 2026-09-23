@@ -1,7 +1,9 @@
 import {
   getDiceTextureKey,
 } from '../../config/diceAssets.js';
-
+import {
+  getDiceSkinById,
+} from '../../config/diceSkins.js';
 
 const DICE_WIDTH =
   80;
@@ -22,7 +24,9 @@ export class DiceView {
   ) {
     this.scene =
       scene;
-
+    
+    this.skinId = null;
+    this.currentValue = null;
 
     this.selectionHandler =
       null;
@@ -185,10 +189,11 @@ export class DiceView {
   setValue(
     value,
   ) {
+    const skin = getDiceSkinById(this.skinId);
+
     const textureKey =
-      getDiceTextureKey(
-        value,
-      );
+      skin?.faces?.[value]?.key ??
+      getDiceTextureKey(value);
 
 
     if (!textureKey) {
@@ -197,6 +202,7 @@ export class DiceView {
       );
     }
 
+    this.currentValue = value;
 
     this.diceImage
       .setTexture(
@@ -229,6 +235,7 @@ export class DiceView {
    */
 
   clearValue() {
+    this.currentValue = null;
     this.diceImage
       .setVisible(
         false,
@@ -345,4 +352,15 @@ export class DiceView {
         true,
       );
   }
+  setSkinId(skinId) {
+  const skin = getDiceSkinById(skinId);
+
+  this.skinId = skin?.id ?? null;
+
+  // Einen bereits sichtbaren Würfel unmittelbar
+  // auf die neue Textur umstellen.
+  if (this.currentValue !== null) {
+    this.setValue(this.currentValue);
+  }
+}
 }

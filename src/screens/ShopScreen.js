@@ -14,6 +14,10 @@ import {
   AccountService,
 } from '../services/AccountService.js';
 
+import {
+  getDiceSkinById,
+} from '../config/diceSkins.js';
+
 export class ShopScreen {
   constructor({
     navigate,
@@ -187,7 +191,7 @@ export class ShopScreen {
     try {
       const products =
         await this.shopService
-          .loadCharacterSkins();
+          .loadCosmetics();
 
 
       if (
@@ -234,9 +238,8 @@ export class ShopScreen {
         of products
       ) {
         const skin =
-          getCharacterSkinById(
-            product.id,
-          );
+          getCharacterSkinById(product.id) ??
+          getDiceSkinById(product.id);
 
 
         if (

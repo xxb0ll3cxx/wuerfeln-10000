@@ -12,13 +12,18 @@ import {
   DICE_ASSETS,
 } from '../../config/diceAssets.js';
 
+import {
+  DICE_SKINS,
+  getDiceSkinById,
+} from '../../config/diceSkins.js';
+
 export class GameScene extends Phaser.Scene {
   constructor() {
     super({
       key:
         'GameScene',
     });
-
+    this.diceSkinId = null;
 
     this.diceViews =
       [];
@@ -41,16 +46,22 @@ export class GameScene extends Phaser.Scene {
   }
 
 preload() {
-  for (
-    const asset
-    of Object.values(
-      DICE_ASSETS,
-    )
-  ) {
+  // Standardwürfel laden.
+  for (const asset of Object.values(DICE_ASSETS)) {
     this.load.image(
       asset.key,
       asset.url,
     );
+  }
+
+  // Texturen aller konfigurierten Würfelskins laden.
+  for (const skin of Object.values(DICE_SKINS)) {
+    for (const face of Object.values(skin.faces)) {
+      this.load.image(
+        face.key,
+        face.url,
+      );
+    }
   }
 }
   /*
@@ -69,7 +80,6 @@ preload() {
         this.diceViews,
       );
   }
-
 
   /*
    * =======================================================
@@ -107,7 +117,7 @@ preload() {
           x,
           y,
         );
-
+    diceView.setSkinId(this.diceSkinId);
 
       /*
        * Jeder Würfel kennt seinen festen Index.
@@ -368,4 +378,13 @@ preload() {
     this.diceRollAnimator =
       null;
   }
+  setDiceSkinId(skinId) {
+  const skin = getDiceSkinById(skinId);
+
+  this.diceSkinId = skin?.id ?? null;
+
+  for (const diceView of this.diceViews) {
+    diceView.setSkinId(this.diceSkinId);
+  }
+}
 }
