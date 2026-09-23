@@ -347,6 +347,7 @@ body {
 
   pointer-events:
     auto;
+  transform: scale(1.5) translate(0px, -60px);
 }
 
 
@@ -511,13 +512,6 @@ body {
 }
 
 
-/*
- * DAS war vorher falsch:
- *
- * Hier muss PORTRAIT stehen,
- * nicht LANDSCAPE.
- */
-
 #game-stage[data-orientation="portrait"]
 .game-screen
 .dice-panel {
@@ -567,6 +561,9 @@ body {
 
   justify-self:
     center;
+
+  transform: scale(1.5) translateY(50px);
+
 }
 
 
@@ -5484,4 +5481,231 @@ button[data-action="account"]:active {
   --coin-rules-padding-right: 85px;
   --coin-rules-padding-bottom: 120px;
   --coin-rules-padding-left: 85px;
+}
+
+/* =========================================================
+ * VIRTUAL GAME – WERTUNGSPANEL RECHTS (NUR LANDSCAPE)
+ * Portrait-Regeln bleiben unverändert.
+ * ========================================================= */
+
+#game-stage[data-orientation="landscape"]
+.game-screen
+.scoring-debug {
+  box-sizing: border-box;
+  grid-column: 3;
+  grid-row: 2 / 6;
+
+  /* Die Grid-Spalte endet 160 px vor dem rechten Stage-Rand.
+     +136 px ergeben einen Abstand von 24 px zum Rand. */
+  justify-self: end;
+  align-self: start;
+  transform: translateX(100px);
+
+  width: 340px;
+  min-width: 0;
+  max-width: none;
+  height: 490px;
+  min-height: 0;
+  max-height: none;
+  margin: 0;
+  padding: 20px 18px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  overflow: hidden;
+  border: 2px solid #dba85a;
+  border-radius: 16px;
+  background: transparent;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  color: #fff4d6;
+
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 18px;
+  line-height: 1.35;
+  z-index: 10;
+}
+
+#game-stage[data-orientation="landscape"]
+.game-screen
+.scoring-debug h2 {
+  margin: 0;
+  color: #f0b639;
+  font: 800 28px/1.15 "Trebuchet MS", Verdana, sans-serif;
+  letter-spacing: 0.4px;
+}
+
+#game-stage[data-orientation="landscape"]
+.game-screen
+.scoring-debug [data-selection-status] {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+#game-stage[data-orientation="landscape"]
+.game-screen
+.scoring-debug .selection-interpretations {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+  max-height: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+#game-stage[data-orientation="landscape"]
+.game-screen
+.scoring-debug .scoring-interpretation {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 12px 14px;
+
+  border: 1px solid #9b7748;
+  border-radius: 10px;
+  background: rgba(106, 68, 34, 0.85);
+  color: #fff4d6;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+#game-stage[data-orientation="landscape"]
+.game-screen
+.scoring-debug .scoring-interpretation strong {
+  font-size: 19px;
+  color: #f0b639;
+}
+
+#game-stage[data-orientation="landscape"]
+.game-screen
+.scoring-debug .scoring-interpretation--selected,
+#game-stage[data-orientation="landscape"]
+.game-screen
+.scoring-debug .scoring-interpretation[aria-pressed="true"] {
+  border-color: #ffe1a0;
+  background: #865424;
+}
+
+#game-stage[data-orientation="landscape"]
+.game-screen
+.scoring-debug .scoring-interpretation--hot {
+  border-color: #f0b639;
+}
+
+#game-stage[data-orientation="landscape"]
+.game-screen
+.scoring-debug .straight-reroll-button {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  max-width: 100%;
+  font-family: inherit;
+  font-size: 15px;
+  white-space: normal;
+}
+/* =========================================================
+ * WERTUNGSPANEL – PORTRAIT
+ * Nur Farben und Schrift an Landscape angleichen
+ * ========================================================= */
+
+/* Gesamtes Panel */
+#game-stage[data-orientation="portrait"]
+.game-screen
+.scoring-debug {
+  border: 2px solid #dba85a;
+  border-radius: 16px;
+  background: transparent;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+
+  color: #fff4d6;
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+/* Überschrift */
+#game-stage[data-orientation="portrait"]
+.game-screen
+.scoring-debug h2 {
+  color: #f0b639;
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0.4px;
+}
+
+/* Statusmeldung */
+#game-stage[data-orientation="portrait"]
+.game-screen
+.scoring-debug [data-selection-status] {
+  color: #fff4d6;
+  font-family: inherit;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+/* Einzelne Wertungsoptionen */
+#game-stage[data-orientation="portrait"]
+.game-screen
+.scoring-debug .scoring-interpretation {
+  border: 1px solid #9b7748;
+  border-radius: 10px;
+  background: rgba(106, 68, 34, 0.85);
+
+  color: #fff4d6;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+/* Hervorgehobener Wertungstext */
+#game-stage[data-orientation="portrait"]
+.game-screen
+.scoring-debug .scoring-interpretation strong {
+  color: #f0b639;
+  font-size: 19px;
+}
+
+/* Ausgewählte Wertungsoption */
+#game-stage[data-orientation="portrait"]
+.game-screen
+.scoring-debug .scoring-interpretation--selected,
+#game-stage[data-orientation="portrait"]
+.game-screen
+.scoring-debug .scoring-interpretation[aria-pressed="true"] {
+  border-color: #ffe1a0;
+  background: #865424;
+}
+
+/* HOT-DICE-Wertung */
+#game-stage[data-orientation="portrait"]
+.game-screen
+.scoring-debug .scoring-interpretation--hot {
+  border-color: #f0b639;
+}
+
+/* Button für erneutes Würfeln bei einer Straße */
+#game-stage[data-orientation="portrait"]
+.game-screen
+.scoring-debug .straight-reroll-button {
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 15px;
 }
