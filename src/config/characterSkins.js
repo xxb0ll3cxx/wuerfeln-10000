@@ -616,6 +616,98 @@ new URL(
 import.meta.url,
 ).href;
 
+const dj_eber_idle1 =
+new URL(
+'../assets/characters/DJ_PengPear/skins/eber/idle/dj_eber_idle1.png',
+import.meta.url,
+).href;
+const dj_eber_idle2 =
+new URL(
+'../assets/characters/DJ_PengPear/skins/eber/idle/dj_eber_idle2.png',
+import.meta.url,
+).href;
+const dj_eber_idle3 =
+new URL(
+'../assets/characters/DJ_PengPear/skins/eber/idle/dj_eber_idle3.png',
+import.meta.url,
+).href;
+const dj_eber_idle4 =
+new URL(
+'../assets/characters/DJ_PengPear/skins/eber/idle/dj_eber_idle4.png',
+import.meta.url,
+).href;
+const dj_eber_idle5 =
+new URL(
+'../assets/characters/DJ_PengPear/skins/eber/idle/dj_eber_idle5.png',
+import.meta.url,
+).href;
+const dj_eber_idle6 =
+new URL(
+'../assets/characters/DJ_PengPear/skins/eber/idle/dj_eber_idle6.png',
+import.meta.url,
+).href;
+
+const dj_eber_portrait =
+new URL(
+'../assets/characters/DJ_PengPear/skins/eber/dj_eber_portrait.png',
+import.meta.url,
+).href;
+
+const dj_eber_freude1 =
+new URL(
+'../assets/characters/DJ_PengPear/skins/eber/freude/dj_eber_freude1.png',
+import.meta.url,
+).href;
+const dj_eber_freude2 =
+new URL(
+'../assets/characters/DJ_PengPear/skins/eber/freude/dj_eber_freude2.png',
+import.meta.url,
+).href;
+const dj_eber_freude3 =
+new URL(
+'../assets/characters/DJ_PengPear/skins/eber/freude/dj_eber_freude3.png',
+import.meta.url,
+).href;
+const dj_eber_freude4 =
+new URL(
+'../assets/characters/DJ_PengPear/skins/eber/freude/dj_eber_freude4.png',
+import.meta.url,
+).href;
+const dj_eber_freude5 =
+new URL(
+'../assets/characters/DJ_PengPear/skins/eber/freude/dj_eber_freude5.png',
+import.meta.url,
+).href;
+const dj_eber_freude6 =
+new URL(
+'../assets/characters/DJ_PengPear/skins/eber/freude/dj_eber_freude6.png',
+import.meta.url,
+).href;
+const dj_eber_freude7 =
+new URL(
+'../assets/characters/DJ_PengPear/skins/eber/freude/dj_eber_freude7.png',
+import.meta.url,
+).href;
+const dj_eber_freude8 =
+new URL(
+'../assets/characters/DJ_PengPear/skins/eber/freude/dj_eber_freude8.png',
+import.meta.url,
+).href;
+const dj_eber_freude9 =
+new URL(
+'../assets/characters/DJ_PengPear/skins/eber/freude/dj_eber_freude9.png',
+import.meta.url,
+).href;
+const dj_eber_freude10 =
+new URL(
+'../assets/characters/DJ_PengPear/skins/eber/freude/dj_eber_freude10.png',
+import.meta.url,
+).href;
+const dj_eber_freude11 =
+new URL(
+'../assets/characters/DJ_PengPear/skins/eber/freude/dj_eber_freude11.png',
+import.meta.url,
+).href;
 
 export const CHARACTER_SKINS =
   Object.freeze({
@@ -754,6 +846,78 @@ export const CHARACTER_SKINS =
             }
           })
       }),
+    dj_eber:
+          Object.freeze({
+
+            id:
+              'dj_eber',
+
+            characterId:
+              'DjPengPear',
+
+            name:
+              'Der EBER',
+
+            portrait:
+              dj_eber_portrait,
+
+            sprite:
+              Object.freeze({
+                neutralFrame:
+                  dj_eber_idle1,
+              }),
+
+            animations:
+              Object.freeze({
+
+                idle:
+                  Object.freeze({
+
+                    frames:
+                      Object.freeze([
+                        dj_eber_idle2,
+                        dj_eber_idle3,
+                        dj_eber_idle4,
+                        dj_eber_idle5,
+                        dj_eber_idle6
+                      ]),
+
+                    frameDurationMs:
+                      150,
+
+                    minDelayMs:
+                      150,
+
+                    maxDelayMs:
+                      150,
+
+                  }),
+
+                success:{
+                    frames:
+                      Object.freeze([
+                        dj_eber_freude1,
+                        dj_eber_freude2,
+                        dj_eber_freude3,
+                        dj_eber_freude4,
+                        dj_eber_freude5,
+                        dj_eber_freude6,
+                        dj_eber_freude7,
+                        dj_eber_freude10,
+                        dj_eber_freude8,
+                        dj_eber_freude11,
+                        dj_eber_freude9,
+                        dj_eber_freude9,
+
+
+                      
+                      ]),
+
+                    frameDurationMs:
+                      150,
+                }
+              })
+          }),
       dj_jersey:
       Object.freeze({
 
