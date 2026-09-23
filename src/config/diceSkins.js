@@ -40,7 +40,7 @@ export const DICE_SKINS = Object.freeze({
   dice_flame: Object.freeze({
       id: 'dice_flame',
       name: 'Flammenwürfel',
-      portrait: new URL('../assets/dice/skins/flame/flame_dice_prev.png',import.meta.url,).href,
+      portrait: new URL('../assets/dice/skins/flame/flame_dice_prev.webp',import.meta.url,).href,
 
       faces: Object.freeze({
         1: {
@@ -78,7 +78,7 @@ export const DICE_SKINS = Object.freeze({
     dice_frost: Object.freeze({
           id: 'dice_frost',
           name: 'Frostwürfel',
-          portrait: new URL('../assets/dice/skins/frost/frost_dice_prev.png',import.meta.url,).href,
+          portrait: new URL('../assets/dice/skins/frost/frost_dice_prev.webp',import.meta.url,).href,
           faces: Object.freeze({
             1: {
               key: 'dice-frost-one',
@@ -114,7 +114,7 @@ export const DICE_SKINS = Object.freeze({
   dice_galaxy: Object.freeze({
             id: 'dice_galaxy',
             name: 'Galaxywürfel',
-            portrait: new URL('../assets/dice/skins/galaxy/galaxy_dice_prev.png',import.meta.url,).href,
+            portrait: new URL('../assets/dice/skins/galaxy/galaxy_dice_prev.webp',import.meta.url,).href,
 
             faces: Object.freeze({
               1: {
@@ -151,7 +151,7 @@ export const DICE_SKINS = Object.freeze({
   dice_rainbow: Object.freeze({
               id: 'dice_rainbow',
               name: 'Prismawürfel',
-              portrait: new URL('../assets/dice/skins/rainbow/rainbow_dice_prev.png',import.meta.url,).href,
+              portrait: new URL('../assets/dice/skins/rainbow/rainbow_dice_prev.webp',import.meta.url,).href,
 
               faces: Object.freeze({
                 1: {
@@ -188,7 +188,7 @@ export const DICE_SKINS = Object.freeze({
   dice_shadow: Object.freeze({
                 id: 'dice_shadow',
                 name: 'Schattenwürfel',
-                portrait: new URL('../assets/dice/skins/shadow/shadow_dice_prev.png',import.meta.url,).href,
+                portrait: new URL('../assets/dice/skins/shadow/shadow_dice_prev.webp',import.meta.url,).href,
 
                 faces: Object.freeze({
                   1: {
@@ -225,7 +225,7 @@ export const DICE_SKINS = Object.freeze({
   dice_toy: Object.freeze({
                 id: 'dice_toy',
                 name: 'Spielzeugwürfel',
-                portrait: new URL('../assets/dice/skins/toy/toy_dice_prev.png',import.meta.url,).href,
+                portrait: new URL('../assets/dice/skins/toy/toy_dice_prev.webp',import.meta.url,).href,
 
                 faces: Object.freeze({
                   1: {
@@ -262,7 +262,7 @@ export const DICE_SKINS = Object.freeze({
   dice_wood: Object.freeze({
                 id: 'dice_wood',
                 name: 'Holzwürfel',
-                portrait: new URL('../assets/dice/skins/wood/wood_dice_prev.png',import.meta.url,).href,
+                portrait: new URL('../assets/dice/skins/wood/wood_dice_prev.webp',import.meta.url,).href,
 
                 faces: Object.freeze({
                   1: {

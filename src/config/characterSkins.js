@@ -525,11 +525,169 @@ new URL(
 import.meta.url,
 ).href;
 
+/************************
+ * Premium Skins
+ ************************/
+const dampfi_cannon_idle1 =
+new URL(
+'../assets/characters/Dampflock/skins/canon/idle/Dampfi_cannon_idle1.png',
+import.meta.url,
+).href;
+const dampfi_cannon_idle2 =
+new URL(
+'../assets/characters/Dampflock/skins/canon/idle/Dampfi_cannon_idle2.png',
+import.meta.url,
+).href;
+const dampfi_cannon_idle3 =
+new URL(
+'../assets/characters/Dampflock/skins/canon/idle/Dampfi_cannon_idle3.png',
+import.meta.url,
+).href;
+const dampfi_cannon_idle4 =
+new URL(
+'../assets/characters/Dampflock/skins/canon/idle/Dampfi_cannon_idle4.png',
+import.meta.url,
+).href;
+const dampfi_cannon_idle5 =
+new URL(
+'../assets/characters/Dampflock/skins/canon/idle/Dampfi_cannon_idle5.png',
+import.meta.url,
+).href;
+const dampfi_cannon_idle6 =
+new URL(
+'../assets/characters/Dampflock/skins/canon/idle/Dampfi_cannon_idle6.png',
+import.meta.url,
+).href;
+
+const dampfi_cannon_portrait =
+new URL(
+'../assets/characters/Dampflock/skins/canon/Dampfi_cannon_portrait.png',
+import.meta.url,
+).href;
+
+const dampfi_cannon_success1 =
+new URL(
+'../assets/characters/Dampflock/skins/canon/freude/dampfi_cannon_freude1.png',
+import.meta.url,
+).href;
+const dampfi_cannon_success2 =
+new URL(
+'../assets/characters/Dampflock/skins/canon/freude/dampfi_cannon_freude2.png',
+import.meta.url,
+).href;
+const dampfi_cannon_success3 =
+new URL(
+'../assets/characters/Dampflock/skins/canon/freude/dampfi_cannon_freude3.png',
+import.meta.url,
+).href;
+const dampfi_cannon_success4 =
+new URL(
+'../assets/characters/Dampflock/skins/canon/freude/dampfi_cannon_freude4.png',
+import.meta.url,
+).href;
+const dampfi_cannon_success5 =
+new URL(
+'../assets/characters/Dampflock/skins/canon/freude/dampfi_cannon_freude5.png',
+import.meta.url,
+).href;
+const dampfi_cannon_success6 =
+new URL(
+'../assets/characters/Dampflock/skins/canon/freude/dampfi_cannon_freude6.png',
+import.meta.url,
+).href;
+const dampfi_cannon_success7 =
+new URL(
+'../assets/characters/Dampflock/skins/canon/freude/dampfi_cannon_freude7.png',
+import.meta.url,
+).href;
+const dampfi_cannon_success8 =
+new URL(
+'../assets/characters/Dampflock/skins/canon/freude/dampfi_cannon_freude8.png',
+import.meta.url,
+).href;
+const dampfi_cannon_success9 =
+new URL(
+'../assets/characters/Dampflock/skins/canon/freude/dampfi_cannon_freude9.png',
+import.meta.url,
+).href;
+const dampfi_cannon_success10 =
+new URL(
+'../assets/characters/Dampflock/skins/canon/freude/dampfi_cannon_freude10.png',
+import.meta.url,
+).href;
 
 
 export const CHARACTER_SKINS =
   Object.freeze({
+    dampfi_cannon:
+          Object.freeze({
 
+            id:
+              'dampfi_cannon',
+
+            characterId:
+              'dampflock',
+
+            name:
+              'Dampfcannon',
+
+            portrait:
+              dampfi_cannon_portrait,
+
+            sprite:
+              Object.freeze({
+                neutralFrame:
+                  dampfi_cannon_idle1,
+              }),
+
+            animations:
+              Object.freeze({
+
+                idle:
+                  Object.freeze({
+
+                    frames:
+                      Object.freeze([
+                        dampfi_cannon_idle2,
+                        dampfi_cannon_idle3,
+                        dampfi_cannon_idle2,
+                        dampfi_cannon_idle4,
+                        dampfi_cannon_idle5,
+                        dampfi_cannon_idle6,
+                      ]),
+
+                    frameDurationMs:
+                      180,
+
+                    minDelayMs:
+                      180,
+
+                    maxDelayMs:
+                      180,
+
+                  }),
+
+                success:{
+                    frames:
+                      Object.freeze([
+                        dampfi_cannon_success1,
+                        dampfi_cannon_success2,
+                        dampfi_cannon_success3,
+                        dampfi_cannon_success4,
+                        dampfi_cannon_success5,
+                        dampfi_cannon_success6,
+                        dampfi_cannon_success7,
+                        dampfi_cannon_success8,
+                        dampfi_cannon_success9,
+                        dampfi_cannon_success10,
+                        dampfi_cannon_success10
+                      ]),
+
+                    frameDurationMs:
+                      180,
+                }
+              })
+          }),
       dampfi_jersey:
       Object.freeze({
 
