@@ -1,17 +1,22 @@
 import {
   SCREENS,
 } from '../app/screens.js';
-
+import {
+  mountSoundControl,
+} from '../ui/SoundControl.js';
 
 export class ModeSelectScreen {
   constructor({
     navigate,
     accountStore,
     accountController,
+    audioService,
   }) {
     this.navigate =
       navigate;
 
+    this.audioService = audioService;
+    this.disposeSoundControl = null;
 
     this.virtualButton =
       null;
@@ -257,6 +262,10 @@ export class ModeSelectScreen {
         '[data-action="virtual"]',
       );
 
+    this.disposeSoundControl = mountSoundControl(
+      rootElement.querySelector('.mode-select-screen'),
+      this.audioService,
+    );
 
     this.scoreboardButton =
       rootElement.querySelector(
@@ -624,6 +633,8 @@ export class ModeSelectScreen {
         this.handleBack,
       );
 
+    this.disposeSoundControl?.();
+    this.disposeSoundControl = null;
 
     this.virtualButton =
       null;

@@ -87,12 +87,12 @@ export const AUDIO_CONFIG =
           0.5,
       },
 
-      jippi_zecke: {
+      /*jippi_zecke: {
         src:
           jippi_zecke,
         volume:
           0.0,
-      },
+      },*/
 
       diceRoll: {
         src:

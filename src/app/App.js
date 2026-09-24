@@ -295,6 +295,9 @@ start() {
 
           accountController:
             this.accountController,
+
+          audioService: 
+            this.audioService,
         }),
     );
     /*

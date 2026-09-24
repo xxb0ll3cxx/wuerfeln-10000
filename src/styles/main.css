@@ -90,7 +90,12 @@ input {
 
 .game-button:hover:not(:disabled) {
   transform:
-    translateY(-1px);
+    scale(1.025);
+}
+
+.game-button:hover:active {
+  transform:
+    scale(0.975);
 }
 
 .game-button:disabled {
@@ -3019,13 +3024,16 @@ h2 {
   box-shadow:
     none !important;
 
-  transform:
-    none !important;
-
   opacity:
     1;
 }
+.probability-trigger:hover {
+  transform: scale(1.025);
+}
 
+.probability-trigger:active {
+  transform: scale(0.975);
+}
 
 
 /*
@@ -3186,15 +3194,19 @@ h2 {
   box-shadow:
     none !important;
 
-  transform:
-    none !important;
-
   opacity:
     1;
   text-align: center;
 }
 
-
+.probability-panel__form
+.game-button:hover {
+  transform: scale(1.025);
+}
+.probability-panel__form
+.game-button:active {
+  transform: scale(0.975);
+}
 
 /*
  * =========================================================
@@ -3228,6 +3240,7 @@ h2 {
 small {
   transform: translate(0px, -23px);
 }
+
 
 /*
  * =========================================================

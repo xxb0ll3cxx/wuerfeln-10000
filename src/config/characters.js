@@ -650,8 +650,8 @@ export const CHARACTERS =
 
           frameDurationMs:
             180,
-          sfx:
-          'jippi_zecke'
+          /*sfx:
+          'jippi_zecke'*/
         },
       },
 

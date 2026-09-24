@@ -15,13 +15,17 @@ export class AudioService {
       false;
 
 
-    this.musicVolume =
-      1;
+    const savedVolume = localStorage.getItem(
+      'wuerfeln-master-volume',
+    );
 
+    this.masterVolume =
+      savedVolume === null
+        ? 1
+        : this.#clampVolume(savedVolume);
 
-    this.sfxVolume =
-      1;
-
+    this.musicVolume = this.masterVolume;
+    this.sfxVolume = this.masterVolume;
 
     /*
      * Aktuell laufende Hintergrundmusik.
@@ -511,11 +515,7 @@ async #crossfadeMusicLoop(
     1200;
 
 
-  const targetVolume =
-    this.#calculateVolume(
-      config.volume,
-      this.musicVolume,
-    );
+
 
 
   const startTime =
@@ -523,9 +523,7 @@ async #crossfadeMusicLoop(
 
 
   const fade =
-    (
-      now,
-    ) => {
+    (now,) => {
       /*
        * Inzwischen Screen/Musik gewechselt.
        */
@@ -550,11 +548,12 @@ async #crossfadeMusicLoop(
           crossfadeMs,
         );
 
-
-      /*
-       * Alter Track:
-       * 100 % → 0 %
-       */
+      const targetVolume =
+        this.#calculateVolume(
+          config.volume,
+          this.musicVolume,
+        );
+        
       currentAudio.volume =
         targetVolume *
         (
@@ -752,7 +751,19 @@ async #crossfadeMusicLoop(
    * MUSIC VOLUME
    * =======================================================
    */
+  setMasterVolume(volume) {
+    const nextVolume = this.#clampVolume(volume);
 
+    this.masterVolume = nextVolume;
+
+    this.setMusicVolume(nextVolume);
+    this.setSfxVolume(nextVolume);
+
+    localStorage.setItem(
+      'wuerfeln-master-volume',
+      String(nextVolume),
+    );
+  }
   setMusicVolume(
     volume,
   ) {
