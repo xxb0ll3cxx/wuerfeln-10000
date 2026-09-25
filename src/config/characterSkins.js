@@ -819,6 +819,81 @@ import.meta.url,
  * SKINS
  * =========================================================
  */
+const dampfi_hellokitty_idle1 =
+new URL(
+'../assets/characters/Dampflock/skins/hellokitty/idle/dampfi_hellokitty_idle1.png',
+import.meta.url,
+).href;
+
+const dampfi_hellokitty_idle2 =
+new URL(
+'../assets/characters/Dampflock/skins/hellokitty/idle/dampfi_hellokitty_idle2.png',
+import.meta.url,
+).href;
+
+const dampfi_hellokitty_idle3 =
+new URL(
+'../assets/characters/Dampflock/skins/hellokitty/idle/dampfi_hellokitty_idle3.png',
+import.meta.url,
+).href;
+const dampfi_hellokitty_idle4 =
+new URL(
+'../assets/characters/Dampflock/skins/hellokitty/idle/dampfi_hellokitty_idle4.png',
+import.meta.url,
+).href;
+const dampfi_hellokitty_idle5 =
+new URL(
+'../assets/characters/Dampflock/skins/hellokitty/idle/dampfi_hellokitty_idle5.png',
+import.meta.url,
+).href;
+const dampfi_hellokitty_idle6 =
+new URL(
+'../assets/characters/Dampflock/skins/hellokitty/idle/dampfi_hellokitty_idle6.png',
+import.meta.url,
+).href;
+
+const dampfi_hellokitty_freude1 =
+new URL(
+'../assets/characters/Dampflock/skins/hellokitty/freude/dampfi_hellokitty_freude1.png',
+import.meta.url,
+).href;
+const dampfi_hellokitty_freude2 =
+new URL(
+'../assets/characters/Dampflock/skins/hellokitty/freude/dampfi_hellokitty_freude2.png',
+import.meta.url,
+).href;
+
+const dampfi_hellokitty_freude3 =
+new URL(
+'../assets/characters/Dampflock/skins/hellokitty/freude/dampfi_hellokitty_freude3.png',
+import.meta.url,
+).href;
+
+const dampfi_hellokitty_freude4 =
+new URL(
+'../assets/characters/Dampflock/skins/hellokitty/freude/dampfi_hellokitty_freude4.png',
+import.meta.url,
+).href;
+
+const dampfi_hellokitty_freude5 =
+new URL(
+'../assets/characters/Dampflock/skins/hellokitty/freude/dampfi_hellokitty_freude5.png',
+import.meta.url,
+).href;
+
+const dampfi_hellokitty_freude6 =
+new URL(
+'../assets/characters/Dampflock/skins/hellokitty/freude/dampfi_hellokitty_freude6.png',
+import.meta.url,
+).href;
+const dampfi_hellokitty_portrait =
+new URL(
+'../assets/characters/Dampflock/skins/hellokitty/dampfi_hellokitty_portrait.png',
+import.meta.url,
+).href;
+
+
+
 const chef_hellokitty_idle1 =
 new URL(
 '../assets/characters/BoozeChef/skins/hellokitty/idle/chef_hellokitty_idle1.png',
@@ -888,6 +963,70 @@ import.meta.url,
 
 export const CHARACTER_SKINS =
   Object.freeze({
+    dampfi_hellokitty:
+              Object.freeze({
+
+                id:
+                  'dampfi_hellokitty',
+
+                characterId:
+                  'dampflock',
+
+                name:
+                  'Dampfcannon',
+
+                portrait:
+                  dampfi_hellokitty_portrait,
+
+                sprite:
+                  Object.freeze({
+                    neutralFrame:
+                      dampfi_hellokitty_idle1,
+                  }),
+
+                animations:
+                  Object.freeze({
+
+                    idle:
+                      Object.freeze({
+
+                        frames:
+                          Object.freeze([
+                            dampfi_hellokitty_idle2,
+                            dampfi_hellokitty_idle3,
+                            dampfi_hellokitty_idle2,
+                            dampfi_hellokitty_idle4,
+                            dampfi_hellokitty_idle5,
+                            dampfi_hellokitty_idle6,
+                          ]),
+
+                        frameDurationMs:
+                          180,
+
+                        minDelayMs:
+                          180,
+
+                        maxDelayMs:
+                          180,
+
+                      }),
+
+                    success:{
+                        frames:
+                          Object.freeze([
+                            dampfi_hellokitty_freude1,
+                            dampfi_hellokitty_freude2,
+                            dampfi_hellokitty_freude3,
+                            dampfi_hellokitty_freude4,
+                            dampfi_hellokitty_freude5,
+                            dampfi_hellokitty_freude6,
+                          ]),
+
+                        frameDurationMs:
+                          150,
+                    }
+                  })
+              }),
     dampfi_cannon:
           Object.freeze({
 
