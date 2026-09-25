@@ -813,6 +813,79 @@ new URL(
 import.meta.url,
 ).href;
 
+/*
+ * =========================================================
+ * Hellokitty
+ * SKINS
+ * =========================================================
+ */
+const chef_hellokitty_idle1 =
+new URL(
+'../assets/characters/BoozeChef/skins/hellokitty/idle/chef_hellokitty_idle1.png',
+import.meta.url,
+).href;
+const chef_hellokitty_idle2 =
+new URL(
+'../assets/characters/BoozeChef/skins/hellokitty/idle/chef_hellokitty_idle2.png',
+import.meta.url,
+).href;
+const chef_hellokitty_idle3 =
+new URL(
+'../assets/characters/BoozeChef/skins/hellokitty/idle/chef_hellokitty_idle3.png',
+import.meta.url,
+).href;
+const chef_hellokitty_idle4 =
+new URL(
+'../assets/characters/BoozeChef/skins/hellokitty/idle/chef_hellokitty_idle4.png',
+import.meta.url,
+).href;
+const chef_hellokitty_idle5 =
+new URL(
+'../assets/characters/BoozeChef/skins/hellokitty/idle/chef_hellokitty_idle5.png',
+import.meta.url,
+).href;
+const chef_hellokitty_idle6 =
+new URL(
+'../assets/characters/BoozeChef/skins/hellokitty/idle/chef_hellokitty_idle6.png',
+import.meta.url,
+).href;
+
+const chef_hellokitty_freude1 =
+new URL(
+'../assets/characters/BoozeChef/skins/hellokitty/freude/chef_hellokitty_freude1.png',
+import.meta.url,
+).href;
+const chef_hellokitty_freude2 =
+new URL(
+'../assets/characters/BoozeChef/skins/hellokitty/freude/chef_hellokitty_freude2.png',
+import.meta.url,
+).href;
+const chef_hellokitty_freude3 =
+new URL(
+'../assets/characters/BoozeChef/skins/hellokitty/freude/chef_hellokitty_freude3.png',
+import.meta.url,
+).href;
+const chef_hellokitty_freude4 =
+new URL(
+'../assets/characters/BoozeChef/skins/hellokitty/freude/chef_hellokitty_freude4.png',
+import.meta.url,
+).href;
+const chef_hellokitty_freude5 =
+new URL(
+'../assets/characters/BoozeChef/skins/hellokitty/freude/chef_hellokitty_freude5.png',
+import.meta.url,
+).href;
+const chef_hellokitty_freude6 =
+new URL(
+'../assets/characters/BoozeChef/skins/hellokitty/freude/chef_hellokitty_freude6.png',
+import.meta.url,
+).href;
+const chef_hellokitty_portrait =
+new URL(
+'../assets/characters/BoozeChef/skins/hellokitty/chef_hellokitty_portrait.png',
+import.meta.url,
+).href;
+
 export const CHARACTER_SKINS =
   Object.freeze({
     dampfi_cannon:
@@ -1311,6 +1384,71 @@ export const CHARACTER_SKINS =
             }
           }),
       }),
+
+    chef_hellokitty:
+              Object.freeze({
+
+                id:
+                  'chef_hellokitty',
+
+                characterId:
+                  'BoozeChef',
+
+                name:
+                  'HelloKitty Chef',
+
+                portrait:
+                  chef_hellokitty_portrait,
+
+                sprite:
+                  Object.freeze({
+                    neutralFrame:
+                      chef_hellokitty_idle1,
+                  }),
+
+                animations:
+                  Object.freeze({
+
+                    idle:
+                      Object.freeze({
+
+                        frames:
+                          Object.freeze([
+                            chef_hellokitty_idle2,
+                            chef_hellokitty_idle3,
+                            chef_hellokitty_idle4,
+                            chef_hellokitty_idle5,
+                            chef_hellokitty_idle6,
+                          ]),
+
+                        frameDurationMs:
+                          180,
+
+                        minDelayMs:
+                          180,
+
+                        maxDelayMs:
+                          180,
+
+                      }),
+
+                    success:{
+                        frames:
+                          Object.freeze([
+                            chef_hellokitty_freude1,
+                            chef_hellokitty_freude2,
+                            chef_hellokitty_freude3,
+                            chef_hellokitty_freude4,
+                            chef_hellokitty_freude5,
+                            chef_hellokitty_freude6,
+                            chef_hellokitty_freude6
+                          ]),
+
+                        frameDurationMs:
+                          180,
+                    }
+                  })
+              }),
 
       chef_jersey:
             Object.freeze({
