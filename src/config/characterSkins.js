@@ -615,6 +615,16 @@ new URL(
 '../assets/characters/Dampflock/skins/canon/freude/dampfi_cannon_freude10.png',
 import.meta.url,
 ).href;
+const dampfi_cannon_success11 =
+new URL(
+'../assets/characters/Dampflock/skins/canon/freude/dampfi_cannon_freude11.png',
+import.meta.url,
+).href;
+const dampfi_cannon_success12 =
+new URL(
+'../assets/characters/Dampflock/skins/canon/freude/dampfi_cannon_freude9_2.png',
+import.meta.url,
+).href;
 
 const dj_eber_idle1 =
 new URL(
@@ -861,16 +871,31 @@ export const CHARACTER_SKINS =
                         dampfi_cannon_success3,
                         dampfi_cannon_success4,
                         dampfi_cannon_success5,
+
                         dampfi_cannon_success6,
                         dampfi_cannon_success7,
+
                         dampfi_cannon_success8,
-                        dampfi_cannon_success9,
+                        dampfi_cannon_success12,
+
+                        dampfi_cannon_success6,
+                        dampfi_cannon_success7,
+
+                        dampfi_cannon_success8,
+                        dampfi_cannon_success12,
+
+                        dampfi_cannon_success6,
+                        dampfi_cannon_success7,
+
+                        dampfi_cannon_success11,
                         dampfi_cannon_success10,
-                        dampfi_cannon_success10
+                        dampfi_cannon_success11,
+                        dampfi_cannon_success10,
+                        dampfi_cannon_success11
                       ]),
 
                     frameDurationMs:
-                      180,
+                      150,
                 }
               })
           }),
