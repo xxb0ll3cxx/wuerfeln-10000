@@ -709,6 +709,100 @@ new URL(
 import.meta.url,
 ).href;
 
+
+const ghost_bulle_portrait =
+new URL(
+'../assets/characters/Ghost/skins/bulle/ghost_bulle_portrait.png',
+import.meta.url,
+).href;
+
+const ghost_bulle_idle1 =
+new URL(
+'../assets/characters/Ghost/skins/bulle/idle/ghost_bulle_idle1.png',
+import.meta.url,
+).href;
+const ghost_bulle_idle2 =
+new URL(
+'../assets/characters/Ghost/skins/bulle/idle/ghost_bulle_idle2.png',
+import.meta.url,
+).href;
+const ghost_bulle_idle3 =
+new URL(
+'../assets/characters/Ghost/skins/bulle/idle/ghost_bulle_idle3.png',
+import.meta.url,
+).href;
+const ghost_bulle_idle4 =
+new URL(
+'../assets/characters/Ghost/skins/bulle/idle/ghost_bulle_idle4.png',
+import.meta.url,
+).href;
+const ghost_bulle_idle5 =
+new URL(
+'../assets/characters/Ghost/skins/bulle/idle/ghost_bulle_idle5.png',
+import.meta.url,
+).href;
+const ghost_bulle_idle6 =
+new URL(
+'../assets/characters/Ghost/skins/bulle/idle/ghost_bulle_idle6.png',
+import.meta.url,
+).href;
+
+const ghost_bulle_success1 =
+new URL(
+'../assets/characters/Ghost/skins/bulle/freude/ghost_bulle_freude1.png',
+import.meta.url,
+).href;
+const ghost_bulle_success2 =
+new URL(
+'../assets/characters/Ghost/skins/bulle/freude/ghost_bulle_freude2.png',
+import.meta.url,
+).href;
+const ghost_bulle_success3 =
+new URL(
+'../assets/characters/Ghost/skins/bulle/freude/ghost_bulle_freude3.png',
+import.meta.url,
+).href;
+const ghost_bulle_success4 =
+new URL(
+'../assets/characters/Ghost/skins/bulle/freude/ghost_bulle_freude4.png',
+import.meta.url,
+).href;
+const ghost_bulle_success5 =
+new URL(
+'../assets/characters/Ghost/skins/bulle/freude/ghost_bulle_freude5.png',
+import.meta.url,
+).href;
+const ghost_bulle_success6 =
+new URL(
+'../assets/characters/Ghost/skins/bulle/freude/ghost_bulle_freude6.png',
+import.meta.url,
+).href;
+const ghost_bulle_success7 =
+new URL(
+'../assets/characters/Ghost/skins/bulle/freude/ghost_bulle_freude7.png',
+import.meta.url,
+).href;
+const ghost_bulle_success8 =
+new URL(
+'../assets/characters/Ghost/skins/bulle/freude/ghost_bulle_freude8.png',
+import.meta.url,
+).href;
+const ghost_bulle_success9 =
+new URL(
+'../assets/characters/Ghost/skins/bulle/freude/ghost_bulle_freude9.png',
+import.meta.url,
+).href;
+const ghost_bulle_success10 =
+new URL(
+'../assets/characters/Ghost/skins/bulle/freude/ghost_bulle_freude10.png',
+import.meta.url,
+).href;
+const ghost_bulle_success11 =
+new URL(
+'../assets/characters/Ghost/skins/bulle/freude/ghost_bulle_freude11.png',
+import.meta.url,
+).href;
+
 export const CHARACTER_SKINS =
   Object.freeze({
     dampfi_cannon:
@@ -1046,6 +1140,82 @@ export const CHARACTER_SKINS =
             }
           })
       }),
+    ghost_bulle:
+              Object.freeze({
+
+                id:
+                  'ghost_bulle',
+
+                characterId:
+                  'Ghost',
+
+                name:
+                  'Partydirndl Ghost',
+
+                portrait:
+                  ghost_bulle_portrait,
+
+                sprite:
+                  Object.freeze({
+                    neutralFrame:
+                      ghost_bulle_idle1,
+                  }),
+
+                animations:
+                  Object.freeze({
+
+                    idle:
+                      Object.freeze({
+
+                        frames:
+                          Object.freeze([
+                            ghost_bulle_idle1,
+                            ghost_bulle_idle2,
+                            ghost_bulle_idle3,
+                            ghost_bulle_idle4,
+                            ghost_bulle_idle5,
+                            ghost_bulle_idle6,
+                          ]),
+
+                        frameDurationMs:
+                          180,
+
+                        minDelayMs:
+                          180,
+
+                        maxDelayMs:
+                          180,
+
+                      }),
+
+                    success:{
+                        frames:
+                          Object.freeze([
+                            ghost_bulle_success1,
+                            ghost_bulle_success2,
+                            ghost_bulle_success3,
+                            ghost_bulle_success4,
+                            ghost_bulle_success5,
+                            ghost_bulle_success5,
+                            ghost_bulle_success6,
+                            ghost_bulle_success7,
+                            ghost_bulle_success8,
+                            ghost_bulle_success9,
+                            ghost_bulle_success10,
+                            ghost_bulle_success11,
+                            ghost_bulle_success10,
+                            ghost_bulle_success11,
+                            ghost_bulle_success10,
+                            ghost_bulle_success11,
+                            ghost_bulle_success10,
+                          ]),
+
+                        frameDurationMs:
+                          180,
+                    }
+                  })
+              }),
+
 
       ghost_jersey:
       Object.freeze({
