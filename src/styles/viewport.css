@@ -1223,6 +1223,8 @@ img.active-character-sprite[src*="dampfi_cannon_freude"] {
 }
 
 
+
+
 /*
  * LANDSCAPE – SCOREBOARD-MODUS
  */
@@ -1250,6 +1252,75 @@ img.active-character-sprite[src*="dampfi_cannon_freude"] {
   transform:
     translate(-50px, 0px)
     scale(1.5);
+
+  transform-origin: left bottom;
+}
+
+/* =========================================================
+ * DAMPFI GOLD – SUCCESS-ANIMATION
+ * ========================================================= */
+
+/*
+ * LANDSCAPE – VIRTUELLER MODUS
+ */
+
+#game-stage[data-orientation="landscape"]
+.game-screen
+img.active-character-sprite[src*="dampfi__gold_freude"] {
+
+  transform: 
+  translate(-30px,-20px)
+  scale(2.5);
+
+  transform-origin: left bottom;
+}
+
+
+/*
+ * PORTRAIT – VIRTUELLER MODUS
+ */
+
+#game-stage[data-orientation="portrait"]
+.game-screen
+img.active-character-sprite[src*="dampfi__gold_freude"] {
+
+  transform:
+    translate(300px, 290px)
+    scale(2);
+
+  transform-origin: left bottom;
+}
+
+
+
+
+/*
+ * LANDSCAPE – SCOREBOARD-MODUS
+ */
+
+#game-stage[data-orientation="landscape"]
+.scoreboard-screen
+img.active-character-sprite[src*="dampfi__gold_freude"] {
+
+  transform:
+    translate(630px, 140px)
+    scale(2.5);
+
+  transform-origin: left bottom;
+}
+
+
+/*
+ * PORTRAIT – SCOREBOARD-MODUS
+ */
+
+#game-stage[data-orientation="portrait"]
+.scoreboard-screen
+img.active-character-sprite[src*="dampfi__gold_freude"] {
+
+  transform:
+    translate(-40px, 0px)
+    scale(2.5);
 
   transform-origin: left bottom;
 }

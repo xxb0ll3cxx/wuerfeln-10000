@@ -961,8 +961,163 @@ new URL(
 import.meta.url,
 ).href;
 
+/*
+ * =========================================================
+ * Golden
+ * SKINS
+ * =========================================================
+ */
+const dampfi_golden_portrait =
+new URL(
+'../assets/characters/dampflock/skins/gold/dampfi_gold_idle_portrait.png',
+import.meta.url,
+).href;
+const dampfi_golden_idle1 =
+new URL(
+'../assets/characters/dampflock/skins/gold/idle/dampfi_gold_idle1.png',
+import.meta.url,
+).href;
+const dampfi_golden_idle2 =
+new URL(
+'../assets/characters/dampflock/skins/gold/idle/dampfi_gold_idle2.png',
+import.meta.url,
+).href;
+
+const dampfi_golden_idle4 =
+new URL(
+'../assets/characters/dampflock/skins/gold/idle/dampfi_gold_idle4.png',
+import.meta.url,
+).href;
+const dampfi_golden_idle5 =
+new URL(
+'../assets/characters/dampflock/skins/gold/idle/dampfi_gold_idle5.png',
+import.meta.url,
+).href;
+const dampfi_golden_idle6 =
+new URL(
+'../assets/characters/dampflock/skins/gold/idle/dampfi_gold_idle6.png',
+import.meta.url,
+).href;
+
+const dampfi_golden_freude1 =
+new URL(
+'../assets/characters/Dampflock/skins/gold/freude/dampfi__gold_freude1.png',
+import.meta.url,
+).href;
+const dampfi_golden_freude2 =
+new URL(
+'../assets/characters/Dampflock/skins/gold/freude/dampfi__gold_freude2.png',
+import.meta.url,
+).href;
+const dampfi_golden_freude3 =
+new URL(
+'../assets/characters/Dampflock/skins/gold/freude/dampfi__gold_freude3.png',
+import.meta.url,
+).href;
+const dampfi_golden_freude4 =
+new URL(
+'../assets/characters/Dampflock/skins/gold/freude/dampfi__gold_freude4.png',
+import.meta.url,
+).href;
+const dampfi_golden_freude5 =
+new URL(
+'../assets/characters/Dampflock/skins/gold/freude/dampfi__gold_freude5.png',
+import.meta.url,
+).href;
+const dampfi_golden_freude6 =
+new URL(
+'../assets/characters/Dampflock/skins/gold/freude/dampfi__gold_freude6.png',
+import.meta.url,
+).href;
+new URL(
+'../assets/characters/Dampflock/skins/gold/freude/dampfi_gold_success1.png',
+import.meta.url,
+).href;
+const dampfi_golden_freude7 =
+new URL(
+'../assets/characters/Dampflock/skins/gold/freude/dampfi__gold_freude7.png',
+import.meta.url,
+).href;
+const dampfi_golden_freude8 =
+new URL(
+'../assets/characters/Dampflock/skins/gold/freude/dampfi__gold_freude8.png',
+import.meta.url,
+).href;
+
+
+
 export const CHARACTER_SKINS =
   Object.freeze({
+    dampfi_gold:
+                  Object.freeze({
+
+                    id:
+                      'dampfi_gold',
+
+                    characterId:
+                      'dampflock',
+
+                    name:
+                      'Goldcannon',
+
+                    portrait:
+                      dampfi_golden_portrait,
+
+                    sprite:
+                      Object.freeze({
+                        neutralFrame:
+                          dampfi_golden_idle1,
+                      }),
+
+                    animations:
+                      Object.freeze({
+
+                        idle:
+                          Object.freeze({
+
+                            frames:
+                              Object.freeze([
+                                dampfi_golden_idle2,
+                                dampfi_golden_idle4,
+                                dampfi_golden_idle5,
+                                dampfi_golden_idle6,
+                              ]),
+
+                            frameDurationMs:
+                              180,
+
+                            minDelayMs:
+                              180,
+
+                            maxDelayMs:
+                              180,
+
+                          }),
+
+                        success:{
+                            frames:
+                              Object.freeze([
+                                dampfi_golden_freude1,
+                                dampfi_golden_freude2,
+                                dampfi_golden_freude3,
+                                dampfi_golden_freude4,
+                                dampfi_golden_freude5,
+                                dampfi_golden_freude6,
+                                dampfi_golden_freude7,
+                                dampfi_golden_freude8,
+                                dampfi_golden_freude7,
+                                dampfi_golden_freude8,
+                                dampfi_golden_freude7,
+                                dampfi_golden_freude8,
+                                dampfi_golden_freude7,
+                                dampfi_golden_freude8,                                ,
+                              ]),
+
+                            frameDurationMs:
+                              180,
+                        }
+                      })
+                  }),
     dampfi_hellokitty:
               Object.freeze({
 
