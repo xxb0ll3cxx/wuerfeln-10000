@@ -969,33 +969,33 @@ import.meta.url,
  */
 const dampfi_golden_portrait =
 new URL(
-'../assets/characters/dampflock/skins/gold/dampfi_gold_idle_portrait.png',
+'../assets/characters/Dampflock/skins/gold/dampfi_gold_idle_portrait.png',
 import.meta.url,
 ).href;
 const dampfi_golden_idle1 =
 new URL(
-'../assets/characters/dampflock/skins/gold/idle/dampfi_gold_idle1.png',
+'../assets/characters/Dampflock/skins/gold/idle/dampfi_gold_idle1.png',
 import.meta.url,
 ).href;
 const dampfi_golden_idle2 =
 new URL(
-'../assets/characters/dampflock/skins/gold/idle/dampfi_gold_idle2.png',
+'../assets/characters/Dampflock/skins/gold/idle/dampfi_gold_idle2.png',
 import.meta.url,
 ).href;
 
 const dampfi_golden_idle4 =
 new URL(
-'../assets/characters/dampflock/skins/gold/idle/dampfi_gold_idle4.png',
+'../assets/characters/Dampflock/skins/gold/idle/dampfi_gold_idle4.png',
 import.meta.url,
 ).href;
 const dampfi_golden_idle5 =
 new URL(
-'../assets/characters/dampflock/skins/gold/idle/dampfi_gold_idle5.png',
+'../assets/characters/Dampflock/skins/gold/idle/dampfi_gold_idle5.png',
 import.meta.url,
 ).href;
 const dampfi_golden_idle6 =
 new URL(
-'../assets/characters/dampflock/skins/gold/idle/dampfi_gold_idle6.png',
+'../assets/characters/Dampflock/skins/gold/idle/dampfi_gold_idle6.png',
 import.meta.url,
 ).href;
 
