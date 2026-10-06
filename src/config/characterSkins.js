@@ -813,6 +813,73 @@ new URL(
 import.meta.url,
 ).href;
 
+const chef_snus_portrait =
+new URL(
+'../assets/characters/BoozeChef/skins/snus/chef_snus_portrait.png',
+import.meta.url,
+).href;
+
+const chef_snus_idle1 =
+new URL(
+'../assets/characters/BoozeChef/skins/snus/idle/snuschef_idle1.png',
+import.meta.url,
+).href;
+const chef_snus_idle2 =
+new URL(
+'../assets/characters/BoozeChef/skins/snus/idle/snuschef_idle2.png',
+import.meta.url,
+).href;
+const chef_snus_idle3 =
+new URL(
+'../assets/characters/BoozeChef/skins/snus/idle/snuschef_idle3.png',
+import.meta.url,
+).href;
+const chef_snus_idle4 =
+new URL(
+'../assets/characters/BoozeChef/skins/snus/idle/snuschef_idle4.png',
+import.meta.url,
+).href;
+const chef_snus_idle5 =
+new URL(
+'../assets/characters/BoozeChef/skins/snus/idle/snuschef_idle5.png',
+import.meta.url,
+).href;
+const chef_snus_idle6 =
+new URL(
+'../assets/characters/BoozeChef/skins/snus/idle/snuschef_idle6.png',
+import.meta.url,
+).href;
+
+const chef_snus_success1 =
+new URL(
+'../assets/characters/BoozeChef/skins/snus/freude/chef_snus_freude1.webp',
+import.meta.url,
+).href;
+const chef_snus_success2 =
+new URL(
+'../assets/characters/BoozeChef/skins/snus/freude/chef_snus_freude2.webp',
+import.meta.url,
+).href;
+const chef_snus_success3 =
+new URL(
+'../assets/characters/BoozeChef/skins/snus/freude/chef_snus_freude3.webp',
+import.meta.url,
+).href;
+const chef_snus_success4 =
+new URL(
+'../assets/characters/BoozeChef/skins/snus/freude/chef_snus_freude4.webp',
+import.meta.url,
+).href;
+const chef_snus_success5 =
+new URL(
+'../assets/characters/BoozeChef/skins/snus/freude/chef_snus_freude5.webp',
+import.meta.url,
+).href;
+const chef_snus_success6 =
+new URL(
+'../assets/characters/BoozeChef/skins/snus/freude/chef_snus_freude6.webp',
+import.meta.url,
+).href;
 /*
  * =========================================================
  * Hellokitty
@@ -960,6 +1027,87 @@ new URL(
 '../assets/characters/BoozeChef/skins/hellokitty/chef_hellokitty_portrait.png',
 import.meta.url,
 ).href;
+
+
+
+const zecke_hack_portrait =
+new URL(
+'../assets/characters/Zecke/skins/Zacker/Zacker_portrait.png',
+import.meta.url,
+).href;
+const zecke_hack_idle1 =
+new URL(
+'../assets/characters/Zecke/skins/Zacker/idle/Zacker_idle1.png',
+import.meta.url,
+).href;
+const zecke_hack_idle2 =
+new URL(
+'../assets/characters/Zecke/skins/Zacker/idle/Zacker_idle2.png',
+import.meta.url,
+).href;
+const zecke_hack_idle3 =
+new URL(
+'../assets/characters/Zecke/skins/Zacker/idle/Zacker_idle3.png',
+import.meta.url,
+).href;
+const zecke_hack_idle4 =
+new URL(
+'../assets/characters/Zecke/skins/Zacker/idle/Zacker_idle4.png',
+import.meta.url,
+).href;
+const zecke_hack_idle5 =
+new URL(
+'../assets/characters/Zecke/skins/Zacker/idle/Zacker_idle5.png',
+import.meta.url,
+).href;
+const zecke_hack_idle6 =
+new URL(
+'../assets/characters/Zecke/skins/Zacker/idle/Zacker_idle6.png',
+import.meta.url,
+).href;
+
+const zecke_hack_freude1 =
+new URL(
+'../assets/characters/Zecke/skins/Zacker/freude/Zacker_freude1.png',
+import.meta.url,
+).href;
+const zecke_hack_freude2 =
+new URL(
+'../assets/characters/Zecke/skins/Zacker/freude/Zacker_freude2.png',
+import.meta.url,
+).href;
+const zecke_hack_freude3 =
+new URL(
+'../assets/characters/Zecke/skins/Zacker/freude/Zacker_freude3.png',
+import.meta.url,
+).href;
+const zecke_hack_freude4 =
+new URL(
+'../assets/characters/Zecke/skins/Zacker/freude/Zacker_freude4-1.png',
+import.meta.url,
+).href;
+const zecke_hack_freude5 =
+new URL(
+'../assets/characters/Zecke/skins/Zacker/freude/Zacker_freude4-2.png',
+import.meta.url,
+).href;
+const zecke_hack_freude6 =
+new URL(
+'../assets/characters/Zecke/skins/Zacker/freude/Zacker_freude4-3.png',
+import.meta.url,
+).href;
+const zecke_hack_freude7 =
+new URL(
+'../assets/characters/Zecke/skins/Zacker/freude/Zacker_freude6.png',
+import.meta.url,
+).href;
+const zecke_hack_freude8 =
+new URL(
+'../assets/characters/Zecke/skins/Zacker/freude/Zacker_freude7.png',
+import.meta.url,
+).href;
+
+
 
 /*
  * =========================================================
@@ -1678,6 +1826,68 @@ export const CHARACTER_SKINS =
             }
           }),
       }),
+    chef_snus:
+                  Object.freeze({
+
+                    id:
+                      'chef_snus',
+
+                    characterId:
+                      'BoozeChef',
+
+                    name:
+                      'Snuschef',
+
+                    portrait:
+                      chef_snus_portrait,
+
+                    sprite:
+                      Object.freeze({
+                        neutralFrame:
+                          chef_snus_idle1,
+                      }),
+
+                    animations:
+                      Object.freeze({
+
+                        idle:
+                          Object.freeze({
+
+                            frames:
+                              Object.freeze([
+                                chef_snus_idle2,
+                                chef_snus_idle3,
+                                chef_snus_idle4,
+                                chef_snus_idle5,
+                                chef_snus_idle6,
+                              ]),
+
+                            frameDurationMs:
+                              180,
+
+                            minDelayMs:
+                              180,
+
+                            maxDelayMs:
+                              180,
+
+                          }),
+
+                        success:{
+                            frames:
+                              Object.freeze([
+                                chef_snus_success1,
+                                chef_snus_success2,
+                                chef_snus_success3,
+                                chef_snus_success6,
+                                chef_snus_success4,
+                              ]),
+
+                            frameDurationMs:
+                              180,
+                        }
+                      })
+                  }),
 
     chef_hellokitty:
               Object.freeze({
@@ -1812,6 +2022,78 @@ export const CHARACTER_SKINS =
                 }),
 
             }),
+    zecke_hacker:
+                Object.freeze({
+
+                  id:
+                    'zecke_hacker',
+
+                  characterId:
+                    'Zecke',
+
+                  name:
+                    'Zacker',
+
+                  portrait:
+                    zecke_hack_portrait,
+
+                  sprite:
+                    Object.freeze({
+                      neutralFrame:
+                        zecke_hack_idle1,
+                    }),
+
+                  animations:
+                    Object.freeze({
+
+                      idle:
+                        Object.freeze({
+
+                          frames:
+                            Object.freeze([
+                              zecke_hack_idle2,
+                              zecke_hack_idle3,
+                              zecke_hack_idle4,
+                              zecke_hack_idle5,
+                              zecke_hack_idle6
+                            ]),
+
+                          frameDurationMs:
+                            150,
+
+                          minDelayMs:
+                            150,
+
+                          maxDelayMs:
+                            150,
+
+                        }),
+
+                      success:{
+                          frames:
+                            Object.freeze([
+                              zecke_hack_freude1,
+                              zecke_hack_freude2,
+                              zecke_hack_freude3,
+                              zecke_hack_freude2,
+                              zecke_hack_freude3,
+                              zecke_hack_freude4,
+                              zecke_hack_freude5,
+                              zecke_hack_freude6,
+                              zecke_hack_freude7,
+                              zecke_hack_freude8,
+                              zecke_hack_freude7,
+                              zecke_hack_freude8,
+                              zecke_hack_freude7,
+                              zecke_hack_freude8,
+                            ]),
+
+                          frameDurationMs:
+                            150,
+                      }
+                    }),
+
+                }),
       zecke_jersey:
             Object.freeze({
 
