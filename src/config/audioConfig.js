@@ -23,6 +23,12 @@ const jippi_zecke =
     import.meta.url,
   ).href;
 
+const eber_success =
+new URL(
+  '../assets/audio/Eber.mp3',
+  import.meta.url,
+).href;
+
 /*
  * =========================================================
  * GAME SFX
@@ -93,6 +99,13 @@ export const AUDIO_CONFIG =
         volume:
           0.0,
       },*/
+
+      eber_success: {
+        src:
+          eber_success,
+        volume:
+          1.5,
+      },
 
       diceRoll: {
         src:

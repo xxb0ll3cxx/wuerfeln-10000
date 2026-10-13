@@ -383,18 +383,32 @@ body {
 
 #game-stage
 .player-list__cards {
+  box-sizing: border-box;
+
   display: flex;
 
   flex-wrap: nowrap;
-
-  justify-content: center;
+  justify-content: flex-start;
 
   gap: 12px;
 
+  width: 100%;
+
+  padding-left: 12px;
+  padding-right: 12px;
+
   overflow-x: auto;
   overflow-y: hidden;
+
+  scroll-padding-left: 12px;
+  scroll-padding-right: 12px;
 }
 
+#game-stage
+.player-list__cards
+.player-card {
+  flex: 0 0 auto;
+}
 
 #game-stage
 .player-card {
@@ -3889,7 +3903,7 @@ button.mode-select__button--cosmetics:focus-visible {
 
   padding: 25px 20px;
 
-  border: 0;
+  border: 00;
   border-radius: 0;
 
   background-color: transparent;
@@ -3913,6 +3927,10 @@ button.mode-select__button--cosmetics:focus-visible {
 }
 
 #game-stage .shop-screen__product h2 {
+  box-sizing: border-box;
+
+  width: 210px;
+  max-width: 210px;
   margin: 0;
   color: #eca438;
   text-shadow:
@@ -3924,7 +3942,12 @@ button.mode-select__button--cosmetics:focus-visible {
       0.75
     );
   transform: translateY(10px);
-  font-size: 32px;
+  font-size: clamp(
+  28px,
+  2vw,
+  30px
+);
+  overflow-wrap: anywhere;
 }
 
 
@@ -5490,7 +5513,7 @@ button[data-action="account"]:active {
   position: absolute;
 
   left: 24px;
-  bottom: 24px;
+  bottom: 30px;
 
   width: 190px;
   height: 58px;
@@ -5615,8 +5638,10 @@ button[data-action="account"]:active {
   margin-bottom: 20px;
 }
 
-#game-stage .coin-rules-panel__header h2 {
+#game-stage[data-orientation="landscape"] 
+.coin-rules-panel__header h2 {
   margin: 0;
+  transform: translateX(-10px);
 
   color: #161208;
   text-shadow:
@@ -5629,6 +5654,7 @@ button[data-action="account"]:active {
     );
 
   font-size: 32px;
+  font-family: 'Western';
 }
 
 
@@ -5661,18 +5687,21 @@ button[data-action="account"]:active {
  * REGELTEXT
  */
 
-#game-stage .coin-rules-panel__content {
+#game-stage[data-orientation="landscape"]
+.coin-rules-panel__content {
   min-height: 0;
-
   overflow-y: auto;
 
   padding-right: 8px;
 
   font-size: 20px;
+  font-family: 'Western';
+
   line-height: 1.5;
 }
 
-#game-stage .coin-rules-panel__content h3 {
+#game-stage[data-orientation="landscape"]
+.coin-rules-panel__content h3 {
   margin: 22px 0 8px;
 
   color: #000000;
@@ -5684,15 +5713,17 @@ button[data-action="account"]:active {
       0,
       0.75
     );
-  font-size: 23px;
-}
+  font-size: 26px;
+  font-family: 'Western';
 
+}
 #game-stage .coin-rules-panel__content h3:first-child {
   margin-top: 0;
 }
 
 #game-stage .coin-rules-panel__content p {
   margin: 0 0 14px;
+
 }
 
 
@@ -5703,11 +5734,12 @@ button[data-action="account"]:active {
 #game-stage[data-orientation="portrait"]
 .coin-rules-trigger {
   left: 24px;
-  bottom: 40px;
+  bottom: 30px;
 
-  width: 210px;
-  height: 70px;
+  width: 190px;
+  height: 60px;
 
+  font-family: 'Western';
   font-size: 23px;
 }
 
@@ -5716,10 +5748,58 @@ button[data-action="account"]:active {
   left: 24px;
   bottom: 125px;
 
-  width: 420px;
+  width: 720px;
   max-height: calc(100% - 220px);
 }
 
+#game-stage[data-orientation="portrait"]
+.coin-rules-panel__content {
+  min-height: 0;
+  overflow-y: auto;
+
+  padding-right: 8px;
+
+  font-size: 30px;
+  font-family: 'Western';
+
+  line-height: 1.5;
+}
+
+#game-stage[data-orientation="portrait"]
+.coin-rules-panel__content h3 {
+  margin: 22px 0 8px;
+
+  color: #000000;
+  text-shadow:
+    6px 6px 6px
+    rgba(
+      0,
+      0,
+      0,
+      0.75
+    );
+  font-size: 45px;
+  font-family: 'Western';
+
+
+}
+#game-stage[data-orientation="portrait"] 
+.coin-rules-panel__header h2 {
+  margin: 0;
+  transform: translateX(0px);
+  color: #161208;
+  text-shadow:
+    6px 6px 6px
+    rgba(
+      0,
+      0,
+      0,
+      0.75
+    );
+  font-family: 'Western';
+
+  font-size: 50px;
+}
 /*
  * =========================================================
  * COIN-REGELN – ASSETS UND TEXTABSTÄNDE
@@ -5729,7 +5809,7 @@ button[data-action="account"]:active {
 #game-stage .coin-rules-widget {
   /* Button-Asset */
   --coin-rules-button-image:
-    url('../assets/ui/buttons/Button_coinRules.webp');
+    url('../assets/ui/buttons/Button_Info.webp');
 
   /* Hintergrund-Asset des ausgeklappten Fensters */
   --coin-rules-panel-image:
@@ -5742,7 +5822,16 @@ button[data-action="account"]:active {
   --coin-rules-padding-top: 100px;
   --coin-rules-padding-right: 85px;
   --coin-rules-padding-bottom: 120px;
-  --coin-rules-padding-left: 85px;
+  --coin-rules-padding-left: 95px;
+}
+#game-stage[data-orientation="portrait"]
+.coin-rules-widget {
+  --coin-rules-padding-top: 180px;
+  --coin-rules-padding-bottom: 240px;
+  --coin-rules-padding-right: 140px;
+  --coin-rules-padding-left: 160px;
+
+
 }
 
 /* =========================================================
@@ -5754,47 +5843,67 @@ button[data-action="account"]:active {
 .game-screen
 .scoring-debug {
   box-sizing: border-box;
+
   grid-column: 3;
   grid-row: 2 / 6;
 
-  /* Die Grid-Spalte endet 160 px vor dem rechten Stage-Rand.
-     +136 px ergeben einen Abstand von 24 px zum Rand. */
   justify-self: end;
   align-self: start;
+
   transform: translateX(100px);
 
   width: 340px;
   min-width: 0;
   max-width: none;
+
   height: 490px;
   min-height: 0;
   max-height: none;
+
   margin: 0;
-  padding: 20px 18px;
+
+  /*
+   * Diese Werte ggf. an den Innenraum
+   * deines Assets anpassen.
+   */
+  padding: 80px 70px 100px 70px;
 
   display: flex;
   flex-direction: column;
   gap: 12px;
 
   overflow: hidden;
-  border: 2px solid #dba85a;
-  border-radius: 16px;
-  background: transparent;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+
+  background-color: transparent;
+  background-image:
+    url('../assets/ui/panels/scoring_panel.webp');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+
   color: #fff4d6;
 
-  font-family: "Trebuchet MS", Verdana, sans-serif;
   font-size: 18px;
   line-height: 1.35;
+
   z-index: 10;
 }
 
 #game-stage[data-orientation="landscape"]
 .game-screen
 .scoring-debug h2 {
+  text-align: center;
   margin: 0;
-  color: #f0b639;
-  font: 800 28px/1.15 "Trebuchet MS", Verdana, sans-serif;
+  color: #000000;
+  text-shadow:
+  6px 6px 6px
+  rgba(36, 34, 34, 0.75);
+  font: 800 28px/1.15;
+  font-family: 'Western';
   letter-spacing: 0.4px;
 }
 
@@ -5802,7 +5911,9 @@ button[data-action="account"]:active {
 .game-screen
 .scoring-debug [data-selection-status] {
   margin: 0;
-  font-size: 17px;
+  font-size: 15px;
+  color: #000000;
+  font-family: 'Western';
   line-height: 1.35;
   overflow-wrap: anywhere;
 }
@@ -5818,7 +5929,7 @@ button[data-action="account"]:active {
   max-height: none;
   overflow-x: hidden;
   overflow-y: auto;
-  scrollbar-width: thin;
+  scrollbar-width: none;
 }
 
 #game-stage[data-orientation="landscape"]
@@ -5891,51 +6002,154 @@ button[data-action="account"]:active {
 #game-stage[data-orientation="portrait"]
 .game-screen
 .scoring-debug {
-  border: 2px solid #dba85a;
-  border-radius: 16px;
-  background: transparent;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+
+  background-color: transparent;
+  background-image:
+    url('../assets/ui/panels/scoring_panel_portrait2.webp');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+
+  /*
+   * WICHTIG:
+   * Kein Padding auf dem Gesamtpanel.
+   * Sonst werden Überschrift UND Inhalt verschoben.
+   */
+  padding: 0;
+
+  /*
+   * Diese Werte definieren ausschließlich
+   * den nutzbaren Bereich der Wertungsoptionen.
+   */
+  --scoring-options-top: 0px;
+  --scoring-options-right: 90px;
+  --scoring-options-bottom: 80px;
+  --scoring-options-left: 90px;
 
   color: #fff4d6;
-  font-family: "Trebuchet MS", Verdana, sans-serif;
+
   font-size: 18px;
   line-height: 1.35;
+
+  width: 760px;
+  height: 330px;
+
+  grid-column: 1;
+  grid-row: 4;
+
+  justify-self: center;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+  padding: 0;
 }
 
 /* Überschrift */
 #game-stage[data-orientation="portrait"]
 .game-screen
 .scoring-debug h2 {
-  color: #f0b639;
-  font-family: "Trebuchet MS", Verdana, sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  color: #000000;
+  text-shadow:
+  6px 6px 6px
+  rgba(36, 34, 34, 0.75);
+  font-family: "Western";
   font-size: 28px;
   font-weight: 800;
   line-height: 1.15;
   letter-spacing: 0.4px;
+  padding: 60px 0px 0px 110px;
+
+}
+#game-stage[data-orientation="portrait"]
+.game-screen
+.scoring-debug
+[data-selection-status] {
+  flex: 0 0 auto;
+
+  margin: 0 90px 2px;
+
+  color: #000000;
+  
+  font-family: "Western";
+  font-size: 17px;
+  line-height: 1.35;
 }
 
 /* Statusmeldung */
 #game-stage[data-orientation="portrait"]
 .game-screen
 .scoring-debug [data-selection-status] {
-  color: #fff4d6;
-  font-family: inherit;
+  color: #000000;
+  font-family: 'Western';
   font-size: 17px;
   line-height: 1.35;
+  padding: 0px 0px 0px 0px;
 }
 
 /* Einzelne Wertungsoptionen */
 #game-stage[data-orientation="portrait"]
 .game-screen
-.scoring-debug .scoring-interpretation {
+.scoring-debug
+.scoring-interpretation {
+  box-sizing: border-box;
+
+  flex: 0 0 auto;
+
+  width: 100%;
+  min-width: 0;
+
+  margin: 0;
+  padding: 10px;
+
   border: 1px solid #9b7748;
   border-radius: 10px;
+
   background: rgba(106, 68, 34, 0.85);
 
   color: #fff4d6;
-  font-family: inherit;
+
   font-size: 16px;
   line-height: 1.25;
+
+  overflow-wrap: anywhere;
+}
+
+#game-stage[data-orientation="portrait"]
+.game-screen
+.scoring-debug
+.selection-interpretations {
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+
+  flex: 1 1 auto;
+  min-height: 0;
+
+  gap: 10px;
+
+  /*
+   * Diese vier Werte verkleinern/vergrößern
+   * den Scrollbereich innerhalb des Assets.
+   */
+  margin:
+    var(--scoring-options-top)
+    var(--scoring-options-right)
+    var(--scoring-options-bottom)
+    var(--scoring-options-left);
+
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* Hervorgehobener Wertungstext */

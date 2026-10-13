@@ -1518,7 +1518,7 @@ export const CHARACTER_SKINS =
 
                     frameDurationMs:
                       150,
-
+                      
                     minDelayMs:
                       150,
 
@@ -1543,12 +1543,13 @@ export const CHARACTER_SKINS =
                         dj_eber_freude9,
                         dj_eber_freude9,
 
-
                       
                       ]),
 
                     frameDurationMs:
                       150,
+                    sfx:
+                      'eber_success'
                 }
               })
           }),
@@ -1562,7 +1563,7 @@ export const CHARACTER_SKINS =
           'DjPengPear',
 
         name:
-          'Trümmertrupp DjPengPear',
+          'Trümmertrupp DjPengPea',
 
         portrait:
           djJerseyPortrait,

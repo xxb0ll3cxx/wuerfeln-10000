@@ -510,9 +510,43 @@ export class PlayerSetupScreen {
      * Setup beginnt wie bisher mit zwei Spielern.
      */
 
-    this.#addPlayerRow();
+/*
+ * =====================================================
+ * INITIAL PLAYERS
+ * =====================================================
+ *
+ * Bei "Erneut spielen" wird die Konfiguration der
+ * vorherigen Partie übernommen.
+ *
+ * Beim normalen Einstieg beginnt das Setup weiterhin
+ * mit zwei neuen Spielern.
+ */
 
-    this.#addPlayerRow();
+    const initialPlayers =
+      Array.isArray(
+        params.players,
+      )
+        ? params.players
+        : [];
+
+
+    if (
+      initialPlayers.length > 0
+    ) {
+      for (
+        const player
+        of initialPlayers
+      ) {
+        this.#addPlayerRow(
+          player,
+        );
+      }
+    }
+    else {
+      this.#addPlayerRow();
+
+      this.#addPlayerRow();
+    }
   }
 
 
@@ -522,13 +556,26 @@ export class PlayerSetupScreen {
    * =======================================================
    */
 
-  #addPlayerRow() {
+  #addPlayerRow(
+    initialPlayer = null,
+  ) {
     const playerNumber =
       this.playerCounter +
       1;
 
 
+    const configuredCharacter =
+      initialPlayer
+        ? CHARACTERS.find(
+            (character) =>
+              character.id ===
+              initialPlayer.characterId,
+          )
+        : null;
+
+
     const defaultCharacter =
+      configuredCharacter ??
       CHARACTERS[
         this.playerCounter %
         CHARACTERS.length
@@ -619,6 +666,20 @@ export class PlayerSetupScreen {
 
     nameInput.placeholder =
       `Name Spieler ${playerNumber}`;
+
+
+      if (
+        typeof initialPlayer?.name ===
+          'string'
+      ) {
+        nameInput.value =
+          initialPlayer.name;
+      }
+
+
+      nameInputFrame.append(
+        nameInput,
+      );
 
 
     nameInputFrame.append(
@@ -760,13 +821,40 @@ export class PlayerSetupScreen {
       'true';
 
 
+    const initialSkinId =
+      initialPlayer?.skinId ??
+      this.#getEquippedSkinId(
+        defaultCharacter.id,
+      );
+
+
+    const initialSkin =
+      initialSkinId
+        ? getCharacterSkinById(
+            initialSkinId,
+          )
+        : null;
+
+
+    const validInitialSkinId =
+      initialSkin &&
+      initialSkin.characterId ===
+        defaultCharacter.id
+        ? initialSkinId
+        : this.#getEquippedSkinId(
+            defaultCharacter.id,
+          );
+
+
+    row.dataset.skinId =
+      validInitialSkinId ??
+      '';
+
+
     const defaultAppearance =
       resolveCharacterAppearance(
         defaultCharacter.id,
-
-        this.#getEquippedSkinId(
-          defaultCharacter.id,
-        ),
+        validInitialSkinId,
       );
 
 
@@ -866,8 +954,10 @@ export class PlayerSetupScreen {
      * Komfort wie bisher:
      * neues Namensfeld direkt fokussieren.
      */
+  if (!initialPlayer) {
     nameInput.focus();
   }
+}
 
 
   /*
@@ -876,110 +966,103 @@ export class PlayerSetupScreen {
    * =======================================================
    */
 
-  #handleCharacterChange(
-    event,
+#handleCharacterChange(
+  event,
+) {
+  const select =
+    event.target.closest(
+      '[name="character-id"]',
+    );
+
+
+  if (
+    !(
+      select instanceof
+      HTMLSelectElement
+    )
   ) {
-    const select =
-      event.target.closest(
-        '[name="character-id"]',
-      );
-
-
-    if (
-      !(
-        select instanceof
-        HTMLSelectElement
-      )
-    ) {
-      return;
-    }
-
-
-    const row =
-      select.closest(
-        '[data-player-row]',
-      );
-
-
-    if (!row) {
-      return;
-    }
-
-
-    const portrait =
-      row.querySelector(
-        '[data-character-portrait]',
-      );
-
-
-    if (
-      !(
-        portrait instanceof
-        HTMLImageElement
-      )
-    ) {
-      return;
-    }
-
-
-    const appearance =
-      resolveCharacterAppearance(
-        select.value,
-
-        this.#getEquippedSkinId(
-          select.value,
-        ),
-      );
-
-
-    if (
-      !appearance
-    ) {
-      portrait.removeAttribute(
-        'src',
-      );
-
-      portrait.alt =
-        'Kein Charakter';
-
-      return;
-    }
-
-
-    portrait.alt =
-      appearance.name;
-
-
-    if (
-      appearance.portrait
-    ) {
-      portrait.src =
-        appearance.portrait;
-    }
-    else {
-      portrait.removeAttribute(
-        'src',
-      );
-    }
-
-
-    portrait.alt =
-      character.name;
-
-
-    if (
-      character.portrait
-    ) {
-      portrait.src =
-        character.portrait;
-
-    } else {
-      portrait
-        .removeAttribute(
-          'src',
-        );
-    }
+    return;
   }
+
+
+  const row =
+    select.closest(
+      '[data-player-row]',
+    );
+
+
+  if (!row) {
+    return;
+  }
+
+
+  const portrait =
+    row.querySelector(
+      '[data-character-portrait]',
+    );
+
+
+  if (
+    !(
+      portrait instanceof
+      HTMLImageElement
+    )
+  ) {
+    return;
+  }
+
+
+  /*
+   * Für den neu ausgewählten Charakter
+   * gilt wieder dessen aktuell
+   * ausgerüsteter Skin.
+   */
+  const skinId =
+    this.#getEquippedSkinId(
+      select.value,
+    );
+
+
+  row.dataset.skinId =
+    skinId ??
+    '';
+
+
+  const appearance =
+    resolveCharacterAppearance(
+      select.value,
+      skinId,
+    );
+
+
+  if (!appearance) {
+    portrait.removeAttribute(
+      'src',
+    );
+
+    portrait.alt =
+      'Kein Charakter';
+
+    return;
+  }
+
+
+  portrait.alt =
+    appearance.name;
+
+
+  if (
+    appearance.portrait
+  ) {
+    portrait.src =
+      appearance.portrait;
+  }
+  else {
+    portrait.removeAttribute(
+      'src',
+    );
+  }
+}
 
 
   /*
@@ -1086,6 +1169,11 @@ export class PlayerSetupScreen {
             }
 
 
+            const rowSkinId =
+              row.dataset.skinId ||
+              null;
+
+
             return {
               name:
                 nameInput
@@ -1097,9 +1185,7 @@ export class PlayerSetupScreen {
                   .value,
 
               skinId:
-                this.#getEquippedSkinId(
-                  characterSelect.value,
-                ),
+                rowSkinId,
             };
           },
         );

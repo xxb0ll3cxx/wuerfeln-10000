@@ -801,7 +801,7 @@ export const CHARACTERS =
         'DjPengPear',
 
       name:
-        'DjPengPear',
+        'DjPengPea',
 
       portrait:
         djPengPearPortrait,

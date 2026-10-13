@@ -170,12 +170,31 @@ export class VictoryScreen {
 
     this.handleAgain =
       () => {
+        const replayPlayers =
+          state.players.map(
+            (player) => ({
+              name:
+                player.name,
+
+              characterId:
+                player.characterId,
+
+              skinId:
+                player.skinId ??
+                null,
+            }),
+          );
+
+
         this.navigate(
           SCREENS.PLAYER_SETUP,
           {
             mode:
               state.mode ??
               'virtual',
+
+            players:
+              replayPlayers,
           },
         );
       };

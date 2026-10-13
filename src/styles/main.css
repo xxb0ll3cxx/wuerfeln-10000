@@ -2,6 +2,36 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: "Western";
+
+  src:
+    url("../assets/fonts/Western2.ttf")
+    format("truetype");
+
+  font-style: normal;
+  font-weight: 400;
+
+  font-display: swap;
+}
+
+:root {
+  --button-font-family:
+    "Western";
+
+  --button-text-color:
+    #f0b639;
+
+  --button-text-shadow:
+    6px 6px 6px
+    rgba(
+      0,
+      0,
+      0,
+      0.75
+    );
+}
+
 html,
 body,
 #app {
@@ -2560,8 +2590,6 @@ option {
 
 .game-screen
 [data-action="roll"] {
-  border:
-    0;
 
   background:
     transparent;
@@ -2581,7 +2609,7 @@ option {
     contain;
 
   color:
-    transparent;
+  transparent;
 
   cursor:
     pointer;
@@ -2926,7 +2954,7 @@ option {
    * Text kann intern im Button bestehen bleiben.
    */
   color:
-    transparent !important;
+    transparent;
 
   font-size:
     0 !important;
@@ -3016,7 +3044,7 @@ h2 {
    * falls der Text bereits im PNG steckt.
    */
   color:
-    transparent !important;
+    transparent;
 
   font-size:
     0 !important;
@@ -3186,7 +3214,7 @@ h2 {
    * wenn die Schrift bereits im Asset steckt.
    */
   color:
-    transparent !important;
+    transparent;
 
   font-size:
     0 !important;
@@ -3449,7 +3477,7 @@ small {
    * falls die Beschriftung im Asset steckt.
    */
   color:
-    transparent !important;
+    transparent;
 
   font-size:
     0 !important;
