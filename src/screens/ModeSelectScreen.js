@@ -497,7 +497,7 @@ export class ModeSelectScreen {
 
         this.accountNameElement
           .textContent =
-          state.user?.email ??
+          state.username ??
           'Account';
 
 

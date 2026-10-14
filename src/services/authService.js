@@ -7,6 +7,7 @@ export class AuthService {
   async signUp(
     email,
     password,
+    username,
   ) {
     const {
       data,
@@ -15,6 +16,12 @@ export class AuthService {
       await supabase.auth.signUp({
         email,
         password,
+
+        options: {
+          data: {
+            username,
+          },
+        },
       });
 
 

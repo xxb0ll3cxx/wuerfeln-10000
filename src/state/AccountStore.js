@@ -4,6 +4,9 @@ export class AccountStore {
       user:
         null,
 
+      username:
+        null,
+
       isAuthenticated:
         false,
 
@@ -31,7 +34,20 @@ export class AccountStore {
       new Set();
   }
 
+  setUsername(
+    username,
+  ) {
+    this.state = {
+      ...this.state,
 
+      username:
+        username ??
+        null,
+    };
+
+
+    this.#emit();
+  }
   getState() {
     return this.state;
   }
@@ -162,6 +178,9 @@ export class AccountStore {
   reset() {
     this.state = {
       user:
+        null,
+
+      username:
         null,
 
       isAuthenticated:

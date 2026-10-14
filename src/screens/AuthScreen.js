@@ -46,6 +46,8 @@ export class AuthScreen {
 
     this.handleBack =
       null;
+    this.usernameInput =
+      null;
   }
 
 
@@ -69,7 +71,24 @@ export class AuthScreen {
       class="auth-screen__form"
       data-auth-form
     >
+      <label
+        class="
+          auth-screen__field
+          auth-screen__field--username
+        "
+      >
+        <span class="auth-screen__label">
+          Nutzername
+        </span>
 
+        <input
+          class="auth-screen__input"
+          type="text"
+          autocomplete="username"
+          maxlength="20"
+          data-auth-username
+        >
+      </label>
       <label
         class="
           auth-screen__field
@@ -158,6 +177,11 @@ export class AuthScreen {
 `;
 
 
+
+    this.usernameInput =
+      rootElement.querySelector(
+        '[data-auth-username]',
+      );
     this.form =
       rootElement.querySelector(
         '[data-auth-form]',
@@ -276,7 +300,7 @@ export class AuthScreen {
 
   async #register() {
     const credentials =
-      this.#getCredentials();
+      this.#getCredentials({requireUsername:true,});
 
 
     if (!credentials) {
@@ -326,35 +350,59 @@ export class AuthScreen {
   }
 
 
-  #getCredentials() {
-    const email =
-      this.emailInput
-        ?.value
-        .trim();
-
-    const password =
-      this.passwordInput
-        ?.value ??
-      '';
-
-
-    if (
-      !email ||
-      !password
-    ) {
-      this.#showMessage(
-        'Bitte E-Mail und Passwort eingeben.',
-      );
-
-      return null;
-    }
+#getCredentials({
+  requireUsername =
+    false,
+} = {}) {
+  const username =
+    this.usernameInput
+      ?.value
+      .trim() ??
+    '';
 
 
-    return {
-      email,
-      password,
-    };
+  const email =
+    this.emailInput
+      ?.value
+      .trim();
+
+
+  const password =
+    this.passwordInput
+      ?.value ??
+    '';
+
+
+  if (
+    !email ||
+    !password
+  ) {
+    this.#showMessage(
+      'Bitte E-Mail und Passwort eingeben.',
+    );
+
+    return null;
   }
+
+
+  if (
+    requireUsername &&
+    !username
+  ) {
+    this.#showMessage(
+      'Bitte einen Nutzernamen eingeben.',
+    );
+
+    return null;
+  }
+
+
+  return {
+    username,
+    email,
+    password,
+  };
+}
 
 
   #setBusy(
@@ -409,7 +457,8 @@ export class AuthScreen {
         this.handleBack,
       );
 
-
+    this.usernameInput =
+      null;
     this.form =
       null;
 

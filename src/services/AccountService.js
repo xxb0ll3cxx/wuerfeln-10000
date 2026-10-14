@@ -6,11 +6,13 @@ import {
 export class AccountService {
   async loadAccountData() {
     const [
+      profileResult,
       walletResult,
       inventoryResult,
       equippedResult,
     ] =
       await Promise.all([
+        this.#loadProfile(),
         this.#loadWallet(),
         this.#loadInventory(),
         this.#loadEquippedCosmetics(),
@@ -18,6 +20,9 @@ export class AccountService {
 
 
     return {
+      username:
+        profileResult.username,
+
       coins:
         walletResult.coins,
 
@@ -29,6 +34,104 @@ export class AccountService {
     };
   }
 
+  async updateUsername(
+    username,
+  ) {
+    const {
+      data: userData,
+      error: userError,
+    } =
+      await supabase.auth
+        .getUser();
+
+
+    if (userError) {
+      throw userError;
+    }
+
+
+    const user =
+      userData.user;
+
+
+    if (!user) {
+      throw new Error(
+        'Kein angemeldeter Account vorhanden.',
+      );
+    }
+
+
+    const {
+      data,
+      error,
+    } =
+      await supabase
+        .from(
+          'profiles',
+        )
+        .update({
+          username,
+
+          updated_at:
+            new Date()
+              .toISOString(),
+        })
+        .eq(
+          'user_id',
+          user.id,
+        )
+        .select(
+          'username',
+        )
+        .single();
+
+
+    if (error) {
+      if (
+        error.code ===
+        '23505'
+      ) {
+        throw new Error(
+          'Dieser Nutzername ist bereits vergeben.',
+        );
+      }
+
+
+      throw error;
+    }
+
+
+    return (
+      data.username
+    );
+  }
+
+  async #loadProfile() {
+    const {
+      data,
+      error,
+    } =
+      await supabase
+        .from(
+          'profiles',
+        )
+        .select(
+          'username',
+        )
+        .maybeSingle();
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    return {
+      username:
+        data?.username ??
+        null,
+    };
+  }
 
   async #loadWallet() {
     const {

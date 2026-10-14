@@ -105,6 +105,7 @@ export class AccountController {
 
 
   async register({
+    username,
     email,
     password,
   }) {
@@ -115,11 +116,16 @@ export class AccountController {
 
 
     try {
+      const normalizedUsername =
+        this.#validateUsername(
+          username,
+        );
       const result =
         await this.authService
           .signUp(
             email,
             password,
+            normalizedUsername,
           );
 
 
@@ -155,6 +161,7 @@ export class AccountController {
   async login({
     email,
     password,
+    username,
   }) {
     this.accountStore
       .setLoading(
@@ -181,7 +188,46 @@ export class AccountController {
         await this
           .#loadAccountData();
       }
+      if (
+        result.user &&
+        !this.accountStore
+          .getState()
+          .username
+      ) {
+        if (
+          !username?.trim()
+        ) {
+          await this.authService
+            .signOut();
 
+
+          this.accountStore
+            .reset();
+
+
+          throw new Error(
+            'Für diesen bestehenden Account muss zuerst ein Nutzername vergeben werden.',
+          );
+        }
+
+
+        try {
+          await this.setUsername(
+            username,
+          );
+        }
+        catch (error) {
+          await this.authService
+            .signOut();
+
+
+          this.accountStore
+            .reset();
+
+
+          throw error;
+        }
+      }
 
       return result;
     }
@@ -234,11 +280,35 @@ export class AccountController {
     await this
       .#loadAccountData();
   }
+  async setUsername(
+    username,
+  ) {
+    const normalizedUsername =
+      this.#validateUsername(
+        username,
+      );
 
+
+    const savedUsername =
+      await this.accountService
+        .updateUsername(
+          normalizedUsername,
+        );
+
+
+    this.accountStore
+      .setUsername(
+        savedUsername,
+      );
+
+
+    return savedUsername;
+  }
 
   async #loadAccountData() {
     try {
       const {
+        username,
         coins,
         inventory,
         equippedCosmetics,
@@ -258,6 +328,10 @@ export class AccountController {
           inventory,
         );
 
+      this.accountStore
+        .setUsername(
+          username,
+        );
 
       this.accountStore
         .setEquippedCosmetics(
@@ -285,4 +359,39 @@ export class AccountController {
     this.unsubscribeAuth =
       null;
   }
+
+#validateUsername(
+  username,
+) {
+  const normalized =
+    typeof username ===
+      'string'
+      ? username.trim()
+      : '';
+
+
+  if (
+    normalized.length < 3 ||
+    normalized.length > 20
+  ) {
+    throw new Error(
+      'Der Nutzername muss zwischen 3 und 20 Zeichen lang sein.',
+    );
+  }
+
+
+  if (
+    !/^[A-Za-z0-9_-]+$/
+      .test(
+        normalized,
+      )
+  ) {
+    throw new Error(
+      'Der Nutzername darf nur Buchstaben, Zahlen, _ und - enthalten.',
+    );
+  }
+
+
+  return normalized;
+}
 }
