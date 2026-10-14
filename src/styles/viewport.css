@@ -2010,7 +2010,7 @@ img.active-character-sprite[src*="dampfi__gold_freude"] {
     100px;
 
   transform:
-  translateY(
+  translate(20px,
     -100px
   );
 
@@ -2029,7 +2029,7 @@ img.active-character-sprite[src*="dampfi__gold_freude"] {
     100px;
 
     transform:
-    translateY(
+    translate(20px,
       -100px
     );
   
@@ -2048,7 +2048,7 @@ img.active-character-sprite[src*="dampfi__gold_freude"] {
     100px;
 
   transform:
-  translateY(
+  translate(20px,
     -100px
   );
 }
@@ -2252,9 +2252,10 @@ img.active-character-sprite[src*="dampfi__gold_freude"] {
     105px;
 
   transform:
+  scale(1.17)
     translate(
        30px,
-      -190px
+      -154px
     );
 }
 
@@ -2276,7 +2277,7 @@ img.active-character-sprite[src*="dampfi__gold_freude"] {
 
     transform:
     translate(
-      -50px,
+      -10px,
       -180px
     );
 }
@@ -2342,7 +2343,7 @@ img.active-character-sprite[src*="dampfi__gold_freude"] {
 
   transform:
     translate(
-      60px,
+      100px,
       -10px
     );
 }
@@ -2355,14 +2356,16 @@ img.active-character-sprite[src*="dampfi__gold_freude"] {
 .player-setup-screen
 .player-setup__field--character {
   width:
-    210px;
+    250px;
+    
+  font-size: 20px;
 
   min-width:
     0;
 
   transform:
     translate(
-      0px,
+      40px,
       -10px
     );
 }
@@ -2388,7 +2391,7 @@ img.active-character-sprite[src*="dampfi__gold_freude"] {
 
   transform:
     translate(
-      -10px,
+      30px,
       -10px
     );
 }
@@ -2542,7 +2545,7 @@ option {
 
   transform:
     translate(
-      0px,
+      30px,
       20px
     );
 }
@@ -2568,11 +2571,13 @@ option {
 
   align-self:
     center;
+  
+  font-size: 20px;
 
   transform:
     translate(
-      0px,
-      0px
+      -10px,
+      20px
     );
 }
 
@@ -2590,10 +2595,10 @@ option {
     portrait;
 
   width:
-    120px;
+    90px;
 
   height:
-    100px;
+    80px;
 
   justify-self:
     center;
@@ -2603,8 +2608,8 @@ option {
 
   transform:
     translate(
-      0px,
-      15px
+      -40px,
+      20px
     );
 }
 
@@ -4901,7 +4906,7 @@ button.auth-screen__button--back {
 
 #game-stage .mode-select-screen {
 
-  --account-panel-image: url('../assets/ui/panels/acc_view.png');
+  --account-panel-image: url('../assets/ui/panels/acc_view.webp');
   --account-name-image: none;
   --account-login-image: url('../assets/ui/buttons/Button_Login.webp');
   --account-logout-image: url('../assets/ui/buttons/Button_Logout.webp');

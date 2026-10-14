@@ -3,7 +3,7 @@ export const DICE_SKINS = Object.freeze({
   dice_gold: Object.freeze({
     id: 'dice_gold',
     name: 'Goldwürfel',
-    portrait: new URL('../assets/dice/skins/gold/golden_dice_prev.png', import.meta.url,).href,
+    portrait: new URL('../assets/dice/skins/gold/golden_dice_prev.webp', import.meta.url,).href,
 
     faces: Object.freeze({
       1: {

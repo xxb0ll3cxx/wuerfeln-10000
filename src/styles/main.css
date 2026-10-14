@@ -1641,7 +1641,7 @@ input {
 
   background-image:
     url(
-      '../assets/ui/icons/CharacterSelectLogo.png'
+      '../assets/ui/icons/CharacterSelectLogo.webp'
     );
 
   background-repeat:
@@ -1812,7 +1812,7 @@ input {
 
   background-image:
     url(
-      '../assets/characters/character_bg.png'
+      '../assets/ui/buttons/Button_generic.webp'
     );
 
   background-repeat:
@@ -1822,7 +1822,7 @@ input {
     center;
 
   background-size:
-    100% 100%;
+    100% 120%;
 }
 
 
@@ -2487,7 +2487,7 @@ option {
 
   background-image:
     url(
-      '../assets/ui/panels/slotRollen.png'
+      '../assets/ui/panels/slotRollen.webp'
     );
 
   background-repeat:
@@ -3091,7 +3091,7 @@ h2 {
 
   background-image:
     url(
-      '../assets/ui/panels/Rechner.png'
+      '../assets/ui/panels/Rechner.webp'
     ) !important;
 
   background-repeat:
