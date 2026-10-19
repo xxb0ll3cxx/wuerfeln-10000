@@ -350,6 +350,23 @@ export class ShopScreen {
           .append(
             card,
           );
+
+        if (
+          document.fonts?.ready
+        ) {
+          await document.fonts.ready;
+        }
+
+
+        if (
+          this.isDestroyed ||
+          !this.catalogElement
+        ) {
+          return;
+        }
+
+
+        this.#fitProductTitles();
       }
     }
     catch (
@@ -372,6 +389,236 @@ export class ShopScreen {
       this.catalogElement
         .textContent =
         'Produkte konnten nicht geladen werden. Bitte prüfe die Browser-Konsole.';
+    }
+  }
+
+    #fitProductTitles() {
+    if (
+      this.isDestroyed ||
+      !this.catalogElement
+    ) {
+      return;
+    }
+
+
+    const titles =
+      this.catalogElement
+        .querySelectorAll(
+          '.shop-screen__product h2',
+        );
+
+
+    /*
+     * Unsichtbares Messelement.
+     *
+     * Es wird nur einmal erzeugt und für
+     * alle Produktnamen wiederverwendet.
+     */
+    const measureElement =
+      document.createElement(
+        'span',
+      );
+
+
+    measureElement.style.position =
+      'fixed';
+
+    measureElement.style.left =
+      '-10000px';
+
+    measureElement.style.top =
+      '0';
+
+    measureElement.style.display =
+      'inline-block';
+
+    measureElement.style.visibility =
+      'hidden';
+
+    measureElement.style.pointerEvents =
+      'none';
+
+    measureElement.style.whiteSpace =
+      'nowrap';
+
+
+    document.body.append(
+      measureElement,
+    );
+
+
+    try {
+      titles.forEach(
+        (title) => {
+          const text =
+            title.textContent
+              ?.trim() ??
+            '';
+
+
+          if (!text) {
+            return;
+          }
+
+
+          const words =
+            text
+              .split(/\s+/)
+              .filter(Boolean);
+
+
+          if (
+            words.length === 0
+          ) {
+            return;
+          }
+
+
+          /*
+           * Das ist die tatsächlich verfügbare
+           * Breite des Produktnamens.
+           *
+           * clientWidth ist hier absichtlich besser
+           * als getBoundingClientRect(), da dein
+           * kompletter Game-Stage später skaliert wird.
+           */
+          const availableWidth =
+            title.clientWidth;
+
+
+          if (
+            availableWidth <= 0
+          ) {
+            return;
+          }
+
+
+          const style =
+            getComputedStyle(
+              title,
+            );
+
+
+          const originalFontSize =
+            parseFloat(
+              style.fontSize,
+            );
+
+
+          if (
+            !Number.isFinite(
+              originalFontSize,
+            ) ||
+            originalFontSize <= 0
+          ) {
+            return;
+          }
+
+
+          /*
+           * Das Messelement muss exakt dieselbe
+           * Schrift verwenden wie der Titel.
+           */
+          measureElement.style.fontFamily =
+            style.fontFamily;
+
+          measureElement.style.fontWeight =
+            style.fontWeight;
+
+          measureElement.style.fontStyle =
+            style.fontStyle;
+
+          measureElement.style.letterSpacing =
+            style.letterSpacing;
+
+          measureElement.style.textTransform =
+            style.textTransform;
+
+          measureElement.style.fontSize =
+            `${originalFontSize}px`;
+
+
+          /*
+           * Nur die einzelnen Wörter messen.
+           *
+           * Ob der gesamte Produktname auf eine oder
+           * zwei Zeilen passt, ist ausdrücklich egal.
+           */
+          let widestWordWidth =
+            0;
+
+
+          words.forEach(
+            (word) => {
+              measureElement.textContent =
+                word;
+
+
+              const wordWidth =
+                measureElement
+                  .getBoundingClientRect()
+                  .width;
+
+
+              widestWordWidth =
+                Math.max(
+                  widestWordWidth,
+                  wordWidth,
+                );
+            },
+          );
+
+
+          /*
+           * Alle einzelnen Wörter passen bereits.
+           *
+           * Dann bleibt die volle Schriftgröße erhalten.
+           */
+          if (
+            widestWordWidth <=
+            availableWidth
+          ) {
+            title.style.fontSize =
+              '';
+
+            return;
+          }
+
+
+          /*
+           * Nur wenn EIN Wort zu breit ist,
+           * wird die Schrift proportional verkleinert.
+           *
+           * 2px Sicherheitsabstand verhindern
+           * Rundungsprobleme im Browser.
+           */
+          const safeWidth =
+            Math.max(
+              availableWidth - 2,
+              1,
+            );
+
+
+          const scale =
+            safeWidth /
+            widestWordWidth;
+
+
+          const fittedFontSize =
+            Math.floor(
+              originalFontSize *
+              scale *
+              10,
+            ) / 10;
+
+
+          title.style.fontSize =
+            `${fittedFontSize}px`;
+        },
+      );
+    }
+    finally {
+      measureElement.remove();
     }
   }
 

@@ -3936,8 +3936,11 @@ button.mode-select__button--cosmetics:focus-visible {
 
   width: 210px;
   max-width: 210px;
+
   margin: 0;
+
   color: #eca438;
+
   text-shadow:
     6px 6px 6px
     rgba(
@@ -3946,13 +3949,18 @@ button.mode-select__button--cosmetics:focus-visible {
       0,
       0.75
     );
+
   transform: translateY(10px);
-  font-size: clamp(
-  28px,
-  2vw,
-  30px
-);
-  overflow-wrap: anywhere;
+
+  font-size: 30px;
+  line-height: 1.05;
+
+  text-align: center;
+
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: none;
 }
 
 
