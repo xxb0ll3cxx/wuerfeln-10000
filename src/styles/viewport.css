@@ -3952,11 +3952,19 @@ button.mode-select__button--cosmetics:focus-visible {
 
   transform: translateY(10px);
 
-  font-size: 30px;
+  /*
+   * Maximale Ausgangsgröße.
+   * JavaScript verkleinert nur dann,
+   * wenn ein einzelnes Wort zu breit ist.
+   */
+  font-size: 25px;
   line-height: 1.05;
 
   text-align: center;
 
+  /*
+   * Umbruch nur zwischen Wörtern.
+   */
   white-space: normal;
   word-break: normal;
   overflow-wrap: normal;
