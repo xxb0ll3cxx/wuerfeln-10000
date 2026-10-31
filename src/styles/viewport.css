@@ -523,6 +523,8 @@ body {
 
   justify-self:
     center;
+  transform: translate(35px, 0px);
+
 }
 
 
@@ -540,6 +542,7 @@ body {
 
   align-self:
     start;
+  transform: translate(35px, 0px);
 }
 
 
@@ -559,6 +562,7 @@ body {
     center;
 
   overflow-y: auto;
+  transform: translate(35px, 0px);
 }
 
 

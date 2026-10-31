@@ -44,9 +44,21 @@ export class VirtualGameScreen {
     audioService,
     coinService,
     accountStore,
+
+    clientCoinRewardsEnabled =
+      true,
+
+    usePlayerStateCosmetics =
+      false,
   }) {
     this.navigate =
       navigate;
+
+    this.clientCoinRewardsEnabled =
+      clientCoinRewardsEnabled;
+
+    this.usePlayerStateCosmetics =
+      usePlayerStateCosmetics;
 
     this.coinService =
       coinService;
@@ -138,6 +150,23 @@ export class VirtualGameScreen {
 
     this.unsubscribeAccount =
       null;
+
+    this.unsubscribeGameState =
+      null;
+
+
+    this.liveStateQueue =
+      Promise.resolve();
+
+    this.lastLiveRollSequence =
+      0;
+
+    this.lastLiveTurnResultKey =
+      null;
+
+    this.isDestroyed =
+      false;
+
 
     this.turnScoreElement =
       null;
@@ -572,13 +601,28 @@ export class VirtualGameScreen {
     this.gameScene =
       phaser.gameScene;
 
-    const accountState = this.accountStore.getState();
+    const accountState =
+      this.accountStore
+        .getState();
 
-    this.gameScene.setDiceSkinId(
-      accountState.isAuthenticated
-        ? accountState.equippedCosmetics?.dice
-        : null,
-    );
+
+    this.gameScene
+      .setDiceSkinId(
+        this.usePlayerStateCosmetics
+          ? (
+              currentPlayer
+                ?.diceSkinId ??
+              null
+            )
+          : (
+              accountState
+                .isAuthenticated
+                ? accountState
+                    .equippedCosmetics
+                    ?.dice
+                : null
+            ),
+      );
     /*
      * GameScene existiert zwar schon als Instanz,
      * create() ist zu diesem Zeitpunkt aber eventuell
@@ -591,7 +635,7 @@ export class VirtualGameScreen {
     this.gameScene
       .setDiceSelectionHandler(
         (diceIndex) => {
-          this.#handleDiceSelection(
+          void this.#handleDiceSelection(
             diceIndex,
           );
         },
@@ -744,9 +788,6 @@ export class VirtualGameScreen {
       null;
 
 
-    /*
-     * Spieler und Charakter dürfen sofort gerendert werden.
-     */
     this.#renderSessionState();
 
 
@@ -755,18 +796,21 @@ export class VirtualGameScreen {
         .getState();
 
 
-    /*
-     * WICHTIG:
-     *
-     * Nicht mehr sofort prepareForNextRoll() aufrufen.
-     *
-     * Erst auf GameScene.create() warten.
-     */
+    this.lastLiveRollSequence =
+      state.lastRoll
+        ?.sequence ??
+      0;
+    this.lastLiveTurnResultKey =
+      this.#getLiveTurnResultKey(
+        state.lastTurnResult,
+      );
+
     void this.#initializePhaserForTurn(
       state.turn
         .activeDiceCount,
     );
 
+    this.#subscribeToGameState();
 
     this.#hideStraightReroll();
 
@@ -805,13 +849,558 @@ export class VirtualGameScreen {
   }
 
 
+/*
+ * =======================================================
+ * LIVE GAME STATE
+ * =======================================================
+ */
+
+#subscribeToGameState() {
+  if (
+    typeof this.gameSessionController
+      ?.subscribe !==
+    'function'
+  ) {
+    /*
+     * Offline:
+     * GameSessionController arbeitet weiterhin
+     * vollständig lokal und benötigt diese
+     * Subscription nicht.
+     */
+    return;
+  }
+
+
+  this.unsubscribeGameState =
+    this.gameSessionController
+      .subscribe(
+        (state) => {
+          /*
+           * State-Updates bewusst nacheinander
+           * verarbeiten.
+           *
+           * Besonders wichtig bei Würfelanimationen:
+           * Ein späterer State darf nicht mitten in
+           * eine vorherige Darstellung springen.
+           */
+          this.liveStateQueue =
+            this.liveStateQueue
+              .then(
+                () =>
+                  this.#applyLiveGameState(
+                    state,
+                  ),
+              )
+              .catch(
+                (error) => {
+                  console.error(
+                    '[GameScreen] Live-State konnte nicht dargestellt werden:',
+                    error,
+                  );
+                },
+              );
+        },
+      );
+}
+
+#getLiveTurnResultKey(
+  result,
+) {
+  if (
+    !result?.type
+  ) {
+    return null;
+  }
+
+
+  return [
+    result.type,
+    result.playerId ?? '',
+    result.turnNumber ?? '',
+    result.rollSequence ?? '',
+  ]
+    .join(
+      ':',
+    );
+}
+
+
+async #playRemoteTurnReaction(
+  result,
+) {
+  if (!result) {
+    return;
+  }
+
+
+  /*
+   * =====================================================
+   * CLOCK / SICHERN
+   * =====================================================
+   *
+   * Der alte Charakter ist zu diesem Zeitpunkt noch
+   * sichtbar. Erst nach der Animation rendern wir den
+   * neuen aktiven Spieler.
+   */
+  if (
+    result.type ===
+    'bank'
+  ) {
+    await this.audioService
+      .playSfx(
+        'bankScore',
+      );
+
+
+    await this.activeCharacterView
+      ?.playAnimation(
+        'success',
+      );
+
+
+    return;
+  }
+
+
+  /*
+   * =====================================================
+   * FEHLWURF
+   * =====================================================
+   */
+  if (
+    result.type ===
+    'bust'
+  ) {
+    await this.activeCharacterView
+      ?.playAnimation(
+        'fail',
+      );
+  }
+}
+async #applyLiveGameState(
+  state,
+) {
+  if (
+    this.isDestroyed ||
+    !state?.turn
+  ) {
+    return;
+  }
+
+
+  /*
+   * Phaser muss vollständig bereit sein,
+   * bevor wir Würfel oder Auswahlzustände
+   * synchronisieren.
+   */
+  await this.phaserReadyPromise;
+
+
+  if (
+    this.isDestroyed ||
+    !this.gameScene
+  ) {
+    return;
+  }
+
+
+  const lastRoll =
+    state.lastRoll;
+
+
+  const rollSequence =
+    lastRoll
+      ?.sequence ??
+    0;
+
+
+  const hasNewRoll =
+    rollSequence >
+    this.lastLiveRollSequence;
+
+
+  /*
+   * =====================================================
+   * FREMDEN SERVERWURF LIVE ANIMIEREN
+   * =====================================================
+   */
+
+  if (
+    hasNewRoll
+  ) {
+    /*
+     * Sofort als verarbeitet markieren.
+     *
+     * Dadurch kann derselbe Serverwurf niemals
+     * zweimal animiert werden.
+     */
+    this.lastLiveRollSequence =
+      rollSequence;
+
+
+    /*
+     * Beim eigenen Wurf läuft bereits #handleRoll().
+     * Der darf die Animation selbst durchführen.
+     *
+     * Beim anderen Browser ist isRolling === false,
+     * also wird dort exakt derselbe Serverwurf
+     * ebenfalls animiert.
+     */
+    if (
+      !this.isRolling
+    ) {
+      const diceResults =
+        (
+          lastRoll?.dice ??
+          []
+        )
+          .map(
+            (die) =>
+              die.value,
+          )
+          .filter(
+            (value) =>
+              Number.isInteger(
+                value,
+              ),
+          );
+
+
+      if (
+        diceResults.length >
+        0
+      ) {
+        this.audioService
+          .playSfx(
+            'diceRoll',
+          );
+
+
+        try {
+          await this.gameScene
+            .showRoll(
+              diceResults,
+            );
+
+        } finally {
+          this.audioService
+            .stopSfx(
+              'diceRoll',
+            );
+        }
+      }
+    }
+  }
+
+/*
+ * =====================================================
+ * TURN-ABSCHLUSS ERKENNEN
+ * =====================================================
+ */
+
+const turnResult =
+  state.lastTurnResult;
+
+
+const turnResultKey =
+  this.#getLiveTurnResultKey(
+    turnResult,
+  );
+
+
+const hasNewTurnResult =
+  Boolean(
+    turnResultKey &&
+    turnResultKey !==
+      this.lastLiveTurnResultKey,
+  );
+
+
+/*
+ * Sofort markieren.
+ *
+ * Besonders beim eigenen Zug wichtig:
+ * Dort übernimmt bereits #handleBank() bzw.
+ * #finishBust() die Darstellung.
+ */
+if (
+  hasNewTurnResult
+) {
+  this.lastLiveTurnResultKey =
+    turnResultKey;
+}
+
+if (
+  this.isRolling ||
+  this.isBankReactionPlaying
+) {
+  return;
+}
+
+
+/*
+ * =====================================================
+ * FREMDEN TURN-ABSCHLUSS ANIMIEREN
+ * =====================================================
+ */
+if (
+  hasNewTurnResult &&
+  turnResult?.playerId &&
+  turnResult.playerId !==
+    state.localPlayerId
+) {
+  await this.#playRemoteTurnReaction(
+    turnResult,
+  );
+
+
+  if (
+    this.isDestroyed
+  ) {
+    return;
+  }
+}
+
+const latestState =
+  this.gameSessionController
+    .getState();
+
+
+  if (
+    !latestState?.turn
+  ) {
+    return;
+  }
+
+  this.#renderSessionState();
+
+
+  this.#syncLiveTurnPresentation(
+    latestState,
+  );
+
+
+  this.#syncActionButtons();
+}
+
+
+#syncLiveTurnPresentation(
+  state,
+) {
+  const turn =
+    state.turn;
+
+
+  if (!turn) {
+    return;
+  }
+
+
+  const canAct =
+    typeof this.gameSessionController
+      ?.canPerformGameAction ===
+      'function'
+      ? this.gameSessionController
+          .canPerformGameAction()
+      : true;
+
+
+  /*
+   * =====================================================
+   * AUSWAHLPHASE
+   * =====================================================
+   */
+
+  if (
+    turn.phase ===
+    TURN_PHASES.SELECTING
+  ) {
+    const selectedDiceIndices =
+      [
+        ...(
+          turn.selectedDiceIndices ??
+          []
+        ),
+      ];
+
+
+    this.gameScene
+      .setSelectedDiceIndices(
+        selectedDiceIndices,
+      );
+
+
+    this.gameScene
+      .setDiceSelectionEnabled(
+        canAct &&
+        (
+          turn.scoringOptions
+            ?.length ??
+          0
+        ) >
+          0,
+      );
+
+
+    this.#renderStraightReroll(
+      turn.straightRerollOption,
+    );
+
+
+    if (
+      this.straightRerollButton
+    ) {
+      this.straightRerollButton
+        .disabled =
+        !canAct;
+    }
+
+
+    const validation =
+      turn.selectionValidation;
+
+
+    this.currentSelectionValidation =
+      validation ??
+      null;
+
+
+    /*
+     * Eine Interpretation wird erst lokal mit einem
+     * Button ausgewählt. Eine fremde Auswahl darf
+     * deshalb niemals unsere alte lokale Interpretation
+     * behalten.
+     */
+    this.selectedInterpretationId =
+      null;
+
+
+    if (
+      validation &&
+      (
+        validation
+          .selectedDiceIndices
+          ?.length ??
+        0
+      ) >
+        0
+    ) {
+      this.#renderSelectionValidation(
+        validation,
+      );
+
+
+      return;
+    }
+
+
+    this.interpretationsElement
+      .replaceChildren();
+
+
+    if (
+      canAct
+    ) {
+      this.statusElement
+        .textContent =
+        turn
+          .straightRerollOption
+          ?.isAvailable
+          ? 'Wähle punktende Würfel oder nutze den Straßen-Nachwurf.'
+          : 'Wähle die Würfel, die du werten möchtest.';
+
+    } else {
+      const currentPlayer =
+        state.players[
+          state.currentPlayerIndex
+        ];
+
+
+      this.statusElement
+        .textContent =
+        currentPlayer
+          ? `${currentPlayer.name} wählt gerade eine Wertung.`
+          : 'Der andere Spieler wählt gerade eine Wertung.';
+    }
+
+
+    return;
+  }
+
+
+  /*
+  * =====================================================
+  * BEREIT FÜR NÄCHSTEN WURF
+  * =====================================================
+  */
+
+  this.currentSelectionValidation =
+    null;
+
+
+  this.selectedInterpretationId =
+    null;
+
+
+  this.gameScene
+    .setDiceSelectionEnabled(
+      false,
+    );
+
+
+  this.gameScene
+    .setSelectedDiceIndices(
+      [],
+    );
+
+
+  this.#hideStraightReroll();
+
+
+  this.interpretationsElement
+    .replaceChildren();
+
+
+  if (
+    turn.phase ===
+    TURN_PHASES.READY_TO_ROLL
+  ) {
+    this.gameScene
+      .prepareForNextRoll(
+        turn.activeDiceCount,
+      );
+
+
+    const currentPlayer =
+      state.players[
+        state.currentPlayerIndex
+      ];
+
+
+    if (
+      canAct
+    ) {
+      this.statusElement
+        .textContent =
+        'Du bist an der Reihe. Würfle!';
+
+    } else if (
+      currentPlayer
+    ) {
+      this.statusElement
+        .textContent =
+        `${currentPlayer.name} ist an der Reihe.`;
+    }
+  }
+}
+
   /*
    * =======================================================
    * PRIMARY ACTION
    * =======================================================
    */
 
-  #handlePrimaryAction() {
+  async #handlePrimaryAction() {
     /*
      * Während einer Character-Reaktion keine
      * weiteren Aktionen annehmen.
@@ -832,7 +1421,7 @@ export class VirtualGameScreen {
       state.turn.phase ===
       TURN_PHASES.READY_TO_ROLL
     ) {
-      void this.#handleRoll();
+      await this.#handleRoll();
 
       return;
     }
@@ -845,7 +1434,7 @@ export class VirtualGameScreen {
     }
 
 
-    this.#confirmInterpretation(
+    await this.#confirmInterpretation(
       this.selectedInterpretationId,
     );
   }
@@ -1053,7 +1642,7 @@ export class VirtualGameScreen {
        * Echtes Ergebnis zuerst berechnen.
        */
       const result =
-        this.virtualTurnController
+        await this.virtualTurnController
           .rollDice();
 
       
@@ -1150,13 +1739,27 @@ export class VirtualGameScreen {
         'Ungültiger Zustand nach dem Würfeln.',
       );
 
-    } finally {
-      this.isRolling =
-        false;
+      } catch (
+        error
+      ) {
+        console.error(
+          '[GameScreen] Würfeln fehlgeschlagen:',
+          error,
+        );
 
 
-      this.#syncActionButtons();
-    }
+        this.#renderMessage(
+          error?.message ??
+          'Der Würfelwurf ist fehlgeschlagen.',
+        );
+
+      } finally {
+        this.isRolling =
+          false;
+
+
+        this.#syncActionButtons();
+      }
   }
 
 
@@ -1166,11 +1769,12 @@ export class VirtualGameScreen {
    * =======================================================
    */
 
-  #handleDiceSelection(
-    diceIndex,
-  ) {
+  async #handleDiceSelection(
+  diceIndex,
+) {
+  try {
     const result =
-      this.virtualTurnController
+      await this.virtualTurnController
         .toggleDiceSelection(
           diceIndex,
         );
@@ -1204,7 +1808,25 @@ export class VirtualGameScreen {
 
 
     this.#syncActionButtons();
+
+  } catch (
+    error
+  ) {
+    console.error(
+      '[GameScreen] Würfelauswahl fehlgeschlagen:',
+      error,
+    );
+
+
+    this.#renderMessage(
+      error?.message ??
+      'Die Würfelauswahl ist fehlgeschlagen.',
+    );
+
+
+    this.#syncActionButtons();
   }
+}
 
 
   /*
@@ -1269,9 +1891,22 @@ export class VirtualGameScreen {
       button.type =
         'button';
 
+
+      const canAct =
+        typeof this.gameSessionController
+          ?.canPerformGameAction ===
+          'function'
+          ? this.gameSessionController
+              .canPerformGameAction()
+          : true;
+
+
+      button.disabled =
+        !canAct;
+
+
       button.className =
         'scoring-interpretation';
-
 
       if (
         interpretation.id
@@ -1365,14 +2000,14 @@ export class VirtualGameScreen {
    * =======================================================
    */
 
-  #confirmInterpretation(
+  async #confirmInterpretation(
     interpretationId,
   ) {
     this.#hideStraightReroll();
 
 
     const result =
-      this.virtualTurnController
+      await this.virtualTurnController
         .applySelectedScoring(
           interpretationId,
         );
@@ -1426,6 +2061,7 @@ export class VirtualGameScreen {
         },
       );
       if (
+        this.clientCoinRewardsEnabled &&
         earnedCoins > 0
       ) {
         this.coinService.enqueueReward({
@@ -1484,7 +2120,7 @@ export class VirtualGameScreen {
    * =======================================================
    */
 
-  #handleStraightReroll() {
+  async #handleStraightReroll() {
     if (
       this.isBankReactionPlaying
     ) {
@@ -1503,7 +2139,7 @@ export class VirtualGameScreen {
 
 
     const result =
-      this.virtualTurnController
+      await this.virtualTurnController
         .useStraightReroll();
 
 
@@ -1598,7 +2234,7 @@ export class VirtualGameScreen {
 
 
     const result =
-      this.gameSessionController
+      await this.gameSessionController
         .bankCurrentTurn();
 
     const earnedCoins =
@@ -1616,6 +2252,7 @@ export class VirtualGameScreen {
       },
     );
     if (
+      this.clientCoinRewardsEnabled &&
       earnedCoins > 0
     ) {
       this.coinService.enqueueReward({
@@ -1625,10 +2262,10 @@ export class VirtualGameScreen {
             .matchId,
 
         eventType:
-          'bank',
+          'instant_win',
 
         bankedScore:
-          result.bankedScore,
+          result.appliedScore,
       });
     }
 
@@ -1931,6 +2568,16 @@ export class VirtualGameScreen {
       return;
     }
 
+    if (
+      this.usePlayerStateCosmetics
+    ) {
+      this.gameScene
+        ?.setDiceSkinId(
+          currentPlayer
+            .diceSkinId ??
+          null,
+        );
+    }
 
     this.currentPlayerElement
       .textContent =
@@ -2189,6 +2836,14 @@ export class VirtualGameScreen {
       state.turn;
 
 
+    const canPerformGameAction =
+      typeof this.gameSessionController
+        ?.canPerformGameAction ===
+        'function'
+        ? this.gameSessionController
+            .canPerformGameAction()
+        : true;
+
     /*
      * =====================================================
      * SPIN / WÄHLEN
@@ -2212,6 +2867,7 @@ export class VirtualGameScreen {
 
 
         this.rollButton.disabled =
+          !canPerformGameAction ||
           !this.isPhaserReady ||
           this.isRolling ||
           this.isBankReactionPlaying;
@@ -2223,13 +2879,28 @@ export class VirtualGameScreen {
 
 
         this.rollButton.disabled =
+          !canPerformGameAction ||
           !this.isPhaserReady ||
           this.isRolling ||
           this.isBankReactionPlaying ||
           !this.selectedInterpretationId;
       }
     }
+    /*
+    * =====================================================
+    * STRAẞEN-NACHWURF
+    * =====================================================
+    */
 
+    if (
+      this.straightRerollButton
+    ) {
+      this.straightRerollButton
+        .disabled =
+        !canPerformGameAction ||
+        this.isRolling ||
+        this.isBankReactionPlaying;
+    }
 
     /*
      * =====================================================
@@ -2276,7 +2947,23 @@ export class VirtualGameScreen {
    */
 
   destroy() {
+    this.isDestroyed =
+      true;
+
+
+    this.unsubscribeGameState?.();
+
+
+    this.unsubscribeGameState =
+      null;
+
+
+    this.liveStateQueue =
+      Promise.resolve();
+
+
     this.unsubscribeAccount?.();
+
 
     this.unsubscribeAccount =
       null;

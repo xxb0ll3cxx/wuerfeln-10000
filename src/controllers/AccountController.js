@@ -351,7 +351,10 @@ export class AccountController {
         );
     }
   }
-
+async getAccessToken() {
+  return this.authService
+    .getAccessToken();
+}
 
   destroy() {
     this.unsubscribeAuth?.();

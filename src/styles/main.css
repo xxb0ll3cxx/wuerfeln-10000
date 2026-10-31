@@ -3597,3 +3597,163 @@ small {
   background:
     transparent;
 }
+
+/*
+ * =========================================================
+ * MULTIPLAYER TEST BUTTON
+ * =========================================================
+ *
+ * Nur für die erste Multiplayer-Integration.
+ * Später bekommt der Button ein richtiges Asset.
+ */
+
+.mode-select__online-test {
+  position: absolute;
+
+  left: 50%;
+  bottom: 40px;
+
+  transform:
+    translateX(-50%);
+
+  z-index: 100;
+}
+
+
+.mode-select__online-test button {
+  min-width: 260px;
+
+  padding: 14px 24px;
+
+  border: 2px solid #dba85a;
+  border-radius: 10px;
+
+  background:
+    #603a20;
+
+  color:
+    #ffffff;
+
+  font:
+    inherit;
+
+  cursor:
+    pointer;
+}
+.online-game__dice {
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    12px;
+
+  margin:
+    20px 0;
+}
+
+
+.online-game__die {
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  width:
+    72px;
+
+  height:
+    72px;
+
+  border:
+    2px solid currentColor;
+
+  border-radius:
+    12px;
+
+  font-size:
+    52px;
+
+  line-height:
+    1;
+}
+
+
+.online-game__die--rolling {
+  animation:
+    online-game-die-roll
+    450ms
+    ease;
+}
+
+
+@keyframes online-game-die-roll {
+  0% {
+    transform:
+      rotate(0deg)
+      scale(.75);
+  }
+
+  50% {
+    transform:
+      rotate(180deg)
+      scale(1.15);
+  }
+
+  100% {
+    transform:
+      rotate(360deg)
+      scale(1);
+  }
+}
+
+.online-game__die {
+  cursor:
+    pointer;
+}
+
+
+.online-game__die:disabled {
+  cursor:
+    default;
+}
+
+
+.online-game__die--selected {
+  outline:
+    5px solid
+    currentColor;
+
+  transform:
+    translateY(-8px);
+}
+
+
+.online-game__die--removed {
+  opacity:
+    0.4;
+
+  transform:
+    scale(0.8);
+}
+
+
+[data-scoring-interpretations] {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    flex-start;
+
+  gap:
+    8px;
+
+  margin:
+    12px 0;
+}

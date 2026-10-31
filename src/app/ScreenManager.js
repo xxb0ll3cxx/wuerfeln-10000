@@ -36,6 +36,13 @@ const SCREEN_MUSIC =
 
     [SCREENS.SCOREBOARD_GAME]:
       'gameMusic',
+    [SCREENS.ONLINE_MENU]:
+      'menuMusic',
+
+    [SCREENS.LOBBY]:
+      'menuMusic',
+    [SCREENS.ONLINE_GAME]:
+      'gameMusic',
 
     /*
      * Victory bekommt keine Background-Musik.

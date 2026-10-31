@@ -11,4 +11,16 @@ export const SERVER_EVENTS =
 
     ROOM_ERROR:
       'room:error',
+    ROOM_MEMBERSHIP:
+      'room:membership',
+    GAME_ERROR:
+      'game:error',
+    ROOM_MEMBERSHIP:
+      'room:membership',
+
+    WALLET_UPDATE:
+      'wallet:update',
+
+    GAME_ERROR:
+      'game:error',
   });

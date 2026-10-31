@@ -200,7 +200,6 @@ export class RoomManager {
     );
   }
 
-
   getRoomBySocketId(
     socketId,
   ) {
@@ -219,8 +218,148 @@ export class RoomManager {
       roomId,
     );
   }
+getRoomById(
+  roomId,
+) {
+  const normalizedRoomId =
+    String(
+      roomId ?? '',
+    )
+      .trim()
+      .toUpperCase();
 
 
+  if (!normalizedRoomId) {
+    return null;
+  }
+
+
+  return (
+    this.rooms.get(
+      normalizedRoomId,
+    ) ??
+    null
+  );
+}
+reconnectSocket({
+  roomId,
+  playerId,
+  reconnectToken,
+  socketId,
+}) {
+  if (
+    !roomId ||
+    !playerId ||
+    !reconnectToken ||
+    !socketId
+  ) {
+    throw new Error(
+      'Ungültige Reconnect-Daten.',
+    );
+  }
+
+
+  /*
+   * Ein neuer Socket darf noch keinem
+   * anderen Room zugeordnet sein.
+   */
+  if (
+    this.socketToRoomId.has(
+      socketId,
+    )
+  ) {
+    throw new Error(
+      'Dieser Socket befindet sich bereits in einem Room.',
+    );
+  }
+
+
+  const normalizedRoomId =
+    String(
+      roomId,
+    )
+      .trim()
+      .toUpperCase();
+
+
+  const room =
+    this.rooms.get(
+      normalizedRoomId,
+    );
+
+
+  if (!room) {
+    throw new Error(
+      'Room wurde nicht gefunden.',
+    );
+  }
+
+  const player =
+    room.reconnectPlayer({
+      playerId,
+      reconnectToken,
+      socketId,
+    });
+
+  this.socketToRoomId.set(
+    socketId,
+    normalizedRoomId,
+  );
+
+
+  return {
+    room,
+    player,
+  };
+}
+
+disconnectSocketFromMatch(
+  socketId,
+) {
+  const roomId =
+    this.socketToRoomId.get(
+      socketId,
+    );
+
+
+  if (!roomId) {
+    return null;
+  }
+
+
+  const room =
+    this.rooms.get(
+      roomId,
+    );
+
+
+  /*
+   * Die Netzwerkzuordnung dieses alten
+   * Sockets ist ab jetzt ungültig.
+   *
+   * Der PLAYER bleibt aber bestehen.
+   */
+  this.socketToRoomId.delete(
+    socketId,
+  );
+
+
+  if (!room) {
+    return null;
+  }
+
+
+  const player =
+    room.markPlayerDisconnected(
+      socketId,
+    );
+
+
+  return {
+    room,
+    player,
+  };
+}
     removeSocket(
         socketId,
         ) {
@@ -284,8 +423,67 @@ export class RoomManager {
             false,
         };
     }
+deleteRoom(
+  roomId,
+) {
+  const normalizedRoomId =
+    String(
+      roomId ?? '',
+    )
+      .trim()
+      .toUpperCase();
 
 
+  if (!normalizedRoomId) {
+    return null;
+  }
+
+
+  const room =
+    this.rooms.get(
+      normalizedRoomId,
+    );
+
+
+  if (!room) {
+    return null;
+  }
+
+
+  /*
+   * Alle Socket-Zuordnungen des Rooms entfernen.
+   */
+  for (
+    const [
+      socketId,
+      mappedRoomId,
+    ]
+    of this.socketToRoomId
+  ) {
+    if (
+      mappedRoomId ===
+      normalizedRoomId
+    ) {
+      this.socketToRoomId.delete(
+        socketId,
+      );
+    }
+  }
+
+
+  this.rooms.delete(
+    normalizedRoomId,
+  );
+
+
+  console.log(
+    '[RoomManager] Room endgültig gelöscht:',
+    normalizedRoomId,
+  );
+
+
+  return room;
+}
   getRoomCount() {
     return this.rooms.size;
   }

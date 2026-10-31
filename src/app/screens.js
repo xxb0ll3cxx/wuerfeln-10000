@@ -6,6 +6,12 @@ export const SCREENS =
     MODE_SELECT:
       'mode-select',
 
+    ONLINE_MENU:
+      'online-menu',
+    
+    LOBBY:
+      'lobby',
+
     AUTH:
       'auth',
 
@@ -26,4 +32,7 @@ export const SCREENS =
 
     VICTORY:
       'victory',
+    ONLINE_GAME:
+      'online-game',
+  
   });
