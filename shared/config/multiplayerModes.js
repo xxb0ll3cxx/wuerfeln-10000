@@ -42,7 +42,7 @@ export const MULTIPLAYER_MODES =
         targetScore:
           Object.freeze({
             min:
-              5000,
+              1000,
 
             max:
               20000,

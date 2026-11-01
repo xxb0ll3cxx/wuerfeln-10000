@@ -362,7 +362,26 @@ export class OnlineGameController {
       null
     );
   }
+  leaveFinishedRoom() {
+    const state =
+      this.getState();
 
+
+    if (
+      state.roomStatus !==
+        'finished' &&
+      state.matchStatus !==
+        'finished'
+    ) {
+      return false;
+    }
+
+    this.multiplayerClient
+      .disconnect();
+
+
+    return true;
+  }
 
   /*
    * =====================================================

@@ -1161,9 +1161,9 @@ if (
   }
 }
 
-const latestState =
-  this.gameSessionController
-    .getState();
+  const latestState =
+    this.gameSessionController
+      .getState();
 
 
   if (
@@ -1171,6 +1171,30 @@ const latestState =
   ) {
     return;
   }
+
+  const finishedByRemotePlayer =
+    latestState.matchStatus ===
+      'finished' &&
+    turnResult?.playerId &&
+    turnResult.playerId !==
+      latestState.localPlayerId;
+
+
+  if (
+    finishedByRemotePlayer
+  ) {
+    this.navigate(
+      SCREENS.VICTORY,
+      {
+        gameSessionController:
+          this.gameSessionController,
+      },
+    );
+
+
+    return;
+  }
+
 
   this.#renderSessionState();
 
@@ -2078,9 +2102,13 @@ const latestState =
         });
       }
 
-      this.navigate(
-        SCREENS.VICTORY,
-      );
+    this.navigate(
+      SCREENS.VICTORY,
+      {
+        gameSessionController:
+          this.gameSessionController,
+      },
+    );
 
 
       return;
@@ -2295,9 +2323,13 @@ const latestState =
         false;
 
 
-      this.navigate(
-        SCREENS.VICTORY,
-      );
+    this.navigate(
+      SCREENS.VICTORY,
+      {
+        gameSessionController:
+          this.gameSessionController,
+      },
+    );
 
 
       return;
@@ -2417,9 +2449,13 @@ const latestState =
     if (
       result.matchFinished
     ) {
-      this.navigate(
-        SCREENS.VICTORY,
-      );
+    this.navigate(
+      SCREENS.VICTORY,
+      {
+        gameSessionController:
+          this.gameSessionController,
+      },
+    );
 
 
       return;

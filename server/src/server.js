@@ -33,7 +33,9 @@ import {
 import {
   OnlineCoinRewardService,
 } from './services/OnlineCoinRewardService.js';
-
+import {
+  CoinBattleService,
+} from './services/CoinBattleService.js';
 /*
  * =========================================================
  * HTTP SERVER
@@ -141,6 +143,12 @@ const roomManager =
 
 const onlineCoinRewardService =
   new OnlineCoinRewardService(
+    supabaseAdmin,
+  );
+
+
+const coinBattleService =
+  new CoinBattleService(
     supabaseAdmin,
   );
 
@@ -391,22 +399,23 @@ async function awardOnlineReward({
   eventType,
   bankedScore,
 }) {
+  if (
+    room.settings
+      ?.gameModeId ===
+    'coinBattle'
+  ) {
+    return;
+  }
   const userId =
     socket.data
       .authUserId;
 
 
-  /*
-   * Gäste erhalten keine persistenten Coins.
-   */
   if (!userId) {
     return;
   }
 
 
-  /*
-   * Entsprechend der bestehenden Coin-Regel.
-   */
   if (
     bankedScore <=
     1000
@@ -512,6 +521,267 @@ async function awardOnlineReward({
           error.message,
       },
     );
+  }
+}
+function emitCoinBattleWalletUpdate({
+  player,
+  balance,
+  battleId,
+  wagerCoins,
+  potCoins,
+}) {
+  if (
+    !player
+      ?.socketId ||
+    !player
+      ?.accountId ||
+    !Number.isSafeInteger(
+      balance,
+    )
+  ) {
+    return;
+  }
+
+
+  io.to(
+    player.socketId,
+  )
+    .emit(
+      SERVER_EVENTS.WALLET_UPDATE,
+      {
+        userId:
+          player.accountId,
+
+        reason:
+          'coin-battle-reserved',
+
+        balance,
+
+        battleId,
+
+        wagerCoins,
+
+        potCoins,
+      },
+    );
+}
+async function settleCoinBattle({
+  room,
+  winnerPlayerId,
+  reason,
+}) {
+  /*
+   * Normales Online-Spiel.
+   */
+  if (
+    !room
+      ?.coinBattle
+  ) {
+    return null;
+  }
+
+
+  /*
+   * Bereits abgeschlossen.
+   *
+   * Verhindert auch unnötige zweite RPCs
+   * innerhalb desselben Serverprozesses.
+   */
+  if (
+    room.coinBattle
+      .status ===
+    'settled'
+  ) {
+    return null;
+  }
+
+
+  if (
+    room.coinBattle
+      .status !==
+    'playing'
+  ) {
+    console.error(
+      '[CoinBattle] Settlement in ungültigem Zustand:',
+      {
+        roomId:
+          room.id,
+
+        battleId:
+          room.coinBattle
+            .battleId,
+
+        status:
+          room.coinBattle
+            .status,
+      },
+    );
+
+
+    return null;
+  }
+
+
+  const winnerPlayer =
+    room.getPlayerById(
+      winnerPlayerId,
+    );
+
+
+  if (
+    !winnerPlayer ||
+    !winnerPlayer.accountId
+  ) {
+    console.error(
+      '[CoinBattle] Sieger-Account fehlt:',
+      {
+        roomId:
+          room.id,
+
+        winnerPlayerId,
+      },
+    );
+
+
+    return null;
+  }
+
+
+  try {
+    const settlement =
+      await coinBattleService
+        .settleBattle({
+          battleId:
+            room.coinBattle
+              .battleId,
+
+          winnerUserId:
+            winnerPlayer
+              .accountId,
+
+          reason,
+        });
+
+
+    room.markCoinBattleSettled({
+      winnerPlayerId,
+
+      settlementReason:
+        reason,
+    });
+
+
+    const balance =
+      Number(
+        settlement.balance,
+      );
+
+
+    const potCoins =
+      Number(
+        settlement
+          .pot_coins,
+      );
+
+
+    /*
+     * Nur der Gewinner benötigt ein Wallet-Update.
+     *
+     * Der Verlierer wurde bereits beim Matchstart
+     * um seinen Einsatz reduziert.
+     */
+    if (
+      winnerPlayer.socketId &&
+      Number.isSafeInteger(
+        balance,
+      )
+    ) {
+      io.to(
+        winnerPlayer.socketId,
+      )
+        .emit(
+          SERVER_EVENTS.WALLET_UPDATE,
+          {
+            userId:
+              winnerPlayer
+                .accountId,
+
+            reason:
+              'coin-battle-settled',
+
+            battleId:
+              room.coinBattle
+                .battleId,
+
+            settlementReason:
+              reason,
+
+            awardedCoins:
+              potCoins,
+
+            potCoins,
+
+            balance,
+          },
+        );
+    }
+
+
+    console.log(
+      '[CoinBattle] Pot ausgezahlt:',
+      {
+        roomId:
+          room.id,
+
+        battleId:
+          room.coinBattle
+            .battleId,
+
+        winnerPlayerId,
+
+        winnerUserId:
+          winnerPlayer
+            .accountId,
+
+        potCoins,
+
+        balance,
+
+        reason,
+
+        alreadySettled:
+          settlement
+            .already_settled,
+      },
+    );
+
+
+    return settlement;
+
+  } catch (
+    error
+  ) {
+    console.error(
+      '[CoinBattle] KRITISCH: Pot konnte nicht ausgezahlt werden:',
+      {
+        roomId:
+          room.id,
+
+        battleId:
+          room.coinBattle
+            .battleId,
+
+        winnerPlayerId,
+
+        reason,
+
+        error:
+          error.message,
+      },
+    );
+
+
+    return null;
   }
 }
 
@@ -649,7 +919,7 @@ io.on(
     );
     socket.on(
       CLIENT_EVENTS.GAME_FORFEIT,
-      () => {
+       async () => {
         const room =
           roomManager
             .getRoomBySocketId(
@@ -695,7 +965,15 @@ io.on(
                 result.winnerPlayerId,
             },
           );
+          await settleCoinBattle({
+            room,
 
+            winnerPlayerId:
+              result.winnerPlayerId,
+
+            reason:
+              'forfeit',
+          });
 
           io.to(
             room.id,
@@ -881,7 +1159,7 @@ io.on(
     );
     socket.on(
       CLIENT_EVENTS.GAME_ROLL,
-      () => {
+        async () => {
         const room =
           roomManager
             .getRoomBySocketId(
@@ -911,7 +1189,24 @@ io.on(
             room.rollDice(
               socket.id,
             );
+   
+            if (
+              room.status ===
+                'finished' &&
+              room.match
+                ?.winnerPlayerId
+            ) {
+              await settleCoinBattle({
+                room,
 
+                winnerPlayerId:
+                  room.match
+                    .winnerPlayerId,
+
+                reason:
+                  'score',
+              });
+            }
 
           console.log(
             '[Game] Würfelergebnis:',
@@ -1054,7 +1349,7 @@ socket.on(
 
 socket.on(
   CLIENT_EVENTS.GAME_SCORING_APPLY,
-  (
+  async (
     payload,
   ) => {
     const room =
@@ -1104,7 +1399,22 @@ socket.on(
               result.appliedScore,
           });
         }
+        if (
+          result.isInstantWin &&
+          room.match
+            ?.winnerPlayerId
+        ) {
+          await settleCoinBattle({
+            room,
 
+            winnerPlayerId:
+              room.match
+                .winnerPlayerId,
+
+            reason:
+              'instant-win',
+          });
+        }
       console.log(
         '[Game] Wertung angewendet:',
         {
@@ -1590,7 +1900,7 @@ socket.on(
     );
     socket.on(
       CLIENT_EVENTS.GAME_START,
-      () => {
+      async () => {
         const room =
           roomManager
             .getRoomBySocketId(
@@ -1615,16 +1925,279 @@ socket.on(
         }
 
 
+        let reservedBattle =
+          null;
+
+
+        let startedMatch =
+          null;
+
+
         try {
-          const match =
+          /*
+          * Noch bevor Coins verändert werden:
+          *
+          * - Host?
+          * - 2 Spieler?
+          * - alle akzeptiert?
+          * - gültiger Modus?
+          * - bei CoinBattle beide Accounts?
+          */
+          const {
+            mode,
+          } =
+            room.validateGameStart(
+              socket.id,
+            );
+
+
+          /*
+          * ===================================================
+          * COIN BATTLE – EINSATZ RESERVIEREN
+          * ===================================================
+          */
+
+          if (
+            mode.usesWager
+          ) {
+            const [
+              player1,
+              player2,
+            ] =
+              room.players;
+
+
+            const battleId =
+              randomUUID();
+
+
+            const wagerCoins =
+              room.settings
+                .wagerCoins;
+
+
+            console.log(
+              '[CoinBattle] Reserviere Einsatz:',
+              {
+                roomId:
+                  room.id,
+
+                battleId,
+
+                wagerCoins,
+              },
+            );
+
+
+            const reservation =
+              await coinBattleService
+                .reserveBattle({
+                  battleId,
+
+                  roomId:
+                    room.id,
+
+                  player1UserId:
+                    player1
+                      .accountId,
+
+                  player2UserId:
+                    player2
+                      .accountId,
+
+                  wagerCoins,
+                });
+
+
+            reservedBattle = {
+              battleId,
+
+              player1,
+
+              player2,
+
+              wagerCoins,
+
+              potCoins:
+                Number(
+                  reservation
+                    .pot_coins,
+                ),
+
+              player1Balance:
+                Number(
+                  reservation
+                    .player_1_balance,
+                ),
+
+              player2Balance:
+                Number(
+                  reservation
+                    .player_2_balance,
+                ),
+            };
+
+
+            console.log(
+              '[CoinBattle] Einsatz reserviert:',
+              {
+                battleId,
+
+                potCoins:
+                  reservedBattle
+                    .potCoins,
+              },
+            );
+          }
+
+
+          /*
+          * ===================================================
+          * MATCH ERZEUGEN
+          * ===================================================
+          */
+
+          startedMatch =
             room.startGame(
               socket.id,
             );
 
 
+          /*
+          * ===================================================
+          * COIN BATTLE MIT MATCH VERKNÜPFEN
+          * ===================================================
+          */
+
+          if (
+            reservedBattle
+          ) {
+            try {
+              await coinBattleService
+                .markBattleStarted({
+                  battleId:
+                    reservedBattle
+                      .battleId,
+
+                  matchId:
+                    startedMatch.id,
+                });
+            }
+            catch (
+              startError
+            ) {
+              /*
+              * Match wurde im RAM schon erzeugt,
+              * aber noch nie an die Clients gesendet.
+              *
+              * Deshalb dürfen wir hier sicher auf
+              * Lobby zurückrollen.
+              */
+              room.rollbackGameStart(
+                startedMatch.id,
+              );
+
+
+              try {
+                await coinBattleService
+                  .refundReservedBattle({
+                    battleId:
+                      reservedBattle
+                        .battleId,
+                  });
+              }
+              catch (
+                refundError
+              ) {
+                console.error(
+                  '[CoinBattle] KRITISCH: Einsatz konnte nach fehlgeschlagenem Start nicht zurückerstattet werden:',
+                  {
+                    battleId:
+                      reservedBattle
+                        .battleId,
+
+                    error:
+                      refundError.message,
+                  },
+                );
+              }
+
+
+              throw startError;
+            }
+
+
+            room.setCoinBattleState({
+              battleId:
+                reservedBattle
+                  .battleId,
+
+              wagerCoins:
+                reservedBattle
+                  .wagerCoins,
+
+              potCoins:
+                reservedBattle
+                  .potCoins,
+            });
+
+
+            /*
+            * Erst jetzt Walletstände an die Clients schicken.
+            *
+            * Falls vorher etwas schiefgeht, sehen die Clients
+            * keinen kurzzeitigen falschen Kontostand.
+            */
+            emitCoinBattleWalletUpdate({
+              player:
+                reservedBattle
+                  .player1,
+
+              balance:
+                reservedBattle
+                  .player1Balance,
+
+              battleId:
+                reservedBattle
+                  .battleId,
+
+              wagerCoins:
+                reservedBattle
+                  .wagerCoins,
+
+              potCoins:
+                reservedBattle
+                  .potCoins,
+            });
+
+
+            emitCoinBattleWalletUpdate({
+              player:
+                reservedBattle
+                  .player2,
+
+              balance:
+                reservedBattle
+                  .player2Balance,
+
+              battleId:
+                reservedBattle
+                  .battleId,
+
+              wagerCoins:
+                reservedBattle
+                  .wagerCoins,
+
+              potCoins:
+                reservedBattle
+                  .potCoins,
+            });
+          }
+
+
           console.log(
             '[Game] Match gestartet:',
-            match.id,
+            startedMatch.id,
           );
 
 
@@ -1634,6 +2207,31 @@ socket.on(
           );
 
 
+          if (
+            reservedBattle
+          ) {
+            console.log(
+              '[CoinBattle] Match gestartet:',
+              {
+                battleId:
+                  reservedBattle
+                    .battleId,
+
+                matchId:
+                  startedMatch.id,
+
+                wagerCoins:
+                  reservedBattle
+                    .wagerCoins,
+
+                potCoins:
+                  reservedBattle
+                    .potCoins,
+              },
+            );
+          }
+
+
           io.to(
             room.id,
           )
@@ -1641,13 +2239,51 @@ socket.on(
               SERVER_EVENTS.ROOM_STATE,
               room.toPublicState(),
             );
-              scheduleFinishedRoomCleanup(
-              room,
-            );
+
+
+          scheduleFinishedRoomCleanup(
+            room,
+          );
         }
         catch (
           error
         ) {
+          /*
+          * Falls die Reservierung erfolgreich war,
+          * aber room.startGame() wegen einer Änderung
+          * während des DB-Requests fehlschlug,
+          * ebenfalls zurückerstatten.
+          */
+          if (
+            reservedBattle &&
+            !startedMatch
+          ) {
+            try {
+              await coinBattleService
+                .refundReservedBattle({
+                  battleId:
+                    reservedBattle
+                      .battleId,
+                });
+            }
+            catch (
+              refundError
+            ) {
+              console.error(
+                '[CoinBattle] KRITISCH: Reservierter Einsatz konnte nicht zurückerstattet werden:',
+                {
+                  battleId:
+                    reservedBattle
+                      .battleId,
+
+                  error:
+                    refundError.message,
+                },
+              );
+            }
+          }
+
+
           console.error(
             '[Game] Start fehlgeschlagen:',
             error,
@@ -1675,7 +2311,7 @@ socket.on(
 
 socket.on(
   CLIENT_EVENTS.GAME_BANK,
-  () => {
+  async () => {
     const room =
       roomManager
         .getRoomBySocketId(
@@ -1716,6 +2352,20 @@ socket.on(
           result.bankedScore,
       });
 
+      if (
+        result.matchFinished &&
+        result.winnerPlayerId
+      ) {
+        await settleCoinBattle({
+          room,
+
+          winnerPlayerId:
+            result.winnerPlayerId,
+
+          reason:
+            'score',
+        });
+      }
       console.log(
         '[Game] Punkte gesichert:',
         {
@@ -1875,7 +2525,7 @@ socket.on(
 
           const reconnectTimer =
             setTimeout(
-              () => {
+               async () => {
                 reconnectTimers.delete(
                   timerKey,
                 );
@@ -1906,7 +2556,15 @@ socket.on(
                       result.winnerPlayerId,
                   },
                 );
+                await settleCoinBattle({
+                  room,
 
+                  winnerPlayerId:
+                    result.winnerPlayerId,
+
+                  reason:
+                    'disconnect-forfeit',
+                });
 
                 io.to(
                   room.id,

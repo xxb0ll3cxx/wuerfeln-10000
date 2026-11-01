@@ -1097,37 +1097,51 @@ constructor({
     }
 
     if (
-    this.startButton
+      this.startButton
     ) {
-    const wagerModeBlocked =
-        mode.usesWager;
+      const allPlayersAuthenticated =
+        room.players.length ===
+          2 &&
+        room.players.every(
+          (player) =>
+            player
+              .isAuthenticated ===
+              true,
+        );
 
 
-    this.startButton.hidden =
+      const accountRequirementMissing =
+        mode.usesWager &&
+        !allPlayersAuthenticated;
+
+
+      this.startButton.hidden =
         !isHost;
 
 
-    this.startButton.disabled =
+      this.startButton.disabled =
         !room.canStart ||
-        wagerModeBlocked;
+        accountRequirementMissing;
 
 
-    if (
-        wagerModeBlocked
-    ) {
+      if (
+        accountRequirementMissing
+      ) {
         this.startButton.textContent =
-        'Coin Battle folgt mit Wallet-Anbindung';
-    }
-    else if (
+          'Coin Battle benötigt zwei Accounts';
+      }
+      else if (
         room.canStart
-    ) {
+      ) {
         this.startButton.textContent =
-        'Spiel starten';
-    }
-    else {
+          mode.usesWager
+            ? 'Coin Battle starten'
+            : 'Spiel starten';
+      }
+      else {
         this.startButton.textContent =
-        'Warte auf Zustimmung';
-    }
+          'Warte auf Zustimmung';
+      }
     }
     /*
      * =====================================================
@@ -1262,7 +1276,29 @@ constructor({
         localPlayer
           ?.characterId,
       );
+    const accountRequired =
+      mode.usesWager;
 
+
+    const accountRequirementMet =
+      !accountRequired ||
+      localPlayer
+        ?.isAuthenticated ===
+        true;
+
+
+    const allPlayersAuthenticated =
+      !accountRequired ||
+      (
+        room.players.length ===
+          2 &&
+        room.players.every(
+          (player) =>
+            player
+              .isAuthenticated ===
+              true,
+        )
+      );
 
     const allPlayersSelectedCharacter =
       room.players.length ===
@@ -1280,10 +1316,17 @@ constructor({
       this.acceptButton.disabled =
         !localPlayer ||
         !hasSelectedCharacter ||
+        !accountRequirementMet ||
         hasAccepted;
 
 
       if (
+        !accountRequirementMet
+      ) {
+        this.acceptButton.textContent =
+          'Für Coin Battle einloggen';
+      }
+      else if (
         !hasSelectedCharacter
       ) {
         this.acceptButton.textContent =
@@ -1302,6 +1345,13 @@ constructor({
       this.acceptStatusElement
     ) {
       if (
+        !allPlayersAuthenticated
+      ) {
+        this.acceptStatusElement
+          .textContent =
+          'Coin Battle kann nur mit zwei eingeloggten Accounts gespielt werden.';
+      }
+      else if (
         !allPlayersSelectedCharacter
       ) {
         this.acceptStatusElement

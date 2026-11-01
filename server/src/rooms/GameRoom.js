@@ -65,10 +65,10 @@ export class GameRoom {
     };
 
 
-    /*
-     * Wird erst beim Spielstart erzeugt.
-     */
     this.match =
+      null;
+
+    this.coinBattle =
       null;
 
 
@@ -1123,87 +1123,149 @@ forfeitPlayerBySocketId(
    * =====================================================
    */
 
+validateGameStart(
+  socketId,
+) {
+  if (
+    this.status !==
+    'lobby'
+  ) {
+    throw new Error(
+      'Das Spiel wurde bereits gestartet.',
+    );
+  }
+
+
+  const player =
+    this.getPlayerBySocketId(
+      socketId,
+    );
+
+
+  if (!player) {
+    throw new Error(
+      'Spieler wurde im Room nicht gefunden.',
+    );
+  }
+
+
+  if (
+    player.id !==
+    this.hostPlayerId
+  ) {
+    throw new Error(
+      'Nur der Host darf das Spiel starten.',
+    );
+  }
+
+
+  if (
+    this.players.length !==
+    2
+  ) {
+    throw new Error(
+      'Zum Starten werden genau zwei Spieler benötigt.',
+    );
+  }
+
+
+  if (
+    !this.areSettingsAccepted()
+  ) {
+    throw new Error(
+      'Beide Spieler müssen die Einstellungen akzeptieren.',
+    );
+  }
+
+
+  const mode =
+    getMultiplayerMode(
+      this.settings
+        .gameModeId,
+    );
+
+
+  if (!mode) {
+    throw new Error(
+      'Ungültiger Multiplayer-Spielmodus.',
+    );
+  }
+
+
+  /*
+   * =====================================================
+   * COIN BATTLE
+   * =====================================================
+   */
+
+  if (
+    mode.usesWager
+  ) {
+    const allAuthenticated =
+      this.players.every(
+        (roomPlayer) =>
+          roomPlayer
+            .isAuthenticated ===
+            true &&
+          Boolean(
+            roomPlayer.accountId,
+          ),
+      );
+
+
+    if (!allAuthenticated) {
+      throw new Error(
+        'Coin Battle erfordert zwei eingeloggte Accounts.',
+      );
+    }
+
+
+    const [
+      firstPlayer,
+      secondPlayer,
+    ] =
+      this.players;
+
+
+    if (
+      firstPlayer.accountId ===
+      secondPlayer.accountId
+    ) {
+      throw new Error(
+        'Ein Account kann nicht gegen sich selbst Coin Battle spielen.',
+      );
+    }
+
+
+    if (
+      !Number.isSafeInteger(
+        this.settings
+          .wagerCoins,
+      ) ||
+      this.settings
+        .wagerCoins <=
+        0
+    ) {
+      throw new Error(
+        'Ungültiger Coin-Einsatz.',
+      );
+    }
+  }
+
+
+  return {
+    player,
+    mode,
+  };
+}
+
+
   startGame(
     socketId,
   ) {
-    if (
-      this.status !==
-      'lobby'
-    ) {
-      throw new Error(
-        'Das Spiel wurde bereits gestartet.',
-      );
-    }
-
-
-    const player =
-      this.getPlayerBySocketId(
-        socketId,
-      );
-
-
-    if (!player) {
-      throw new Error(
-        'Spieler wurde im Room nicht gefunden.',
-      );
-    }
-
-
-    if (
-      player.id !==
-      this.hostPlayerId
-    ) {
-      throw new Error(
-        'Nur der Host darf das Spiel starten.',
-      );
-    }
-
-
-    if (
-      this.players.length !==
-      2
-    ) {
-      throw new Error(
-        'Zum Starten werden genau zwei Spieler benötigt.',
-      );
-    }
-
-
-    if (
-      !this.areSettingsAccepted()
-    ) {
-      throw new Error(
-        'Beide Spieler müssen die Einstellungen akzeptieren.',
-      );
-    }
-
-
-    const mode =
-      getMultiplayerMode(
-        this.settings
-          .gameModeId,
-      );
-
-
-    if (!mode) {
-      throw new Error(
-        'Ungültiger Multiplayer-Spielmodus.',
-      );
-    }
-
-
-    /*
-     * Coin Battle bleibt gesperrt,
-     * solange Wallet-Prüfung und
-     * Einsatzreservierung fehlen.
-     */
-    if (
-      mode.usesWager
-    ) {
-      throw new Error(
-        'Coin Battle kann noch nicht gestartet werden.',
-      );
-    }
+    this.validateGameStart(
+      socketId,
+    );
 
 
     this.match =
@@ -1222,6 +1284,129 @@ forfeitPlayerBySocketId(
 
     return this.match;
   }
+
+
+  rollbackGameStart(
+    matchId,
+  ) {
+    if (
+      this.status !==
+        'playing' ||
+      !this.match ||
+      this.match.id !==
+        matchId
+    ) {
+      return false;
+    }
+
+    this.match =
+      null;
+
+
+    this.status =
+      'lobby';
+
+
+    this.coinBattle =
+      null;
+
+
+    return true;
+  }
+
+  setCoinBattleState({
+    battleId,
+    wagerCoins,
+    potCoins,
+  }) {
+    if (
+      !battleId ||
+      !Number.isSafeInteger(
+        wagerCoins,
+      ) ||
+      !Number.isSafeInteger(
+        potCoins,
+      )
+    ) {
+      throw new Error(
+        'Ungültiger CoinBattle-State.',
+      );
+    }
+
+
+    this.coinBattle = {
+      battleId,
+
+      wagerCoins,
+
+      potCoins,
+
+      status:
+        'playing',
+    };
+  }
+markCoinBattleSettled({
+  winnerPlayerId,
+  settlementReason,
+}) {
+  if (
+    !this.coinBattle
+  ) {
+    return false;
+  }
+
+
+  /*
+   * Bereits lokal abgeschlossen.
+   */
+  if (
+    this.coinBattle
+      .status ===
+    'settled'
+  ) {
+    return false;
+  }
+
+
+  if (
+    this.coinBattle
+      .status !==
+    'playing'
+  ) {
+    throw new Error(
+      'CoinBattle befindet sich nicht im auszahlbaren Zustand.',
+    );
+  }
+
+
+  const winner =
+    this.getPlayerById(
+      winnerPlayerId,
+    );
+
+
+  if (!winner) {
+    throw new Error(
+      'CoinBattle-Sieger wurde im Room nicht gefunden.',
+    );
+  }
+
+
+  this.coinBattle = {
+    ...this.coinBattle,
+
+    status:
+      'settled',
+
+    winnerPlayerId,
+
+    settlementReason,
+  };
+
+
+  return true;
+}
+
 
   #assertAllMatchPlayersConnected() {
     const disconnectedPlayer =
@@ -1480,6 +1665,39 @@ bankTurn(
       settings: {
         ...this.settings,
       },
+
+
+      coinBattle:
+        this.coinBattle
+          ? {
+              battleId:
+                this.coinBattle
+                  .battleId,
+
+              wagerCoins:
+                this.coinBattle
+                  .wagerCoins,
+
+              potCoins:
+                this.coinBattle
+                  .potCoins,
+
+              status:
+                this.coinBattle
+                  .status,
+
+              winnerPlayerId:
+                this.coinBattle
+                  .winnerPlayerId ??
+                null,
+
+              settlementReason:
+                this.coinBattle
+                  .settlementReason ??
+                null,
+            }
+          : null,
+
 
       players:
         this.players.map(
