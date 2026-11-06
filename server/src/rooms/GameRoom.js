@@ -202,7 +202,31 @@ export class GameRoom {
         'Dieser Spieler befindet sich bereits im Room.',
       );
     }
+    const mode =
+      getMultiplayerMode(
+        this.settings
+          .gameModeId,
+      );
 
+
+    if (!mode) {
+      throw new Error(
+        'Room besitzt einen ungültigen Spielmodus.',
+      );
+    }
+
+
+    if (
+      this.players.length >=
+      mode.playerCount.max
+    ) {
+      throw new Error(
+        mode.playerCount.min ===
+          mode.playerCount.max
+          ? `${mode.name} unterstützt aktuell genau ${mode.playerCount.max} Spieler.`
+          : `${mode.name} unterstützt maximal ${mode.playerCount.max} Spieler.`,
+      );
+    }
 
     const player = {
       id:
@@ -704,6 +728,17 @@ forfeitPlayerBySocketId(
       );
     }
 
+    if (
+      this.players.length >
+      mode.playerCount.max
+    ) {
+      throw new Error(
+        mode.playerCount.min ===
+          mode.playerCount.max
+          ? `${mode.name} unterstützt aktuell genau ${mode.playerCount.max} Spieler.`
+          : `${mode.name} unterstützt maximal ${mode.playerCount.max} Spieler.`,
+      );
+    }
 
     /*
      * =====================================================
@@ -1086,9 +1121,27 @@ forfeitPlayerBySocketId(
 
 
   areSettingsAccepted() {
+    const mode =
+      getMultiplayerMode(
+        this.settings
+          .gameModeId,
+      );
+
+
+    if (!mode) {
+      return false;
+    }
+
+
+    const playerCount =
+      this.players.length;
+
+
     if (
-      this.players.length !==
-      2
+      playerCount <
+        mode.playerCount.min ||
+      playerCount >
+        mode.playerCount.max
     ) {
       return false;
     }
@@ -1104,7 +1157,6 @@ forfeitPlayerBySocketId(
         this.settings.revision,
     );
   }
-
 
   #resetSettingsAcceptances() {
     for (
@@ -1159,12 +1211,39 @@ validateGameStart(
   }
 
 
-  if (
-    this.players.length !==
-    2
-  ) {
+const mode =
+  getMultiplayerMode(
+    this.settings
+      .gameModeId,
+  );
+
+
+  if (!mode) {
     throw new Error(
-      'Zum Starten werden genau zwei Spieler benötigt.',
+      'Ungültiger Multiplayer-Spielmodus.',
+    );
+  }
+
+
+  const playerCount =
+    this.players.length;
+
+
+  if (
+    playerCount <
+      mode.playerCount.min ||
+    playerCount >
+      mode.playerCount.max
+  ) {
+    const playerRequirement =
+      mode.playerCount.min ===
+        mode.playerCount.max
+        ? `genau ${mode.playerCount.min}`
+        : `${mode.playerCount.min} bis ${mode.playerCount.max}`;
+
+
+    throw new Error(
+      `Für ${mode.name} werden ${playerRequirement} Spieler benötigt.`,
     );
   }
 
@@ -1173,21 +1252,7 @@ validateGameStart(
     !this.areSettingsAccepted()
   ) {
     throw new Error(
-      'Beide Spieler müssen die Einstellungen akzeptieren.',
-    );
-  }
-
-
-  const mode =
-    getMultiplayerMode(
-      this.settings
-        .gameModeId,
-    );
-
-
-  if (!mode) {
-    throw new Error(
-      'Ungültiger Multiplayer-Spielmodus.',
+      'Alle Spieler müssen die Einstellungen akzeptieren.',
     );
   }
 

@@ -3757,3 +3757,1375 @@ small {
   margin:
     12px 0;
 }
+/*
+ * =========================================================
+ * LOBBY - GEMEINSAME ASSET-UI
+ * =========================================================
+ */
+
+#game-stage .lobby-screen {
+  --lobby-player-card-image:
+    url('../assets/characters/character_card.webp');
+
+  /*
+   * Platzhalter.
+   * Später nur diese URLs austauschen.
+   */
+  --lobby-accept-button-image:
+    url('../assets/ui/buttons/Button_accept.webp');
+
+  --lobby-start-button-image:
+    url('../assets/ui/buttons/Button_Spielstarten.webp');
+
+  --lobby-leave-button-image:
+    url('../assets/ui/buttons/Button_Zurück.webp');
+
+
+  /*
+   * Status-Assets später hier einsetzen.
+   */
+  --lobby-connected-icon-image:
+    url('../assets/ui/buttons/greenCheck.webp');
+
+  --lobby-disconnected-icon-image:
+    url('../assets/ui/buttons/redX.webp');
+
+  --lobby-ready-icon-image:
+    url('../assets/ui/buttons/greenCheck.webp');
+
+  --lobby-not-ready-icon-image:
+    url('../assets/ui/buttons/redX.webp');
+
+
+  --lobby-coin-icon-image:
+    url('../assets/ui/icons/coins.webp');
+
+
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  padding: 0;
+
+  overflow: hidden;
+
+  color: #fff4d6;
+
+  background-color: #2b1b13;
+
+  background-image:
+    var(
+      --lobby-background-image,
+      none
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    100% 100%;
+}
+
+
+#game-stage
+.lobby-screen__sr-only {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  margin: -1px;
+  padding: 0;
+
+  overflow: hidden;
+
+  clip:
+    rect(
+      0,
+      0,
+      0,
+      0
+    );
+
+  white-space: nowrap;
+
+  border: 0;
+}
+
+
+/*
+ * HEADER
+ */
+
+#game-stage
+.lobby-screen__header {
+  position: absolute;
+
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    minmax(
+      0,
+      1.4fr
+    )
+    1fr;
+
+  align-items: start;
+
+  z-index: 20;
+}
+
+
+#game-stage
+.lobby-screen__title,
+#game-stage
+.lobby-screen__room-code,
+#game-stage
+.lobby-screen__account-status {
+  margin: 0;
+}
+
+
+#game-stage
+.lobby-screen__title {
+  justify-self: start;
+
+  font-size: 48px;
+  line-height: 1;
+}
+
+
+#game-stage
+.lobby-screen__room-code {
+  justify-self: center;
+
+  font-size: 30px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+
+#game-stage
+.lobby-screen__account-status {
+  justify-self: end;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-end;
+
+  gap: 8px;
+}
+
+
+#game-stage
+.lobby-screen__coins,
+#game-stage
+.lobby-screen__connection {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap: 10px;
+}
+
+
+#game-stage
+.lobby-screen__coins {
+  font-size: 30px;
+  font-weight: 800;
+
+  font-variant-numeric:
+    tabular-nums;
+}
+
+
+#game-stage
+.lobby-screen__coin-icon {
+  display: block;
+
+  width: 48px;
+  height: 48px;
+
+  background-image:
+    var(
+      --lobby-coin-icon-image
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    contain;
+}
+
+
+#game-stage
+.lobby-screen__connection {
+  font-size: 21px;
+  font-weight: 700;
+}
+
+
+#game-stage
+.lobby-screen__connection-icon,
+#game-stage
+.lobby-player-card__ready-icon {
+  display: block;
+
+  flex:
+    0 0 auto;
+
+  width: 34px;
+  height: 34px;
+
+  border-radius:
+    50%;
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    contain;
+}
+
+
+/*
+ * Bis echte Assets existieren:
+ * grün / rot als Platzhalter.
+ */
+
+#game-stage
+.lobby-screen__connection-icon[
+  data-connected="true"
+] {
+  background-color:
+    rgba(
+      50,
+      170,
+      80,
+      0.75
+    );
+
+  background-image:
+    var(
+      --lobby-connected-icon-image
+    );
+}
+
+
+#game-stage
+.lobby-screen__connection-icon[
+  data-connected="false"
+] {
+  background-color:
+    rgba(
+      190,
+      55,
+      45,
+      0.75
+    );
+
+  background-image:
+    var(
+      --lobby-disconnected-icon-image
+    );
+}
+
+
+/*
+ * PLAYER STRIP
+ */
+
+#game-stage
+.lobby-screen__players-shell {
+  position: absolute;
+
+  min-width: 0;
+  min-height: 0;
+
+  overflow: hidden;
+}
+
+
+#game-stage
+.lobby-screen__players {
+  box-sizing:
+    border-box;
+
+  display: flex;
+
+  flex-wrap:
+    nowrap;
+
+  align-items:
+    stretch;
+
+  gap: 18px;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+
+  padding:
+    8px 8px 18px;
+
+  overflow-x:
+    auto;
+
+  overflow-y:
+    hidden;
+
+  list-style:
+    none;
+
+  scroll-behavior:
+    smooth;
+
+  overscroll-behavior-x:
+    contain;
+}
+
+
+#game-stage
+.lobby-screen__players::-webkit-scrollbar {
+  height: 10px;
+}
+
+
+#game-stage
+.lobby-screen__players::-webkit-scrollbar-track {
+  background:
+    rgba(
+      0,
+      0,
+      0,
+      0.25
+    );
+}
+
+
+#game-stage
+.lobby-screen__players::-webkit-scrollbar-thumb {
+  background:
+    rgba(
+      240,
+      182,
+      57,
+      0.75
+    );
+
+  border-radius:
+    999px;
+}
+
+
+/*
+ * PLAYER CARD
+ */
+
+#game-stage
+.lobby-player-card {
+  box-sizing:
+    border-box;
+
+  position: relative;
+
+  flex:
+    0 0 auto;
+
+  display: flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  padding:
+    20px 22px 18px;
+
+  background-color:
+    transparent;
+
+  background-image:
+    var(
+      --lobby-player-card-image
+    );
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    100% 100%;
+
+  text-align:
+    center;
+}
+
+
+#game-stage
+.lobby-player-card__portrait {
+  display: block;
+
+  width: 100%;
+
+  min-height: 0;
+
+  flex:
+    1 1 auto;
+
+  object-fit:
+    contain;
+
+  object-position:
+    center;
+
+  pointer-events:
+    none;
+
+  user-select:
+    none;
+
+  -webkit-user-drag:
+    none;
+}
+
+
+#game-stage
+.lobby-player-card__name {
+  max-width: 100%;
+
+  overflow: hidden;
+
+  font-size: 24px;
+
+  line-height: 1.05;
+
+  text-overflow:
+    ellipsis;
+
+  white-space:
+    nowrap;
+}
+
+
+#game-stage
+.lobby-player-card__skin {
+  max-width: 100%;
+
+  overflow: hidden;
+
+  font-size: 18px;
+
+  line-height: 1.1;
+
+  text-overflow:
+    ellipsis;
+
+  white-space:
+    nowrap;
+}
+
+
+#game-stage
+.lobby-player-card__ready-icon {
+  margin-top: 8px;
+}
+
+
+#game-stage
+.lobby-player-card__ready-icon[
+  data-ready="true"
+] {
+  background-color:
+    rgba(
+      50,
+      170,
+      80,
+      0.75
+    );
+
+  background-image:
+    var(
+      --lobby-ready-icon-image
+    );
+}
+
+
+#game-stage
+.lobby-player-card__ready-icon[
+  data-ready="false"
+] {
+  background-color:
+    rgba(
+      190,
+      55,
+      45,
+      0.75
+    );
+
+  background-image:
+    var(
+      --lobby-not-ready-icon-image
+    );
+}
+
+
+/*
+ * CONTROLS
+ */
+
+#game-stage
+.lobby-screen__controls {
+  position: absolute;
+
+  min-width: 0;
+  min-height: 0;
+}
+
+
+#game-stage
+.lobby-screen__settings,
+#game-stage
+.lobby-screen__selection {
+  min-width: 0;
+  min-height: 0;
+}
+
+
+#game-stage
+.lobby-screen__field {
+  box-sizing:
+    border-box;
+
+  display: flex;
+
+  flex-direction:
+    column;
+
+  gap: 10px;
+
+  min-width: 0;
+
+  font-size: 23px;
+  font-weight: 700;
+}
+
+
+#game-stage
+.lobby-screen__field
+select {
+  box-sizing:
+    border-box;
+
+  width: 100%;
+  height: 58px;
+
+  padding:
+    8px 14px;
+
+  border: 0;
+  border-radius: 0;
+
+  background:
+    rgba(
+      30,
+      20,
+      14,
+      0.55
+    );
+
+  color:
+    #fff4d6;
+
+  font:
+    inherit;
+
+  cursor:
+    pointer;
+}
+
+
+#game-stage
+.lobby-screen__field
+select option {
+  background:
+    #2b1b13;
+
+  color:
+    #fff4d6;
+}
+
+
+#game-stage
+.lobby-screen__field
+input[type="range"] {
+  width: 100%;
+
+  cursor: pointer;
+}
+
+
+#game-stage
+.lobby-screen__field
+output {
+  display: block;
+
+  min-height:
+    1.2em;
+
+  font-size: 25px;
+  font-weight: 800;
+
+  text-align:
+    center;
+
+  font-variant-numeric:
+    tabular-nums;
+}
+
+
+#game-stage
+.lobby-screen__field--wager[
+  data-enabled="false"
+] {
+  opacity:
+    0.38;
+}
+
+
+#game-stage
+.lobby-screen__field--wager[
+  data-enabled="false"
+]
+input {
+  cursor:
+    default;
+}
+
+
+#game-stage
+.lobby-screen__selection-details {
+  display:
+    none;
+}
+
+
+#game-stage
+.lobby-screen__accept-status,
+#game-stage
+.lobby-screen__error {
+  margin: 0;
+
+  text-align:
+    center;
+}
+
+
+#game-stage
+.lobby-screen__accept-status {
+  min-height:
+    26px;
+
+  font-size:
+    18px;
+}
+
+
+#game-stage
+.lobby-screen__error {
+  position:
+    absolute;
+
+  min-height:
+    28px;
+
+  font-size:
+    20px;
+
+  font-weight:
+    700;
+
+  z-index:
+    30;
+}
+
+
+/*
+ * CHARACTER PREVIEW
+ */
+
+#game-stage
+.lobby-screen__preview {
+  margin: 0;
+
+  pointer-events:
+    none;
+
+  user-select:
+    none;
+}
+
+
+#game-stage
+.lobby-screen__preview-image {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit:
+    contain;
+
+  object-position:
+    center bottom;
+
+  pointer-events:
+    none;
+
+  user-select:
+    none;
+
+  -webkit-user-drag:
+    none;
+}
+
+
+/*
+ * =========================================================
+ * ASSET BUTTONS
+ * =========================================================
+ *
+ * Kein sichtbarer HTML-Text.
+ */
+
+#game-stage
+.lobby-screen__asset-button {
+  display: block;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+  border-radius: 0;
+
+  outline-offset:
+    5px;
+
+  background-color:
+    transparent;
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center;
+
+  background-size:
+    contain;
+
+  color:
+    transparent;
+
+  font-size:
+    0;
+
+  cursor:
+    pointer;
+
+  transform:
+    scale(1);
+
+  transform-origin:
+    center;
+
+  transition:
+    transform 80ms ease,
+    opacity 80ms ease;
+}
+
+
+#game-stage
+.lobby-screen__accept-button {
+  background-image:
+    var(
+      --lobby-accept-button-image
+    );
+}
+
+
+#game-stage
+.lobby-screen__start-button {
+  position: absolute;
+
+  background-image:
+    var(
+      --lobby-start-button-image
+    );
+
+  z-index:
+    40;
+}
+
+
+#game-stage
+.lobby-screen__leave-button {
+  position: absolute;
+
+  background-image:
+    var(
+      --lobby-leave-button-image
+    );
+
+  z-index:
+    40;
+}
+
+
+#game-stage
+.lobby-screen__asset-button:hover:not(
+  :disabled
+) {
+  transform:
+    scale(1.025);
+}
+
+
+#game-stage
+.lobby-screen__asset-button:active:not(
+  :disabled
+) {
+  transform:
+    scale(0.975);
+}
+
+
+#game-stage
+.lobby-screen__asset-button:disabled {
+  opacity:
+    0.45;
+
+  cursor:
+    default;
+}
+
+
+#game-stage
+.lobby-screen__asset-button:focus-visible {
+  outline:
+    4px solid
+    #ffffff;
+}
+
+/*
+ * =========================================================
+ * ONLINE MENU / HOST-JOIN - ASSET UI
+ * =========================================================
+ */
+
+#game-stage
+.online-menu-screen {
+  /*
+   * ===============================================
+   * ASSET-PLATZHALTER
+   *
+   * Später nur URLs austauschen.
+   * ===============================================
+   */
+
+  --online-menu-title-image:
+    none;
+
+  --online-menu-join-image:
+    none;
+
+  --online-menu-create-image:
+    none;
+
+  --online-menu-back-image:
+    none;
+
+
+  position:
+    relative;
+
+  width:
+    100%;
+
+  height:
+    100%;
+
+  padding:
+    0;
+
+  overflow:
+    hidden;
+
+
+  background-color:
+    #2b1b13;
+
+  background-image:
+    var(
+      --online-menu-background-image,
+      none
+    );
+
+  background-position:
+    center;
+
+  background-repeat:
+    no-repeat;
+
+  background-size:
+    100% 100%;
+}
+
+
+/*
+ * =========================================================
+ * SCREENREADER TEXT
+ * =========================================================
+ */
+
+#game-stage
+.online-menu-screen__sr-only {
+  position:
+    absolute;
+
+  width:
+    1px;
+
+  height:
+    1px;
+
+  margin:
+    -1px;
+
+  padding:
+    0;
+
+  overflow:
+    hidden;
+
+  clip:
+    rect(
+      0,
+      0,
+      0,
+      0
+    );
+
+  white-space:
+    nowrap;
+
+  border:
+    0;
+}
+
+
+/*
+ * =========================================================
+ * TITLE-ASSET
+ * =========================================================
+ *
+ * Keine HTML-Schrift.
+ */
+
+#game-stage
+.online-menu-screen__title {
+  position:
+    absolute;
+
+  background-color:
+    transparent;
+
+  background-image:
+    var(
+      --online-menu-title-image
+    );
+
+  background-position:
+    center;
+
+  background-repeat:
+    no-repeat;
+
+  background-size:
+    contain;
+
+  pointer-events:
+    none;
+
+  user-select:
+    none;
+
+  z-index:
+    10;
+}
+
+
+/*
+ * =========================================================
+ * MITTLERER INHALT
+ * =========================================================
+ */
+
+#game-stage
+.online-menu-screen__content {
+  position:
+    absolute;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  z-index:
+    20;
+}
+
+
+/*
+ * =========================================================
+ * ROOM CODE
+ * =========================================================
+ */
+
+#game-stage
+.online-menu-screen__code-field {
+  display:
+    block;
+
+  width:
+    100%;
+}
+
+
+#game-stage
+.online-menu-screen__code-input {
+  box-sizing:
+    border-box;
+
+  display:
+    block;
+
+  width:
+    100%;
+
+  height:
+    100%;
+
+  margin:
+    0;
+
+  padding:
+    10px 24px;
+
+
+  border:
+    0;
+
+  border-radius:
+    10px;
+
+  outline-offset:
+    5px;
+
+
+  background:
+    rgba(
+      242,
+      223,
+      182,
+      0.92
+    );
+
+
+  color:
+    #26180d;
+
+
+  font-family:
+    "Western";
+
+  font-size:
+    34px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    6px;
+
+  text-align:
+    center;
+
+  text-transform:
+    uppercase;
+}
+
+
+#game-stage
+.online-menu-screen__code-input::placeholder {
+  color:
+    rgba(
+      38,
+      24,
+      13,
+      0.45
+    );
+
+  letter-spacing:
+    3px;
+}
+
+
+#game-stage
+.online-menu-screen__code-input:disabled {
+  opacity:
+    0.45;
+
+  cursor:
+    default;
+}
+
+
+/*
+ * =========================================================
+ * GEMEINSAME ASSET-BUTTON-BASIS
+ * =========================================================
+ *
+ * Der Button selbst enthält keine sichtbare Schrift.
+ */
+
+#game-stage
+.online-menu-screen__asset-button {
+  display:
+    block;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+
+  border:
+    0;
+
+  border-radius:
+    0;
+
+
+  background-color:
+    transparent;
+
+  background-position:
+    center;
+
+  background-repeat:
+    no-repeat;
+
+  background-size:
+    contain;
+
+
+  color:
+    transparent;
+
+  font-size:
+    0;
+
+
+  cursor:
+    pointer;
+
+  user-select:
+    none;
+
+  touch-action:
+    manipulation;
+
+
+  transform:
+    scale(
+      1
+    );
+
+  transform-origin:
+    center;
+
+
+  transition:
+    transform
+      80ms
+      ease,
+    opacity
+      80ms
+      ease;
+}
+
+
+#game-stage
+.online-menu-screen__asset-button:hover:not(
+  :disabled
+) {
+  transform:
+    scale(
+      1.025
+    );
+}
+
+
+#game-stage
+.online-menu-screen__asset-button:active:not(
+  :disabled
+) {
+  transform:
+    scale(
+      0.975
+    );
+}
+
+
+#game-stage
+.online-menu-screen__asset-button:disabled {
+  opacity:
+    0.45;
+
+  cursor:
+    default;
+}
+
+
+#game-stage
+.online-menu-screen__asset-button:focus-visible {
+  outline:
+    4px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.95
+    );
+
+  outline-offset:
+    5px;
+}
+
+
+/*
+ * =========================================================
+ * BEITRETEN
+ * =========================================================
+ */
+
+#game-stage
+.online-menu-screen__join-button {
+  background-image:
+    var(
+      --online-menu-join-image
+    );
+}
+
+
+/*
+ * =========================================================
+ * SPIEL ERSTELLEN
+ * =========================================================
+ */
+
+#game-stage
+.online-menu-screen__create-button {
+  background-image:
+    var(
+      --online-menu-create-image
+    );
+}
+
+
+/*
+ * =========================================================
+ * ZURÜCK
+ * =========================================================
+ */
+
+#game-stage
+.online-menu-screen__back-button {
+  position:
+    absolute;
+
+  background-image:
+    var(
+      --online-menu-back-image
+    );
+
+  z-index:
+    30;
+}
+
+
+/*
+ * =========================================================
+ * ERROR
+ * =========================================================
+ */
+
+#game-stage
+.online-menu-screen__error {
+  box-sizing:
+    border-box;
+
+  min-height:
+    32px;
+
+  margin:
+    0;
+
+
+  color:
+    #fff4d6;
+
+  font-size:
+    20px;
+
+  font-weight:
+    700;
+
+  text-align:
+    center;
+
+  text-shadow:
+    3px 3px 4px
+    rgba(
+      0,
+      0,
+      0,
+      0.8
+    );
+}

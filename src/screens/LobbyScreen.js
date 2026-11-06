@@ -62,6 +62,15 @@ constructor({
     this.statusElement =
       null;
 
+    this.statusIconElement =
+      null;
+
+    this.coinsElement =
+      null;
+
+    this.characterPreviewElement =
+      null;
+
     this.playersElement =
       null;
 
@@ -149,165 +158,265 @@ constructor({
   mount(
     rootElement,
   ) {
-    rootElement.innerHTML = `
-      <main
-        class="
-          screen
-          lobby-screen
-        "
+rootElement.innerHTML = `
+  <main
+    class="screen lobby-screen"
+  >
+    <header
+      class="lobby-screen__header"
+    >
+      <h1
+        class="lobby-screen__title"
       >
-        <h1>
-          Multiplayer Lobby
-        </h1>
+        Lobby
+      </h1>
 
+      <p
+        class="lobby-screen__room-code"
+      >
+        Room-Code:
+        <strong
+          data-lobby-room-code
+        >
+          —
+        </strong>
+      </p>
 
-        <p>
-          Room-Code:
+      <div
+        class="lobby-screen__account-status"
+      >
+        <div
+          class="lobby-screen__coins"
+        >
+          <span
+            class="lobby-screen__coin-icon"
+            aria-hidden="true"
+          ></span>
+
           <strong
-            data-lobby-room-code
+            data-lobby-coins
           >
-            —
+            0
           </strong>
-        </p>
+        </div>
 
+        <div
+          class="lobby-screen__connection"
+        >
+          <span>
+            Verbindung:
+          </span>
 
-        <p>
-          Verbindung:
-          <strong
+          <span
+            class="lobby-screen__connection-icon"
+            data-lobby-connection-icon
+            data-connected="false"
+            aria-hidden="true"
+          ></span>
+
+          <span
+            class="lobby-screen__sr-only"
             data-lobby-status
           >
             —
-          </strong>
-        </p>
+          </span>
+        </div>
+      </div>
+    </header>
 
 
-        <section>
-          <h2>
-            Spieleinstellungen
-          </h2>
+    <section
+      class="lobby-screen__players-shell"
+      aria-label="Spieler in der Lobby"
+    >
+      <ul
+        class="lobby-screen__players"
+        data-lobby-players
+      ></ul>
+    </section>
 
 
-          <label>
+    <section
+      class="lobby-screen__controls"
+    >
+      <div
+        class="lobby-screen__settings"
+      >
+        <label
+          class="
+            lobby-screen__field
+            lobby-screen__field--mode
+          "
+        >
+          <span>
             Spielmodus
+          </span>
 
-            <select
-              data-lobby-mode
-            ></select>
-          </label>
+          <select
+            data-lobby-mode
+          ></select>
+        </label>
 
 
+        <label
+          class="
+            lobby-screen__field
+            lobby-screen__field--target
+          "
+        >
+          <span>
+            Zielpunkte
+          </span>
+
+          <input
+            type="range"
+            data-lobby-target-score
+          >
+
+          <output
+            data-lobby-target-score-value
+          >
+            —
+          </output>
+        </label>
+
+
+        <div
+          class="
+            lobby-screen__field
+            lobby-screen__field--wager
+          "
+          data-lobby-wager-container
+          data-enabled="false"
+        >
           <label>
-            Zielpunktzahl
+            <span>
+              Coin-Einsatz
+            </span>
 
             <input
               type="range"
-              data-lobby-target-score
+              data-lobby-wager
+              disabled
             >
 
             <output
-              data-lobby-target-score-value
+              data-lobby-wager-value
             >
               —
             </output>
           </label>
+        </div>
+      </div>
 
 
-          <div
-            data-lobby-wager-container
-            hidden
-          >
-            <label>
-              Coin-Einsatz
-
-              <input
-                type="range"
-                data-lobby-wager
-              >
-
-              <output
-                data-lobby-wager-value
-              >
-                —
-              </output>
-            </label>
-          </div>
-          <label>
+      <div
+        class="lobby-screen__selection"
+      >
+        <label
+          class="
+            lobby-screen__field
+            lobby-screen__field--character
+          "
+        >
+          <span>
             Charakter
+          </span>
 
-            <select
-              data-lobby-character
-            >
-              <option value="">
-                Charakter wählen…
-              </option>
-            </select>
-          </label>
+          <select
+            data-lobby-character
+          >
+            <option value="">
+              Charakter wählen…
+            </option>
+          </select>
+        </label>
 
 
-          <p>
-            Charakterskin:
+        <div
+          class="lobby-screen__selection-details"
+        >
+          <span>
+            Skin:
             <strong
               data-lobby-character-skin
             >
               Standard
             </strong>
-          </p>
+          </span>
 
-
-          <p>
-            Würfelskin:
+          <span>
+            Würfel:
             <strong
               data-lobby-dice-skin
             >
               Standard
             </strong>
-          </p>
-
-          <button
-            type="button"
-            data-action="accept-settings"
-          >
-            Einstellungen akzeptieren
-          </button>
-
-
-          <p
-            data-lobby-accept-status
-          ></p>
-        <button
-            type="button"
-            data-action="start-game"
-        >
-            Spiel starten
-        </button>
-        </section>
-
-
-        <section>
-          <h2>
-            Spieler
-          </h2>
-
-          <ul
-            data-lobby-players
-          ></ul>
-        </section>
-
-
-        <p
-          data-lobby-error
-          role="alert"
-        ></p>
+          </span>
+        </div>
 
 
         <button
           type="button"
-          data-action="leave-lobby"
+          class="
+            lobby-screen__asset-button
+            lobby-screen__accept-button
+          "
+          data-action="accept-settings"
+          aria-label="Einstellungen akzeptieren"
+        ></button>
+
+
+        <p
+          class="lobby-screen__accept-status"
+          data-lobby-accept-status
+        ></p>
+      </div>
+
+
+      <figure
+        class="lobby-screen__preview"
+        aria-hidden="true"
+      >
+        <img
+          class="lobby-screen__preview-image"
+          data-lobby-character-preview
+          alt=""
+          hidden
         >
-          Lobby verlassen
-        </button>
-      </main>
-    `;
+      </figure>
+    </section>
+
+
+    <p
+      class="lobby-screen__error"
+      data-lobby-error
+      role="alert"
+    ></p>
+
+
+    <button
+      type="button"
+      class="
+        lobby-screen__asset-button
+        lobby-screen__start-button
+      "
+      data-action="start-game"
+      aria-label="Spiel starten"
+    ></button>
+
+
+    <button
+      type="button"
+      class="
+        lobby-screen__asset-button
+        lobby-screen__leave-button
+      "
+      data-action="leave-lobby"
+      aria-label="Lobby verlassen"
+    ></button>
+  </main>
+`;
 
     this.startButton =
     rootElement.querySelector(
@@ -324,6 +433,22 @@ constructor({
         '[data-lobby-status]',
       );
 
+    this.statusIconElement =
+      rootElement.querySelector(
+        '[data-lobby-connection-icon]',
+      );
+
+
+    this.coinsElement =
+      rootElement.querySelector(
+        '[data-lobby-coins]',
+      );
+
+
+    this.characterPreviewElement =
+      rootElement.querySelector(
+        '[data-lobby-character-preview]',
+      );
 
     this.playersElement =
       rootElement.querySelector(
@@ -648,16 +773,25 @@ constructor({
         );
 
 
-    this.unsubscribeAccount =
-      this.accountStore
-        .subscribe(
-          () => {
-            this.#syncLocalProfile(
-              this.multiplayerClient
-                .getState(),
-            );
-          },
-        );
+      this.unsubscribeAccount =
+        this.accountStore
+          .subscribe(
+            () => {
+              const multiplayerState =
+                this.multiplayerClient
+                  .getState();
+
+
+              this.#renderState(
+                multiplayerState,
+              );
+
+
+              this.#syncLocalProfile(
+                multiplayerState,
+              );
+            },
+          );
   }
 #getEquippedCharacterSkinId(
   characterId,
@@ -958,7 +1092,43 @@ constructor({
         ] ??
         state.status;
     }
+    if (
+      this.statusIconElement
+    ) {
+      this.statusIconElement
+        .dataset.connected =
+        state.status ===
+          'connected'
+          ? 'true'
+          : 'false';
+    }
 
+
+    if (
+      this.coinsElement
+    ) {
+      const accountState =
+        this.accountStore
+          .getState();
+
+
+      const coins =
+        Number(
+          accountState.coins ??
+          0,
+        );
+
+
+      this.coinsElement
+        .textContent =
+        Number.isFinite(
+          coins,
+        )
+          ? coins.toLocaleString(
+              'de-DE',
+            )
+          : '0';
+    }
 
     if (
       this.errorElement
@@ -1006,7 +1176,12 @@ constructor({
       this.characterSelect.disabled =
         !localPlayer;
     }
-
+    const localCharacter =
+      localPlayer?.characterId
+        ? getCharacterById(
+            localPlayer.characterId,
+          )
+        : null;
 
     const localCharacterSkin =
       localPlayer?.skinId
@@ -1044,7 +1219,36 @@ constructor({
           ?.name ??
         'Standard';
     }
+    if (
+      this.characterPreviewElement
+    ) {
+      const previewFrame =
+        localCharacterSkin
+          ?.sprite
+          ?.neutralFrame ??
+        localCharacter
+          ?.sprite
+          ?.neutralFrame ??
+        null;
 
+
+      if (previewFrame) {
+        this.characterPreviewElement.src =
+          previewFrame;
+
+        this.characterPreviewElement.hidden =
+          false;
+      }
+      else {
+        this.characterPreviewElement
+          .removeAttribute(
+            'src',
+          );
+
+        this.characterPreviewElement.hidden =
+          true;
+      }
+    }
     const isHost =
       localPlayer?.id ===
       room.hostPlayerId;
@@ -1124,24 +1328,24 @@ constructor({
         accountRequirementMissing;
 
 
-      if (
+      this.startButton
+        .dataset.state =
         accountRequirementMissing
-      ) {
-        this.startButton.textContent =
-          'Coin Battle benötigt zwei Accounts';
-      }
-      else if (
-        room.canStart
-      ) {
-        this.startButton.textContent =
-          mode.usesWager
-            ? 'Coin Battle starten'
-            : 'Spiel starten';
-      }
-      else {
-        this.startButton.textContent =
-          'Warte auf Zustimmung';
-      }
+          ? 'account-required'
+          : room.canStart
+            ? 'ready'
+            : 'waiting';
+
+
+      this.startButton
+        .setAttribute(
+          'aria-label',
+          accountRequirementMissing
+            ? 'Coin Battle benötigt zwei Accounts'
+            : room.canStart
+              ? 'Spiel starten'
+              : 'Warte auf Zustimmung',
+        );
     }
     /*
      * =====================================================
@@ -1206,57 +1410,69 @@ constructor({
     if (
       this.wagerContainer
     ) {
-      this.wagerContainer.hidden =
-        !mode.usesWager;
+      this.wagerContainer
+        .dataset.enabled =
+        mode.usesWager
+          ? 'true'
+          : 'false';
     }
 
 
     if (
-      mode.usesWager &&
       this.wagerInput
     ) {
-      this.wagerInput.min =
-        String(
-          mode.wager.min,
-        );
+      if (
+        mode.usesWager
+      ) {
+        this.wagerInput.min =
+          String(
+            mode.wager.min,
+          );
 
 
-      this.wagerInput.max =
-        String(
-          mode.wager.max,
-        );
+        this.wagerInput.max =
+          String(
+            mode.wager.max,
+          );
 
 
-      this.wagerInput.step =
-        String(
-          mode.wager.step,
-        );
+        this.wagerInput.step =
+          String(
+            mode.wager.step,
+          );
 
 
-      this.wagerInput.value =
-        String(
-          room.settings
-            .wagerCoins,
-        );
+        this.wagerInput.value =
+          String(
+            room.settings
+              .wagerCoins,
+          );
+      }
+      else {
+        this.wagerInput.value =
+          '0';
+      }
 
 
       this.wagerInput.disabled =
+        !mode.usesWager ||
         !isHost;
     }
 
 
     if (
-      mode.usesWager &&
       this.wagerValue
     ) {
       this.wagerValue
         .textContent =
-        `${Number(
-          room.settings
-            .wagerCoins,
-        ).toLocaleString(
-          'de-DE',
-        )} Coins`;
+        mode.usesWager
+          ? `${Number(
+              room.settings
+                .wagerCoins,
+            ).toLocaleString(
+              'de-DE',
+            )} Coins`
+          : '—';
     }
 
 
@@ -1300,15 +1516,21 @@ constructor({
         )
       );
 
-    const allPlayersSelectedCharacter =
-      room.players.length ===
-        2 &&
-      room.players.every(
-        (player) =>
-          Boolean(
-            player.characterId,
-          ),
-      );
+      const hasValidPlayerCount =
+        room.players.length >=
+          mode.playerCount.min &&
+        room.players.length <=
+          mode.playerCount.max;
+
+
+      const allPlayersSelectedCharacter =
+        hasValidPlayerCount &&
+        room.players.every(
+          (player) =>
+            Boolean(
+              player.characterId,
+            ),
+        );
 
     if (
       this.acceptButton
@@ -1320,51 +1542,58 @@ constructor({
         hasAccepted;
 
 
-      if (
+      const acceptState =
+      !accountRequirementMet
+        ? 'account-required'
+        : !hasSelectedCharacter
+          ? 'character-required'
+          : hasAccepted
+            ? 'accepted'
+            : 'ready';
+
+
+    this.acceptButton
+      .dataset.state =
+      acceptState;
+
+
+    this.acceptButton
+      .setAttribute(
+        'aria-label',
         !accountRequirementMet
-      ) {
-        this.acceptButton.textContent =
-          'Für Coin Battle einloggen';
-      }
-      else if (
-        !hasSelectedCharacter
-      ) {
-        this.acceptButton.textContent =
-          'Zuerst Charakter wählen';
-      }
-      else {
-        this.acceptButton.textContent =
-          hasAccepted
-            ? 'Akzeptiert'
-            : 'Einstellungen akzeptieren';
-      }
+          ? 'Für Coin Battle einloggen'
+          : !hasSelectedCharacter
+            ? 'Zuerst Charakter wählen'
+            : hasAccepted
+              ? 'Einstellungen akzeptiert'
+              : 'Einstellungen akzeptieren',
+      );
     }
 
 
     if (
-      this.acceptStatusElement
+      !hasValidPlayerCount
     ) {
-      if (
-        !allPlayersAuthenticated
-      ) {
-        this.acceptStatusElement
-          .textContent =
-          'Coin Battle kann nur mit zwei eingeloggten Accounts gespielt werden.';
-      }
-      else if (
-        !allPlayersSelectedCharacter
-      ) {
-        this.acceptStatusElement
-          .textContent =
-          'Beide Spieler müssen zuerst einen Charakter wählen.';
-      }
-      else {
-        this.acceptStatusElement
-          .textContent =
-          room.canStart
-            ? 'Beide Spieler haben die Einstellungen akzeptiert.'
-            : `Einstellungs-Version: ${room.settings.revision}`;
-      }
+      this.acceptStatusElement
+        .textContent =
+        mode.playerCount.min ===
+          mode.playerCount.max
+          ? `${mode.name} benötigt genau ${mode.playerCount.min} Spieler.`
+          : `${mode.name} benötigt ${mode.playerCount.min} bis ${mode.playerCount.max} Spieler.`;
+    }
+    else if (
+      !allPlayersSelectedCharacter
+    ) {
+      this.acceptStatusElement
+        .textContent =
+        'Alle Spieler müssen zuerst einen Charakter wählen.';
+    }
+    else {
+      this.acceptStatusElement
+        .textContent =
+        room.canStart
+          ? 'Alle Spieler haben die Einstellungen akzeptiert.'
+          : `Einstellungs-Version: ${room.settings.revision}`;
     }
 
 
@@ -1391,76 +1620,152 @@ constructor({
           );
 
 
-        const role =
-          player.id ===
-          room.hostPlayerId
-            ? 'Host'
-            : 'Gast';
+      const accepted =
+        player
+          .acceptedSettingsRevision ===
+        room.settings.revision;
 
 
-        const accepted =
-          player
-            .acceptedSettingsRevision ===
-          room.settings.revision;
+      const character =
+        player.characterId
+          ? getCharacterById(
+              player.characterId,
+            )
+          : null;
 
 
-        const character =
-          player.characterId
-            ? getCharacterById(
-                player.characterId,
-              )
-            : null;
+      const characterSkin =
+        player.skinId
+          ? getCharacterSkinById(
+              player.skinId,
+            )
+          : null;
 
 
-        const characterSkin =
-          player.skinId
-            ? getCharacterSkinById(
-                player.skinId,
-              )
-            : null;
+      const portrait =
+        characterSkin
+          ?.portrait ??
+        character
+          ?.portrait ??
+        null;
 
 
-        const diceSkin =
-          player.diceSkinId
-            ? getDiceSkinById(
-                player.diceSkinId,
-              )
-            : null;
+      const playerName =
+        player.isAuthenticated
+          ? player.displayName
+          : 'Gast';
 
 
-        const characterText =
-          character
-            ? character.name
-            : 'Charakter nicht gewählt';
+      const skinName =
+        characterSkin
+          ?.name ??
+        'Standard';
 
 
-        const characterSkinText =
-          characterSkin
-            ?.name ??
-          'Standard';
+      item.className =
+        'lobby-player-card';
 
 
-        const diceSkinText =
-          diceSkin
-            ?.name ??
-          'Standard';
+      item.dataset.ready =
+        accepted
+          ? 'true'
+          : 'false';
 
 
-        item.textContent =
-          `${player.displayName} (${role}) — ` +
-          `${characterText} / ${characterSkinText} — ` +
-          `Würfel: ${diceSkinText} — ` +
-          `${
-            accepted
-              ? 'Einstellungen akzeptiert'
-              : 'wartet'
-          }`;
+      const portraitElement =
+        document.createElement(
+          'img',
+        );
 
 
-        this.playersElement
-          .append(
-            item,
-          );
+      portraitElement.className =
+        'lobby-player-card__portrait';
+
+
+      portraitElement.alt =
+        '';
+
+
+      if (portrait) {
+        portraitElement.src =
+          portrait;
+      }
+      else {
+        portraitElement.hidden =
+          true;
+      }
+
+
+      const nameElement =
+        document.createElement(
+          'strong',
+        );
+
+
+      nameElement.className =
+        'lobby-player-card__name';
+
+
+      nameElement.textContent =
+        playerName;
+
+
+      const skinElement =
+        document.createElement(
+          'span',
+        );
+
+
+      skinElement.className =
+        'lobby-player-card__skin';
+
+
+      skinElement.textContent =
+        skinName;
+
+
+      const readyElement =
+        document.createElement(
+          'span',
+        );
+
+
+      readyElement.className =
+        'lobby-player-card__ready-icon';
+
+
+      readyElement.dataset.ready =
+        accepted
+          ? 'true'
+          : 'false';
+
+
+      readyElement.setAttribute(
+        'role',
+        'img',
+      );
+
+
+      readyElement.setAttribute(
+        'aria-label',
+        accepted
+          ? 'Bereit'
+          : 'Nicht bereit',
+      );
+
+
+      item.append(
+        portraitElement,
+        nameElement,
+        skinElement,
+        readyElement,
+      );
+
+
+      this.playersElement
+        .append(
+          item,
+        );
       }
     }
   }
@@ -1544,6 +1849,15 @@ constructor({
       null;
 
     this.statusElement =
+      null;
+      
+    this.statusIconElement =
+      null;
+
+    this.coinsElement =
+      null;
+
+    this.characterPreviewElement =
       null;
 
     this.playersElement =

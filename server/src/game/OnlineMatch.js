@@ -174,7 +174,7 @@ export class OnlineMatch {
       !Array.isArray(
         players,
       ) ||
-      players.length !== 2
+      players.length > 8
     ) {
       throw new Error(
         'Ein Online-Match benötigt genau zwei Spieler.',

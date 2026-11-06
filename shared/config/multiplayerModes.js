@@ -11,10 +11,18 @@ export const MULTIPLAYER_MODES =
         usesWager:
           false,
 
+        playerCount:
+          Object.freeze({
+            min:
+              2,
+
+            max:
+              8,
+          }),
         targetScore:
           Object.freeze({
             min:
-              5000,
+              1000,
 
             max:
               20000,
@@ -29,6 +37,7 @@ export const MULTIPLAYER_MODES =
 
 
     coinBattle:
+    
       Object.freeze({
         id:
           'coinBattle',
@@ -39,6 +48,14 @@ export const MULTIPLAYER_MODES =
         usesWager:
           true,
 
+        playerCount:
+          Object.freeze({
+            min:
+              2,
+
+            max:
+              2,
+          }),
         targetScore:
           Object.freeze({
             min:

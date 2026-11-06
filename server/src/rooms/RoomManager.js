@@ -163,7 +163,7 @@ export class RoomManager {
      * unterstützen wir genau zwei Spieler.
      */
     if (
-      room.playerCount >= 2
+      room.playerCount >= 8
     ) {
       throw new Error(
         'Der Room ist bereits voll.',

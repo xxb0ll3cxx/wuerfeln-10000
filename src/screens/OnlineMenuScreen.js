@@ -9,7 +9,7 @@ const STATUS_LABELS =
       'Nicht verbunden',
 
     connecting:
-      'Verbindung wird hergestellt...',
+      'Verbinde...',
 
     connected:
       'Verbunden',
@@ -30,6 +30,23 @@ export class OnlineMenuScreen {
     navigate,
     multiplayerClient,
   }) {
+    if (
+      typeof navigate !==
+      'function'
+    ) {
+      throw new TypeError(
+        'OnlineMenuScreen benötigt navigate.',
+      );
+    }
+
+
+    if (!multiplayerClient) {
+      throw new TypeError(
+        'OnlineMenuScreen benötigt MultiplayerClient.',
+      );
+    }
+
+
     this.navigate =
       navigate;
 
@@ -37,36 +54,42 @@ export class OnlineMenuScreen {
       multiplayerClient;
 
 
-    this.statusElement =
-      null;
-
-    this.errorElement =
-      null;
-
     this.roomCodeInput =
-      null;
-
-    this.createButton =
       null;
 
     this.joinButton =
       null;
 
+    this.createButton =
+      null;
+
     this.backButton =
       null;
 
-
-    this.handleCreate =
+    this.errorElement =
       null;
 
+    this.statusElement =
+      null;
+
+
+    this.unsubscribeMultiplayer =
+      null;
+
+
     this.handleJoin =
+      null;
+
+    this.handleCreate =
       null;
 
     this.handleBack =
       null;
 
+    this.handleRoomCodeInput =
+      null;
 
-    this.unsubscribeMultiplayer =
+    this.handleRoomCodeKeyDown =
       null;
 
 
@@ -85,94 +108,93 @@ export class OnlineMenuScreen {
           online-menu-screen
         "
       >
-        <h1>
-          Online / Multiplayer
-        </h1>
+        <div
+          class="online-menu-screen__title"
+          role="img"
+          aria-label="Online Modus"
+        ></div>
 
 
-        <p>
-          Server:
-          <strong
+        <section
+          class="online-menu-screen__content"
+        >
+          <label
+            class="online-menu-screen__code-field"
+          >
+            <span
+              class="online-menu-screen__sr-only"
+            >
+              Room-Code
+            </span>
+
+            <input
+              type="text"
+              class="online-menu-screen__code-input"
+              data-online-room-code
+              maxlength="6"
+              autocomplete="off"
+              autocapitalize="characters"
+              spellcheck="false"
+              placeholder="ROOM-CODE"
+              aria-label="Room-Code"
+            >
+          </label>
+
+
+          <button
+            type="button"
+            class="
+              online-menu-screen__asset-button
+              online-menu-screen__join-button
+            "
+            data-action="join-room"
+            aria-label="Spiel beitreten"
+          ></button>
+
+
+          <button
+            type="button"
+            class="
+              online-menu-screen__asset-button
+              online-menu-screen__create-button
+            "
+            data-action="create-room"
+            aria-label="Spiel erstellen"
+          ></button>
+
+
+          <p
+            class="online-menu-screen__error"
+            data-online-error
+            role="alert"
+          ></p>
+
+
+          <span
+            class="online-menu-screen__sr-only"
             data-online-status
           >
             Nicht verbunden
-          </strong>
-        </p>
-
-
-        <section>
-          <h2>
-            Spiel hosten
-          </h2>
-
-          <button
-            type="button"
-            data-action="create-room"
-          >
-            Spiel hosten
-          </button>
+          </span>
         </section>
-
-
-        <section>
-          <h2>
-            Spiel beitreten
-          </h2>
-
-          <input
-            type="text"
-            maxlength="6"
-            autocomplete="off"
-            placeholder="ROOM-CODE"
-            data-room-code
-          >
-
-          <button
-            type="button"
-            data-action="join-room"
-          >
-            Beitreten
-          </button>
-        </section>
-
-
-        <p
-          data-online-error
-          role="alert"
-        ></p>
 
 
         <button
           type="button"
+          class="
+            online-menu-screen__asset-button
+            online-menu-screen__back-button
+          "
           data-action="back"
-        >
-          Zurück
-        </button>
+          aria-label="Zurück"
+        ></button>
       </main>
     `;
 
 
-    this.statusElement =
-      rootElement.querySelector(
-        '[data-online-status]',
-      );
-
-
-    this.errorElement =
-      rootElement.querySelector(
-        '[data-online-error]',
-      );
-
-
     this.roomCodeInput =
       rootElement.querySelector(
-        '[data-room-code]',
-      );
-
-
-    this.createButton =
-      rootElement.querySelector(
-        '[data-action="create-room"]',
+        '[data-online-room-code]',
       );
 
 
@@ -182,10 +204,88 @@ export class OnlineMenuScreen {
       );
 
 
+    this.createButton =
+      rootElement.querySelector(
+        '[data-action="create-room"]',
+      );
+
+
     this.backButton =
       rootElement.querySelector(
         '[data-action="back"]',
       );
+
+
+    this.errorElement =
+      rootElement.querySelector(
+        '[data-online-error]',
+      );
+
+
+    this.statusElement =
+      rootElement.querySelector(
+        '[data-online-status]',
+      );
+
+
+    /*
+     * =====================================================
+     * EVENTS
+     * =====================================================
+     */
+
+    this.handleRoomCodeInput =
+      () => {
+        if (
+          !this.roomCodeInput
+        ) {
+          return;
+        }
+
+
+        /*
+         * Room-Codes werden serverseitig ebenfalls
+         * normalisiert. Die UI spiegelt das bereits
+         * während der Eingabe.
+         */
+        this.roomCodeInput.value =
+          this.roomCodeInput
+            .value
+            .toUpperCase()
+            .replace(
+              /[^A-Z0-9]/g,
+              '',
+            )
+            .slice(
+              0,
+              6,
+            );
+      };
+
+
+    this.handleRoomCodeKeyDown =
+      (
+        event,
+      ) => {
+        if (
+          event.key !==
+          'Enter'
+        ) {
+          return;
+        }
+
+
+        event.preventDefault();
+
+
+        this.#joinRoom();
+      };
+
+
+    this.handleJoin =
+      () => {
+        this.#joinRoom();
+      };
 
 
     this.handleCreate =
@@ -195,38 +295,25 @@ export class OnlineMenuScreen {
       };
 
 
-    this.handleJoin =
-      () => {
-        const roomCode =
-          this.roomCodeInput
-            ?.value
-            .trim() ??
-          '';
-
-
-        this.multiplayerClient
-          .joinRoom(
-            roomCode,
-          );
-      };
-
-
     this.handleBack =
       () => {
-        this.multiplayerClient
-          .disconnect();
-
-
         this.navigate(
           SCREENS.MODE_SELECT,
         );
       };
 
 
-    this.createButton
+    this.roomCodeInput
       ?.addEventListener(
-        'click',
-        this.handleCreate,
+        'input',
+        this.handleRoomCodeInput,
+      );
+
+
+    this.roomCodeInput
+      ?.addEventListener(
+        'keydown',
+        this.handleRoomCodeKeyDown,
       );
 
 
@@ -237,6 +324,13 @@ export class OnlineMenuScreen {
       );
 
 
+    this.createButton
+      ?.addEventListener(
+        'click',
+        this.handleCreate,
+      );
+
+
     this.backButton
       ?.addEventListener(
         'click',
@@ -244,6 +338,10 @@ export class OnlineMenuScreen {
       );
 
 
+    /*
+     * Der MultiplayerClient liefert dem Subscriber
+     * sofort seinen aktuellen State.
+     */
     this.unsubscribeMultiplayer =
       this.multiplayerClient
         .subscribe(
@@ -257,14 +355,42 @@ export class OnlineMenuScreen {
         );
 
 
+    /*
+     * connect() ist idempotent.
+     * Bestehende Verbindungen werden nicht dupliziert.
+     */
     this.multiplayerClient
       .connect();
+  }
+
+
+  #joinRoom() {
+    const roomCode =
+      this.roomCodeInput
+        ?.value ??
+      '';
+
+
+    this.multiplayerClient
+      .joinRoom(
+        roomCode,
+      );
   }
 
 
   #renderState(
     state,
   ) {
+    if (!state) {
+      return;
+    }
+
+
+    const connected =
+      state.status ===
+      'connected';
+
+
     if (
       this.statusElement
     ) {
@@ -273,7 +399,32 @@ export class OnlineMenuScreen {
         STATUS_LABELS[
           state.status
         ] ??
-        state.status;
+        state.status ??
+        '';
+    }
+
+
+    if (
+      this.joinButton
+    ) {
+      this.joinButton.disabled =
+        !connected;
+    }
+
+
+    if (
+      this.createButton
+    ) {
+      this.createButton.disabled =
+        !connected;
+    }
+
+
+    if (
+      this.roomCodeInput
+    ) {
+      this.roomCodeInput.disabled =
+        !connected;
     }
 
 
@@ -289,30 +440,11 @@ export class OnlineMenuScreen {
     }
 
 
-    const canUseRooms =
-      state.status ===
-      'connected';
-
-
-    if (
-      this.createButton
-    ) {
-      this.createButton.disabled =
-        !canUseRooms;
-    }
-
-
-    if (
-      this.joinButton
-    ) {
-      this.joinButton.disabled =
-        !canUseRooms;
-    }
-
-
     /*
-     * Sobald der Server einen Room bestätigt,
-     * wechseln wir automatisch in die Lobby.
+     * Sowohl createRoom() als auch joinRoom()
+     * führen serverseitig zu einem currentRoom.
+     *
+     * Erst dann wechseln wir in die Lobby.
      */
     if (
       state.currentRoom &&
@@ -330,10 +462,21 @@ export class OnlineMenuScreen {
 
 
   destroy() {
-    this.createButton
+    this.unsubscribeMultiplayer
+      ?.();
+
+
+    this.roomCodeInput
       ?.removeEventListener(
-        'click',
-        this.handleCreate,
+        'input',
+        this.handleRoomCodeInput,
+      );
+
+
+    this.roomCodeInput
+      ?.removeEventListener(
+        'keydown',
+        this.handleRoomCodeKeyDown,
       );
 
 
@@ -344,6 +487,13 @@ export class OnlineMenuScreen {
       );
 
 
+    this.createButton
+      ?.removeEventListener(
+        'click',
+        this.handleCreate,
+      );
+
+
     this.backButton
       ?.removeEventListener(
         'click',
@@ -351,47 +501,46 @@ export class OnlineMenuScreen {
       );
 
 
-    this.unsubscribeMultiplayer?.();
-
-
     this.unsubscribeMultiplayer =
       null;
 
 
-    /*
-     * Verbindung NICHT trennen.
-     *
-     * Sie muss beim Wechsel
-     * OnlineMenu -> Lobby bestehen bleiben.
-     */
-
-
-    this.statusElement =
-      null;
-
-    this.errorElement =
-      null;
-
     this.roomCodeInput =
-      null;
-
-    this.createButton =
       null;
 
     this.joinButton =
       null;
 
+    this.createButton =
+      null;
+
     this.backButton =
       null;
 
-
-    this.handleCreate =
+    this.errorElement =
       null;
+
+    this.statusElement =
+      null;
+
 
     this.handleJoin =
       null;
 
+    this.handleCreate =
+      null;
+
     this.handleBack =
       null;
+
+    this.handleRoomCodeInput =
+      null;
+
+    this.handleRoomCodeKeyDown =
+      null;
+
+
+    this.isNavigatingToLobby =
+      false;
   }
 }

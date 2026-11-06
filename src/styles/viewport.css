@@ -6403,3 +6403,1019 @@ button[data-action="account"]:active {
   border: 0;
   background: transparent;
 }
+
+/*
+ * =========================================================
+ * LOBBY - LANDSCAPE 1600 × 900
+ * =========================================================
+ */
+
+#game-stage[
+  data-orientation="landscape"
+]
+.lobby-screen {
+  --lobby-background-image:
+    url(
+      '../assets/ui/backgrounds/background_modus_landscape.webp'
+    );
+}
+
+
+#game-stage[
+  data-orientation="landscape"
+]
+.lobby-screen__header {
+  top: 26px;
+  left: 46px;
+  right: 46px;
+
+  height: 82px;
+}
+
+
+#game-stage[
+  data-orientation="landscape"
+]
+.lobby-screen__players-shell {
+  top: 120px;
+  left: 60px;
+  right: 60px;
+
+  height: 235px;
+}
+
+
+#game-stage[
+  data-orientation="landscape"
+]
+.lobby-player-card {
+  width: 200px;
+  height: 215px;
+}
+
+
+#game-stage[
+  data-orientation="landscape"
+]
+.lobby-player-card__portrait {
+  max-height:
+    120px;
+}
+
+
+#game-stage[
+  data-orientation="landscape"
+]
+.lobby-screen__controls {
+  top: 380px;
+  left: 110px;
+  right: 110px;
+
+  height: 350px;
+
+  display: grid;
+
+  grid-template-columns:
+    430px
+    420px
+    minmax(
+      0,
+      1fr
+    );
+
+  column-gap:
+    70px;
+
+  align-items:
+    start;
+}
+
+
+/*
+ * LINKS:
+ * Modus + Slider untereinander
+ */
+
+#game-stage[
+  data-orientation="landscape"
+]
+.lobby-screen__settings {
+  display: grid;
+
+  grid-template-columns:
+    1fr;
+
+  gap: 18px;
+}
+
+
+/*
+ * MITTE:
+ * Charakter + Accept
+ */
+
+#game-stage[
+  data-orientation="landscape"
+]
+.lobby-screen__selection {
+  display: flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    stretch;
+
+  gap: 24px;
+
+  padding-top:
+    30px;
+}
+
+
+#game-stage[
+  data-orientation="landscape"
+]
+.lobby-screen__accept-button {
+  width: 340px;
+  height: 105px;
+
+  align-self:
+    center;
+}
+
+
+/*
+ * RECHTS:
+ * großer Neutral-/Idle-Frame
+ */
+
+#game-stage[
+  data-orientation="landscape"
+]
+.lobby-screen__preview {
+  width: 390px;
+  height: 350px;
+
+  justify-self:
+    center;
+
+  align-self:
+    end;
+}
+
+
+/*
+ * START
+ */
+
+#game-stage[
+  data-orientation="landscape"
+]
+.lobby-screen__start-button {
+  width: 390px;
+  height: 125px;
+
+  left: 50%;
+  bottom: 22px;
+
+  transform:
+    translateX(
+      -50%
+    );
+}
+
+
+#game-stage[
+  data-orientation="landscape"
+]
+.lobby-screen__start-button:hover:not(
+  :disabled
+) {
+  transform:
+    translateX(
+      -50%
+    )
+    scale(
+      1.025
+    );
+}
+
+
+#game-stage[
+  data-orientation="landscape"
+]
+.lobby-screen__start-button:active:not(
+  :disabled
+) {
+  transform:
+    translateX(
+      -50%
+    )
+    scale(
+      0.975
+    );
+}
+
+
+/*
+ * LEAVE
+ */
+
+#game-stage[
+  data-orientation="landscape"
+]
+.lobby-screen__leave-button {
+  left: 35px;
+  bottom: 24px;
+
+  width: 255px;
+  height: 90px;
+}
+
+
+#game-stage[
+  data-orientation="landscape"
+]
+.lobby-screen__error {
+  left: 50%;
+  bottom: 138px;
+
+  width: 700px;
+
+  transform:
+    translateX(
+      -50%
+    );
+}
+
+
+/*
+ * =========================================================
+ * LOBBY - PORTRAIT 900 × 1600
+ * =========================================================
+ */
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen {
+  --lobby-background-image:
+    url(
+      '../assets/ui/backgrounds/background_modus_portrait.webp'
+    );
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__header {
+  top: 35px;
+  left: 38px;
+  right: 38px;
+
+  height: 125px;
+
+  grid-template-columns:
+    180px
+    minmax(
+      0,
+      1fr
+    )
+    220px;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__title {
+  font-size:
+    42px;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__room-code {
+  font-size:
+    24px;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__coins {
+  font-size:
+    25px;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__coin-icon {
+  width: 52px;
+  height: 52px;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__connection {
+  font-size:
+    17px;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__connection-icon {
+  width: 30px;
+  height: 30px;
+}
+
+
+/*
+ * PLAYERS
+ */
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__players-shell {
+  top: 185px;
+  left: 38px;
+  right: 38px;
+
+  height: 365px;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-player-card {
+  width: 250px;
+  height: 335px;
+
+  padding:
+    45px 34px 20px;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-player-card__portrait {
+  max-height:
+    205px;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-player-card__name {
+  font-size:
+    27px;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-player-card__skin {
+  font-size:
+    20px;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-player-card__ready-icon {
+  width: 38px;
+  height: 38px;
+}
+
+
+/*
+ * CONTROLS
+ */
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__controls {
+  top: 585px;
+  left: 55px;
+  right: 55px;
+
+  height: 710px;
+
+  display: grid;
+
+  grid-template-columns:
+    1fr;
+
+  grid-template-rows:
+    auto
+    auto;
+
+  row-gap:
+    55px;
+}
+
+
+/*
+ * Oben:
+ *
+ *        Modus
+ *
+ * Zielpunkte | Coin-Einsatz
+ */
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__settings {
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    1fr;
+
+  grid-template-areas:
+    "mode mode"
+    "target wager";
+
+  column-gap:
+    36px;
+
+  row-gap:
+    22px;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__field--mode {
+  grid-area:
+    mode;
+
+  width: 390px;
+
+  justify-self:
+    center;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__field--target {
+  grid-area:
+    target;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__field--wager {
+  grid-area:
+    wager;
+}
+
+
+/*
+ * Character | Accept
+ */
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__selection {
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    1fr;
+
+  align-items:
+    center;
+
+  column-gap:
+    34px;
+
+  row-gap:
+    18px;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__field--character {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__accept-button {
+  grid-column: 2;
+  grid-row: 1;
+
+  width: 340px;
+  height: 110px;
+
+  justify-self:
+    center;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__accept-status {
+  grid-column:
+    1 / -1;
+
+  grid-row:
+    2;
+}
+
+
+/*
+ * Im Portrait keine große
+ * zusätzliche Character-Vorschau.
+ */
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__preview {
+  display:
+    none;
+}
+
+
+/*
+ * START
+ */
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__start-button {
+  width: 410px;
+  height: 135px;
+
+  left: 50%;
+  bottom: 150px;
+
+  transform:
+    translateX(
+      -50%
+    );
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__start-button:hover:not(
+  :disabled
+) {
+  transform:
+    translateX(
+      -50%
+    )
+    scale(
+      1.025
+    );
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__start-button:active:not(
+  :disabled
+) {
+  transform:
+    translateX(
+      -50%
+    )
+    scale(
+      0.975
+    );
+}
+
+
+/*
+ * LEAVE
+ */
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__leave-button {
+  left: 30px;
+  bottom: 35px;
+
+  width: 270px;
+  height: 95px;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.lobby-screen__error {
+  left: 50%;
+  bottom: 300px;
+
+  width: 760px;
+
+  transform:
+    translateX(
+      -50%
+    );
+}
+/*
+ * =========================================================
+ * ONLINE MENU - LANDSCAPE
+ * 1600 × 900
+ * =========================================================
+ */
+
+#game-stage[
+  data-orientation="landscape"
+]
+.online-menu-screen {
+  /*
+   * HINTERGRUND-PLATZHALTER
+   */
+  --online-menu-background-image:
+    url(
+      '../assets/ui/backgrounds/background_modus_landscape.webp'
+    );
+
+
+  /*
+   * ASSET-PLATZHALTER
+   */
+  --online-menu-title-image:
+    url('../assets/ui/buttons/Button_OnlineMode.webp');
+
+
+  --online-menu-join-image:
+    url('../assets/ui/buttons/Button_Join.webp');
+
+  --online-menu-create-image:
+    url('../assets/ui/buttons/Button_Host.webp');
+
+
+  --online-menu-back-image:
+    url('../assets/ui/buttons/Button_Zurück.webp');
+
+}
+
+
+/*
+ * TITLE
+ */
+
+#game-stage[
+  data-orientation="landscape"
+]
+.online-menu-screen__title {
+  width:
+    600px;
+
+  height:
+    170px;
+
+  left:
+    50%;
+
+  top:
+    55px;
+
+
+  transform:
+    translateX(
+      -50%
+    );
+}
+
+
+/*
+ * MITTLERER STACK
+ */
+
+#game-stage[
+  data-orientation="landscape"
+]
+.online-menu-screen__content {
+  width:
+    470px;
+
+  left:
+    50%;
+
+  top:
+    280px;
+
+
+  gap:
+    28px;
+
+
+  transform:
+    translateX(
+      -50%
+    );
+}
+
+
+/*
+ * CODE INPUT
+ */
+
+#game-stage[
+  data-orientation="landscape"
+]
+.online-menu-screen__code-field {
+  width:
+    440px;
+
+  height:
+    78px;
+}
+
+
+/*
+ * BUTTONS
+ */
+
+#game-stage[
+  data-orientation="landscape"
+]
+.online-menu-screen__join-button {
+  width:
+    390px;
+
+  height:
+    115px;
+}
+
+
+#game-stage[
+  data-orientation="landscape"
+]
+.online-menu-screen__create-button {
+  width:
+    390px;
+
+  height:
+    115px;
+}
+
+
+/*
+ * ERROR
+ */
+
+#game-stage[
+  data-orientation="landscape"
+]
+.online-menu-screen__error {
+  width:
+    650px;
+
+  transform:
+    translateX(
+      -90px
+    );
+}
+
+
+/*
+ * BACK
+ */
+
+#game-stage[
+  data-orientation="landscape"
+]
+.online-menu-screen__back-button {
+  width:
+    270px;
+
+  height:
+    95px;
+
+  left:
+    35px;
+
+  bottom:
+    30px;
+}
+
+
+/*
+ * =========================================================
+ * ONLINE MENU - PORTRAIT
+ * 900 × 1600
+ * =========================================================
+ */
+
+#game-stage[
+  data-orientation="portrait"
+]
+.online-menu-screen {
+  /*
+   * Separate Portrait-Assets können hier später
+   * unabhängig eingetragen werden.
+   */
+  --online-menu-background-image:
+     url(
+      '../assets/ui/backgrounds/background_modus_portrait.webp'
+    );;
+
+
+  --online-menu-title-image:
+    url('../assets/ui/buttons/Button_OnlineMode.webp');
+
+
+  --online-menu-join-image:
+    url('../assets/ui/buttons/Button_Join.webp');
+
+
+  --online-menu-create-image:
+    url('../assets/ui/buttons/Button_Host.webp');
+
+
+  --online-menu-back-image:
+    url('../assets/ui/buttons/Button_Zurück.webp');
+
+}
+
+
+/*
+ * TITLE
+ */
+
+#game-stage[
+  data-orientation="portrait"
+]
+.online-menu-screen__title {
+  width:
+    720px;
+
+  height:
+    220px;
+
+  left:
+    50%;
+
+  top:
+    130px;
+
+
+  transform:
+    translateX(
+      -50%
+    );
+}
+
+
+/*
+ * MITTLERER STACK
+ */
+
+#game-stage[
+  data-orientation="portrait"
+]
+.online-menu-screen__content {
+  width:
+    650px;
+
+  left:
+    50%;
+
+  top:
+    480px;
+
+
+  gap:
+    48px;
+
+
+  transform:
+    translateX(
+      -50%
+    );
+}
+
+
+/*
+ * CODE INPUT
+ */
+
+#game-stage[
+  data-orientation="portrait"
+]
+.online-menu-screen__code-field {
+  width:
+    600px;
+
+  height:
+    100px;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.online-menu-screen__code-input {
+  font-size:
+    43px;
+
+  letter-spacing:
+    8px;
+}
+
+
+/*
+ * BUTTONS
+ */
+
+#game-stage[
+  data-orientation="portrait"
+]
+.online-menu-screen__join-button {
+  width:
+    500px;
+
+  height:
+    150px;
+}
+
+
+#game-stage[
+  data-orientation="portrait"
+]
+.online-menu-screen__create-button {
+  width:
+    500px;
+
+  height:
+    150px;
+}
+
+
+/*
+ * ERROR
+ */
+
+#game-stage[
+  data-orientation="portrait"
+]
+.online-menu-screen__error {
+  width:
+    700px;
+}
+
+
+/*
+ * BACK
+ */
+
+#game-stage[
+  data-orientation="portrait"
+]
+.online-menu-screen__back-button {
+  width:
+    300px;
+
+  height:
+    105px;
+
+  left:
+    35px;
+
+  bottom:
+    45px;
+}
