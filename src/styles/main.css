@@ -1436,14 +1436,14 @@ input {
       '../assets/ui/buttons/Button_Scoreboard.webp'
     );
     transform:
-    translate(0px,-10px)
+    translate(-10px,-90px)
     scale(0.95)
 }
 
 
 .mode-select__button--scoreboard:hover {
   transform:
-    translate(0px,-10px)
+    translate(-10px,-90px)
     scale(
       0.975
     );
@@ -1452,10 +1452,35 @@ input {
 
 .mode-select__button--scoreboard:active {
   transform:
-    translate(0px,-10px)
+    translate(-10px,-90px)
     scale(
       0.925
     );
+}
+
+/*
+ * SCOREBOARD BUTTON - LANDSCAPE POSITION
+ */
+
+#game-stage[data-orientation="landscape"]
+.mode-select__button--scoreboard {
+  transform:
+    translate(30px, -10px)
+    scale(0.95);
+}
+
+#game-stage[data-orientation="landscape"]
+.mode-select__button--scoreboard:hover {
+  transform:
+    translate(30px, -10px)
+    scale(0.975);
+}
+
+#game-stage[data-orientation="landscape"]
+.mode-select__button--scoreboard:active {
+  transform:
+    translate(30px, -10px)
+    scale(0.925);
 }
 
 
@@ -3598,61 +3623,109 @@ small {
     transparent;
 }
 
+
 /*
  * =========================================================
- * MULTIPLAYER TEST BUTTON
+ * MULTIPLAYER BUTTON - ASSET DESIGN
  * =========================================================
- *
- * Nur für die erste Multiplayer-Integration.
- * Später bekommt der Button ein richtiges Asset.
  */
 
+/* Position und Größe des Button-Bereichs */
 .mode-select__online-test {
   position: absolute;
 
   left: 50%;
+  bottom: 500px;
+
+  width: 460px;
+  height: 230px;
+
+  transform: translateX(-250px);
+
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* Multiplayer Button */
+.mode-select__online-test button {
+  display: block;
+
+  width: 95%;
+  height: 90%;
+  min-width: 0;
+  min-height: 0;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+
+  background-color: transparent;
+  background-image:
+    url('../assets/ui/buttons/Button_OnlineGood.webp');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+
+  color: transparent;
+  font-size: 0;
+
+  cursor: pointer;
+  pointer-events: auto;
+  user-select: none;
+  touch-action: manipulation;
+
+  transform-origin: center;
+
+  transition: transform 80ms ease;
+}
+
+/* Hover - wie beim Virtual Button */
+.mode-select__online-test button:hover {
+  transform: scale(1.025);
+}
+
+/* Klick - wie beim Virtual Button */
+.mode-select__online-test button:active {
+  transform: scale(0.975);
+}
+
+/* Tastatur-Fokus */
+.mode-select__online-test button:focus-visible {
+  outline: 5px solid rgba(255, 255, 255, 0.9);
+  outline-offset: 8px;
+}
+
+/*
+ * =========================================================
+ * MULTIPLAYER BUTTON - LANDSCAPE POSITION
+ * =========================================================
+ */
+
+#game-stage[data-orientation="landscape"]
+.mode-select__online-test {
+  left: 50%;
   bottom: 40px;
 
   transform:
-    translateX(-50%);
-
-  z-index: 100;
+    translateX(-50%)
+    translate(10px, -430px);
 }
 
+/*
+ * =========================================================
+ * MULTIPLAYER BUTTON - PORTRAIT
+ * =========================================================
+ */
 
-.mode-select__online-test button {
-  min-width: 260px;
-
-  padding: 14px 24px;
-
-  border: 2px solid #dba85a;
-  border-radius: 10px;
-
-  background:
-    #603a20;
-
-  color:
-    #ffffff;
-
-  font:
-    inherit;
-
-  cursor:
-    pointer;
+#game-stage[data-orientation="portrait"]
+.mode-select__online-test {
+  width: 500px;
+  height: 200px;
 }
-.online-game__dice {
-  display:
-    flex;
 
-  flex-wrap:
-    wrap;
-
-  gap:
-    12px;
-
-  margin:
-    20px 0;
-}
 
 
 .online-game__die {
@@ -4377,13 +4450,101 @@ select option {
 }
 
 
+
+/*
+ * =========================================================
+ * LOBBY - ASSET SLIDER
+ * Zielpunkte und Coin-Einsatz
+ * =========================================================
+ */
+
 #game-stage
 .lobby-screen__field
 input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+
+  display: block;
+
   width: 100%;
+  height: 60px;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+  border-radius: 0;
+
+  background: transparent
+    url('../assets/ui/icons/sound_bar.webp')
+    center / 100% 100% no-repeat;
 
   cursor: pointer;
+  touch-action: manipulation;
 }
+
+/* Chrome, Edge, Safari – Slider-Leiste */
+#game-stage
+.lobby-screen__field
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 60px;
+  background: transparent;
+  border: 0;
+}
+
+/* Chrome, Edge, Safari – beweglicher Regler */
+#game-stage
+.lobby-screen__field
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+
+  width: 46px;
+  height: 60px;
+
+  border: 0;
+  border-radius: 0;
+
+  background: transparent
+    url('../assets/ui/icons/sound_tile.webp')
+    center / contain no-repeat;
+
+  cursor: grab;
+}
+
+/* Firefox – beweglicher Regler */
+#game-stage
+.lobby-screen__field
+input[type="range"]::-moz-range-thumb {
+  width: 46px;
+  height: 60px;
+
+  border: 0;
+  border-radius: 0;
+
+  background: transparent
+    url('../assets/ui/icons/sound_tile.webp')
+    center / contain no-repeat;
+
+  cursor: grab;
+}
+
+/* Firefox – Slider-Leiste */
+#game-stage
+.lobby-screen__field
+input[type="range"]::-moz-range-track {
+  height: 60px;
+  background: transparent;
+  border: 0;
+}
+
+/* Deaktivierter Coin-Slider */
+#game-stage
+.lobby-screen__field
+input[type="range"]:disabled {
+  cursor: default;
+}
+
 
 
 #game-stage
