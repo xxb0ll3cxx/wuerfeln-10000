@@ -123,17 +123,20 @@ const io =
   new Server(
     httpServer,
     {
-      cors: {
-        origin: [
-          'http://localhost:5173',
-          'http://127.0.0.1:5173',
-        ],
 
-        methods: [
-          'GET',
-          'POST',
-        ],
-      },
+    cors: {
+      origin: [
+        'http://localhost:5173',
+        'http://127.0.0.1:5173',
+        'https://xxb0ll3cxx.github.io',
+      ],
+
+      methods: [
+        'GET',
+        'POST',
+      ],
+    },
+
     },
   );
 
