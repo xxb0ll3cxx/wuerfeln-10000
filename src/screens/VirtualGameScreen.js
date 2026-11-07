@@ -1470,107 +1470,48 @@ if (
    * =======================================================
    */
 
-  #waitForGameSceneReady() {
-    const scene =
-      this.gameScene;
+  
+#waitForGameSceneReady() {
+  const scene = this.gameScene;
 
-
-    if (!scene) {
-      return Promise.reject(
-        new Error(
-          'GameScene wurde noch nicht erstellt.',
-        ),
-      );
-    }
-
-
-    const isReady =
-      () =>
-        this.gameScene ===
-          scene &&
-        Array.isArray(
-          scene.diceViews,
-        ) &&
-        scene.diceViews.length >
-          0 &&
-        Boolean(
-          scene.diceRollAnimator,
-        );
-
-
-    if (
-      isReady()
-    ) {
-      return Promise.resolve();
-    }
-
-
-    return new Promise(
-      (
-        resolve,
-        reject,
-      ) => {
-        const startedAt =
-          performance.now();
-
-
-        const checkReady =
-          () => {
-            /*
-             * Screen wurde zwischenzeitlich zerstört.
-             */
-            if (
-              this.gameScene !==
-              scene
-            ) {
-              reject(
-                new Error(
-                  'GameScene wurde während der Initialisierung ersetzt.',
-                ),
-              );
-
-              return;
-            }
-
-
-            if (
-              isReady()
-            ) {
-              resolve();
-
-              return;
-            }
-
-
-            /*
-             * Sicherheits-Timeout.
-             */
-            if (
-              performance.now() -
-                startedAt >
-              5_000
-            ) {
-              reject(
-                new Error(
-                  'GameScene wurde nicht rechtzeitig bereit.',
-                ),
-              );
-
-              return;
-            }
-
-
-            window.requestAnimationFrame(
-              checkReady,
-            );
-          };
-
-
-        checkReady();
-      },
+  if (!scene) {
+    return Promise.reject(
+      new Error('GameScene wurde noch nicht erstellt.'),
     );
   }
 
+  const isReady = () =>
+    this.gameScene === scene &&
+    Array.isArray(scene.diceViews) &&
+    scene.diceViews.length > 0 &&
+    Boolean(scene.diceRollAnimator);
+
+  if (isReady()) {
+    return Promise.resolve();
+  }
+
+  return new Promise((resolve, reject) => {
+    const checkReady = () => {
+      if (this.isDestroyed || this.gameScene !== scene) {
+        reject(
+          new Error(
+            'GameScene wurde während der Initialisierung beendet oder ersetzt.',
+          ),
+        );
+        return;
+      }
+
+      if (isReady()) {
+        resolve();
+        return;
+      }
+
+      window.requestAnimationFrame(checkReady);
+    };
+
+    checkReady();
+  });
+}
 
   async #initializePhaserForTurn(
     activeDiceCount,
