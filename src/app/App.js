@@ -78,6 +78,22 @@ import {
   CoinService,
 } from '../services/CoinService.js';
 
+import {
+  OnlineMenuScreen,
+} from '../screens/OnlineMenuScreen.js';
+
+import {
+  LobbyScreen,
+} from '../screens/LobbyScreen.js';
+
+import {
+  MultiplayerClient,
+} from '../multiplayer/MultiplayerClient.js';
+
+import {
+  OnlineGameController,
+} from '../controllers/OnlineGameController.js';
+
 export class App {
   constructor(
     rootElement,
@@ -98,13 +114,31 @@ export class App {
         'App konnte nicht gestartet werden: AudioService fehlt.',
       );
     }
+    /*
+    * =====================================================
+    * MULTIPLAYER
+    * =====================================================
+    */
+    this.multiplayerClient =
+      new MultiplayerClient({
+        getAccessToken:
+          () =>
+            accountController
+              ?.getAccessToken?.() ??
+            null,
+      });
+
+    this.onlineGameController =
+      new OnlineGameController(
+        this.multiplayerClient,
+      );
 
 
     /*
-     * =====================================================
-     * SERVICES
-     * =====================================================
-     */
+    * =====================================================
+    * SERVICES
+    * =====================================================
+    */
 
     this.audioService =
       audioService;
@@ -132,6 +166,7 @@ export class App {
     this.coinService =
       new CoinService(
         this.accountStore,
+        this.multiplayerClient,
       );
     /*
      * =====================================================
@@ -397,7 +432,41 @@ start() {
             this.audioService,
         }),
     );
+    /*
+    * ONLINE MENU
+    */
 
+    this.screenManager.register(
+      SCREENS.ONLINE_MENU,
+
+      () =>
+        new OnlineMenuScreen({
+          navigate:
+            this.navigate,
+
+          multiplayerClient:
+            this.multiplayerClient,
+        }),
+    );
+    /*
+    * LOBBY
+    */
+
+    this.screenManager.register(
+      SCREENS.LOBBY,
+
+      () =>
+      new LobbyScreen({
+        navigate:
+          this.navigate,
+
+        multiplayerClient:
+          this.multiplayerClient,
+
+        accountStore:
+          this.accountStore,
+      }),
+    );
 
     /*
      * VIRTUAL GAME
@@ -430,5 +499,50 @@ start() {
             this.accountStore,
         }),
     );
+    /*
+    * ONLINE GAME
+    *
+    * Verwendet dieselbe Game-UI wie der lokale
+    * Virtual-Modus.
+    *
+    * Die Spiellogik kommt online jedoch nicht aus
+    * GameStore / VirtualTurnController, sondern aus
+    * dem autoritativen Server-State.
+    */
+
+    this.screenManager.register(
+      SCREENS.ONLINE_GAME,
+
+      () =>
+        new VirtualGameScreen({
+          navigate:
+            this.navigate,
+
+          virtualTurnController:
+            this.onlineGameController,
+
+          gameSessionController:
+            this.onlineGameController,
+
+          probabilityCalculator:
+            this.probabilityCalculator,
+
+          audioService:
+            this.audioService,
+
+          coinService:
+            this.coinService,
+
+          accountStore:
+            this.accountStore,
+
+          clientCoinRewardsEnabled:
+            false,
+
+          usePlayerStateCosmetics:
+            true,
+        }),
+    );
+
   }
 }

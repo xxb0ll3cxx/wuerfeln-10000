@@ -43,11 +43,13 @@ jobs:
           npm ls phaser
           node -p "require.resolve('phaser/package.json')"
           
+
       - name: Build
         run: npm run build
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_MULTIPLAYER_URL: ${{ vars.VITE_MULTIPLAYER_URL }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

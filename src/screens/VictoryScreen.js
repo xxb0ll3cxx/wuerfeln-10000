@@ -18,36 +18,57 @@ export class VictoryScreen {
       gameSessionController;
   }
 
-  mount(rootElement) {
+  mount(
+    rootElement,
+    {
+      gameSessionController =
+        this.gameSessionController,
+    } = {},
+  ) {
     const state =
-      this.gameSessionController
+      gameSessionController
         .getState();
 
-    const {
-      endgame,
-      players,
-    } = state;
+      const {
+        endgame,
+        players,
+      } = state;
 
-    const winner =
-      endgame.winnerId
-        ? players.find(
-            (player) =>
-              player.id ===
-              endgame.winnerId,
-          )
-        : null;
+      const winnerId =
+        endgame
+          ?.winnerId ??
+        state.winnerPlayerId ??
+        null;
 
-    const tiedPlayers =
-      endgame.tiedPlayerIds
-        .map(
-          (playerId) =>
-            players.find(
+
+      const winner =
+        winnerId
+          ? players.find(
               (player) =>
                 player.id ===
-                playerId,
-            ),
+                winnerId,
+            ) ??
+            null
+          : null;
+
+
+      const tiedPlayers =
+        (
+          endgame
+            ?.tiedPlayerIds ??
+          []
         )
-        .filter(Boolean);
+          .map(
+            (playerId) =>
+              players.find(
+                (player) =>
+                  player.id ===
+                  playerId,
+              ),
+          )
+          .filter(
+            Boolean,
+          );
 
     rootElement.innerHTML = `
       <main class="screen screen--centered victory-screen">
@@ -215,6 +236,10 @@ export class VictoryScreen {
       'click',
       this.handleMainMenu,
     );
+
+    gameSessionController
+      .leaveFinishedRoom
+      ?.();
   }
 
   destroy() {

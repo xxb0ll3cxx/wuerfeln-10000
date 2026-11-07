@@ -10,28 +10,89 @@ const PENDING_REWARDS_KEY =
 export class CoinService {
   constructor(
     accountStore,
+    multiplayerClient =
+      null,
   ) {
     this.accountStore =
       accountStore;
+      
+    this.multiplayerClient =
+      multiplayerClient;
+
+
+    this.unsubscribeWalletUpdates =
+      this.multiplayerClient
+        ?.subscribeWalletUpdates?.(
+          (
+            walletUpdate,
+          ) => {
+            const currentUserId =
+              this.accountStore
+                .getState()
+                .user
+                ?.id;
+
+
+            if (
+              walletUpdate
+                ?.userId &&
+              walletUpdate.userId !==
+                currentUserId
+            ) {
+              return;
+            }
+
+
+            if (
+              !Number.isSafeInteger(
+                walletUpdate
+                  ?.balance,
+              )
+            ) {
+              return;
+            }
+
+
+            this.accountStore
+              .setCoins(
+                walletUpdate.balance,
+              );
+
+
+            console.info(
+              '[Coins] Online-Wallet aktualisiert:',
+              {
+                reason:
+                  walletUpdate.reason,
+
+                awardedCoins:
+                  walletUpdate
+                    .awardedCoins,
+
+                balance:
+                  walletUpdate.balance,
+
+                bankedScore:
+                  walletUpdate
+                    .bankedScore,
+              },
+            );
+          },
+        ) ??
+      null;
+
 
     this.isProcessing =
       false;
 
-    /*
-     * Nach dem Login oder beim Laden
-     * der Accountdaten offene Ereignisse
-     * erneut versuchen.
-     */
+
     this.accountStore.subscribe(
       () => {
         void this.processPendingRewards();
       },
     );
 
-    /*
-     * Nach einer unterbrochenen
-     * Internetverbindung erneut versuchen.
-     */
+
     window.addEventListener(
       'online',
       () => {
@@ -41,12 +102,6 @@ export class CoinService {
   }
 
 
-  /*
-   * Ein bestätigtes Spielereignis einreihen.
-   *
-   * Die eventId wird nur EINMAL erzeugt
-   * und vor dem Request gespeichert.
-   */
   enqueueReward({
     matchId,
     eventType,

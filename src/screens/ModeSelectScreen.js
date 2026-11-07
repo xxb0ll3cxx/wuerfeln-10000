@@ -33,6 +33,8 @@ export class ModeSelectScreen {
 
     this.handleScoreboard =
       null;
+    this.handleOnline =
+      null;
 
     this.handleBack =
       null;
@@ -153,7 +155,16 @@ export class ModeSelectScreen {
           ></button>
         </div>
 
-
+        <div
+          class="mode-select__online-test"
+        >
+          <button
+            type="button"
+            data-action="online"
+          >
+            ONLINE / MULTIPLAYER
+          </button>
+        </div>
 
         <div
           class="
@@ -271,6 +282,11 @@ export class ModeSelectScreen {
       rootElement.querySelector(
         '[data-action="scoreboard"]',
       );
+      
+    this.onlineButton =
+    rootElement.querySelector(
+      '[data-action="online"]',
+    );
 
 
     this.backButton =
@@ -290,6 +306,10 @@ export class ModeSelectScreen {
       ) ||
       !(
         this.backButton instanceof
+        HTMLButtonElement
+      )||
+      !(
+        this.onlineButton instanceof
         HTMLButtonElement
       )
     ) {
@@ -355,7 +375,12 @@ export class ModeSelectScreen {
           },
         );
       };
-
+    this.handleOnline =
+      () => {
+        this.navigate(
+          SCREENS.ONLINE_MENU,
+        );
+      };
 
 
     this.handleShop =
@@ -571,6 +596,11 @@ export class ModeSelectScreen {
         this.handleScoreboard,
       );
 
+    this.onlineButton
+      ?.addEventListener(
+        'click',
+        this.handleOnline,
+      );
 
     this.backButton
       .addEventListener(
@@ -632,6 +662,11 @@ export class ModeSelectScreen {
         'click',
         this.handleBack,
       );
+    this.onlineButton
+      ?.removeEventListener(
+        'click',
+        this.handleOnline,
+      );
 
     this.disposeSoundControl?.();
     this.disposeSoundControl = null;
@@ -677,6 +712,12 @@ export class ModeSelectScreen {
       null;
 
     this.handleAccount =
+      null;
+
+    this.onlineButton =
+      null;
+
+    this.handleOnline =
       null;
   }
 }
