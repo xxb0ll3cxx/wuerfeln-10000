@@ -184,9 +184,7 @@ input {
 
 .game-header
 [data-current-player] {
-  width:
-    520px;
-
+  width: 500;
   height:
     76px;
 
@@ -205,7 +203,6 @@ input {
   justify-self:
     center;
 
-
   /*
    * Hintergrund-Asset
    */
@@ -222,7 +219,6 @@ input {
 
   background-size:
     90% 125%;
-
 
   /*
    * Schrift
@@ -242,6 +238,8 @@ input {
   text-align:
     center;
 
+  padding-left: 10%;
+  padding-right: 10%;
 
   /*
    * Etwas Tiefe für die Schrift
@@ -5289,4 +5287,63 @@ input {
       0,
       0.8
     );
+}
+
+
+/* INGAME – LANDSCAPE */
+#game-stage[data-orientation="landscape"]
+.game-header [data-current-player] {
+  font-size: 24px;
+  white-space: nowrap;
+}
+
+/* INGAME – PORTRAIT */
+#game-stage[data-orientation="portrait"]
+.game-header [data-current-player] {
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+/* SIEGESSCREEN – LANDSCAPE */
+#game-stage[data-orientation="landscape"]
+.victory-card h1 {
+  font-size: 50px;
+  white-space: nowrap;
+}
+
+/* SIEGESSCREEN – PORTRAIT */
+#game-stage[data-orientation="portrait"]
+.victory-card h1 {
+  font-size: 40px;
+  white-space: nowrap;
+}
+
+/* INGAME – LANDSCAPE */
+#game-stage[data-orientation="landscape"]
+.game-header [data-current-player] {
+  box-sizing: border-box;
+  padding-inline: 80px;
+}
+
+/* INGAME – PORTRAIT */
+#game-stage[data-orientation="portrait"]
+.game-header [data-current-player] {
+  box-sizing: border-box;
+  padding-inline: 60px;
+}
+
+/* SIEGESSCREEN – LANDSCAPE */
+#game-stage[data-orientation="landscape"]
+.victory-card h1 {
+  box-sizing: border-box;
+  padding-inline: 10px;
+  white-space: nowrap;
+}
+
+/* SIEGESSCREEN – PORTRAIT */
+#game-stage[data-orientation="portrait"]
+.victory-card h1 {
+  box-sizing: border-box;
+  padding-inline: 10px;
+  white-space: nowrap;
 }

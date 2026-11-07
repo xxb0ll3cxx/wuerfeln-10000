@@ -2,6 +2,8 @@ import {
   SCREENS,
 } from '../app/screens.js';
 
+import { fitTextToWidth } from '../utils/fitTextToWidth.js';
+
 export class VictoryScreen {
   constructor({
     navigate,
@@ -188,6 +190,9 @@ export class VictoryScreen {
       this.reasonElement.textContent =
         'Es konnte kein eindeutiger Gewinner bestimmt werden.';
     }
+
+
+
 
     this.handleAgain =
       () => {

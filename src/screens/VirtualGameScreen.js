@@ -2,6 +2,8 @@ import {
   SCREENS,
 } from '../app/screens.js';
 
+import { fitTextToWidth } from '../utils/fitTextToWidth.js';
+
 import {
   ActiveCharacterView,
 } from '../ui/characters/ActiveCharacterView.js';
@@ -2556,9 +2558,13 @@ if (
         );
     }
 
-    this.currentPlayerElement
-      .textContent =
+
+
+    this.currentPlayerElement.textContent =
       `${currentPlayer.name} ist an der Reihe!`;
+
+
+
 
 
     this.#renderTurnState(
