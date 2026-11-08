@@ -2222,23 +2222,6 @@ if (
         earnedCoins,
       },
     );
-    if (
-      this.clientCoinRewardsEnabled &&
-      earnedCoins > 0
-    ) {
-      this.coinService.enqueueReward({
-        matchId:
-          this.gameSessionController
-            .getState()
-            .matchId,
-
-        eventType:
-          'instant_win',
-
-        bankedScore:
-          result.appliedScore,
-      });
-    }
 
 
     await this.audioService
@@ -2252,7 +2235,25 @@ if (
         'success',
       );
 
+    if (
+      this.clientCoinRewardsEnabled &&
+      earnedCoins > 0
+    ) {
+      
+      this.coinService.enqueueReward({
+        matchId:
+          this.gameSessionController
+            .getState()
+            .matchId,
 
+        eventType:
+          'bank',
+
+        bankedScore:
+          result.bankedScore,
+      });
+
+    }
     /*
      * =====================================================
      * ERST JETZT SPIELERWECHSEL DARSTELLEN

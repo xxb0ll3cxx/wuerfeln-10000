@@ -25,7 +25,7 @@ const jippi_zecke =
 
 const eber_success =
 new URL(
-  '../assets/audio/Eber.mp3',
+  '../assets/audio/eber.mp3',
   import.meta.url,
 ).href;
 
