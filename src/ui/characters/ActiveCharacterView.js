@@ -187,12 +187,23 @@ export class ActiveCharacterView {
      * Falls Idle gerade läuft:
      * sofort abbrechen.
      */
+
     this.#cancelFrameAnimation();
 
+    // Skalierung VOR dem ersten Frame aktivieren.
+    if (
+      animationName === 'success' &&
+      this.currentCharacter?.skinId === 'zecke_hacker'
+    ) {
+      this.imageElement.classList.add(
+        'is-zacker-success'
+      );
+    }
 
     return this.#playFrames(
       animation,
     );
+
   }
 
 
@@ -348,18 +359,17 @@ export class ActiveCharacterView {
               null;
 
 
-            if (
-              completed
-            ) {
+
+            if (completed) {
               this.#showNeutralFrame();
 
+              this.imageElement.classList.remove(
+                'is-zacker-success'
+              );
 
-              /*
-               * Nach jeder abgeschlossenen Reaktion
-               * wieder einen neuen Idle-Timer planen.
-               */
               this.#scheduleIdle();
             }
+
 
 
             resolve(
@@ -539,6 +549,10 @@ export class ActiveCharacterView {
 
     this.isAnimating =
       false;
+
+    this.imageElement.classList.remove(
+      'is-zacker-success'
+    );
 
 
     /*

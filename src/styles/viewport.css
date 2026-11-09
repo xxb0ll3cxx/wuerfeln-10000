@@ -1211,8 +1211,7 @@ select {
 
 #game-stage[data-orientation="landscape"]
 .game-screen
-img.active-character-sprite[src*="Zacker_freude"] {
-
+img.active-character-sprite.is-zacker-success{
   transform: 
   translate(20px,50px)
   scale(3.7);
@@ -1227,7 +1226,7 @@ img.active-character-sprite[src*="Zacker_freude"] {
 
 #game-stage[data-orientation="portrait"]
 .game-screen
-img.active-character-sprite[src*="Zacker_freude"] {
+img.active-character-sprite.is-zacker-success {
 
   transform:
     translate(320px, 340px)
@@ -1245,7 +1244,7 @@ img.active-character-sprite[src*="Zacker_freude"] {
 
 #game-stage[data-orientation="landscape"]
 .scoreboard-screen
-img.active-character-sprite[src*="Zacker_freude"] {
+img.active-character-sprite.is-zacker-success {
 
   transform:
     translate(670px, 200px)
@@ -1261,7 +1260,7 @@ img.active-character-sprite[src*="Zacker_freude"] {
 
 #game-stage[data-orientation="portrait"]
 .scoreboard-screen
-img.active-character-sprite[src*="Zacker_freude"] {
+img.active-character-sprite.is-zacker-success {
 
   transform:
     translate(20px, 50px)

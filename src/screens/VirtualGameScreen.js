@@ -2202,7 +2202,16 @@ if (
 
 
     this.#syncActionButtons();
+    await this.audioService
+      .playSfx(
+        'bankScore',
+      );
 
+
+    await this.activeCharacterView
+      ?.playAnimation(
+        'success',
+      );
 
     const result =
       await this.gameSessionController
@@ -2222,18 +2231,6 @@ if (
         earnedCoins,
       },
     );
-
-
-    await this.audioService
-      .playSfx(
-        'bankScore',
-      );
-
-
-    await this.activeCharacterView
-      ?.playAnimation(
-        'success',
-      );
 
     if (
       this.clientCoinRewardsEnabled &&
